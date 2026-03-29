@@ -76,6 +76,7 @@ Enterprise-grade AI service platform for development teams.
 - Real-time usage analytics dashboard, Stripe-integrated billing
 - Immersive 3D landing experience with Three.js, 18 accessible UI components
 - Tech: Next.js 16, React 19, TypeScript, Three.js, tRPC, PostgreSQL, Redis, Stripe, AWS ECS Fargate
+- Website: www.cognispace.co.in
 - GitHub: github.com/sumith1309/COGNISPACE
 
 ## ADDITIONAL PRODUCTS (15 more)
@@ -89,8 +90,11 @@ Enterprise-grade AI service platform for development teams.
 - Predictive Maintenance (2025) — CNN-LSTM + Computer Vision + SPC
 - Health Prediction (2025) — 96.6% accuracy with Gradient Boosting, EU AI Act compliant
 - AI Inventory Management (2025) — Monte Carlo simulation, Bayesian sensitivity analysis
-- TaskFlow (2025) — Socket.IO real-time task management
+- TaskFlow (2025) — Real-time task management for small teams with Socket.IO, JWT auth, MongoDB GridFS, Kanban dashboards, Chart.js analytics, glassmorphism UI
 - Housing Price Service (2025) — Docker + Kubernetes ML deployment
+- Healthcare Analytics Platform (2026) — AI model comparison across 4 healthcare departments (Radiology, Pathology, Cardiology, Operations), ECharts dashboard, 6-month accuracy forecasting
+- HubSpot Contact Manager (2026) — CRM data cleaning and standardization with Clean Bot, Standardize Bot, Audit Agent, CSV upload, batch push to HubSpot API. Built with React, Vite, Netlify Functions
+- Code Archaeologist (2025) — AI-powered legacy code analysis platform supporting 10+ languages, automated documentation generation, interactive visualizations, REST API. Built with FastAPI, Next.js 14, PostgreSQL, Docker
 - Construction Cost Estimator (2024) — SaaS tool with Gumroad payment (₹499)
 
 ## SKILLS

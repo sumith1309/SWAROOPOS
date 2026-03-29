@@ -77,7 +77,7 @@ export default function AIChatApp() {
         {
           id: `error-${Date.now()}`,
           role: "assistant",
-          content: "Connection error. Please make sure the ANTHROPIC_API_KEY environment variable is set.",
+          content: "Connection error. Please try again later.",
           timestamp: new Date(),
         },
       ]);
