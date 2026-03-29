@@ -14,6 +14,10 @@ interface DockApp {
 
 // Grouped apps with separators
 const DOCK_GROUPS: DockApp[][] = [
+  // AI — Star feature
+  [
+    { id: "aichat", label: "Ask Swaroop AI", color: "#3B82F6", icon: <><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /><path d="M8 10h.01" /><path d="M12 10h.01" /><path d="M16 10h.01" /></> },
+  ],
   // Domains
   [
     { id: "education", label: "Education", color: DOMAINS.education.color, icon: <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2zM22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" /> },

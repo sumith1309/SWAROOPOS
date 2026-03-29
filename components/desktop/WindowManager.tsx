@@ -16,6 +16,7 @@ import Game2048App from "../apps/Game2048App";
 import CalendarApp from "../apps/CalendarApp";
 import GalleryApp from "../apps/GalleryApp";
 import ShowcaseApp from "../apps/ShowcaseApp";
+import AIChatApp from "../apps/AIChatApp";
 
 const WINDOW_TITLES: Record<string, string> = {
   education: "Education Lab",
@@ -35,6 +36,7 @@ const WINDOW_TITLES: Record<string, string> = {
   calendar: "Calendar",
   gallery: "Project Gallery",
   showcase: "Showcase",
+  aichat: "Ask Swaroop AI",
 };
 
 const WINDOW_COLORS: Record<string, string> = {
@@ -55,6 +57,7 @@ const WINDOW_COLORS: Record<string, string> = {
   calendar: "#3B82F6",
   gallery: "#6366F1",
   showcase: "#F97316",
+  aichat: "#3B82F6",
 };
 
 function AppContent({ id }: { id: AppId }) {
@@ -72,6 +75,7 @@ function AppContent({ id }: { id: AppId }) {
     case "calendar": return <CalendarApp />;
     case "gallery": return <GalleryApp />;
     case "showcase": return <ShowcaseApp />;
+    case "aichat": return <AIChatApp />;
     default: return null;
   }
 }

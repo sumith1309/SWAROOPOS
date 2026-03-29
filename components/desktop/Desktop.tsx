@@ -10,9 +10,11 @@ import WindowManager from "./WindowManager";
 import WeatherWidget from "./WeatherWidget";
 import AnalogClock from "./AnalogClock";
 import NowPlayingWidget from "./NowPlayingWidget";
+import GitHubWidget from "./GitHubWidget";
 import SpotlightSearch from "./SpotlightSearch";
 import ContextMenu from "./ContextMenu";
 import NotificationCenter from "./NotificationCenter";
+import SmartRecommendations from "./SmartRecommendations";
 
 export default function Desktop() {
   const [isMobile, setIsMobile] = useState(false);
@@ -58,6 +60,7 @@ export default function Desktop() {
       <SpotlightSearch />
       <ContextMenu />
       <NotificationCenter />
+      <SmartRecommendations />
 
       {isMobile ? (
         <MobileView openWindow={openWindow} isDark={isDark} />
@@ -196,9 +199,10 @@ function DesktopView({ openWindow, isDark }: { openWindow: (id: AppId) => void; 
           <AnalogClock isDark={isDark} />
           <NowPlayingWidget isDark={isDark} />
         </div>
-        {/* Column 2: Weather + Stats + System */}
+        {/* Column 2: Weather + GitHub + Stats + System */}
         <div className="flex flex-col gap-3 w-[180px]">
           <WeatherWidget isDark={isDark} />
+          <GitHubWidget isDark={isDark} />
           <QuickStats isDark={isDark} />
           <SystemWidget isDark={isDark} />
         </div>

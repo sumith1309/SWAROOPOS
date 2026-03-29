@@ -23,6 +23,7 @@ const SEARCH_ITEMS: SearchItem[] = [
     icon: <DomainSearchIcon id={id} />,
   })),
   // System
+  { id: "aichat", label: "Ask Swaroop AI", category: "AI", color: "#3B82F6", icon: <SearchIcon><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 10h.01"/><path d="M12 10h.01"/><path d="M16 10h.01"/></SearchIcon> },
   { id: "about", label: "About Me", category: "System", color: "#3B82F6", icon: <SearchIcon><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 1 0-16 0"/></SearchIcon> },
   { id: "skills", label: "Skills & Expertise", category: "System", color: "#8B5CF6", icon: <SearchIcon><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6" rx="1"/></SearchIcon> },
   { id: "terminal", label: "Terminal", category: "System", color: "#475569", icon: <SearchIcon><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></SearchIcon> },

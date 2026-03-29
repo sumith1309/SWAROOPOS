@@ -4,7 +4,8 @@ export type Domain = "education" | "climate" | "enterprise" | "fintech" | "const
 export type SystemApp = "about" | "skills" | "terminal" | "contact";
 export type UtilityApp = "calculator" | "music" | "settings" | "calendar";
 export type GameApp = "tictactoe" | "game2048" | "gallery" | "showcase";
-export type AppId = Domain | SystemApp | UtilityApp | GameApp;
+export type AIApp = "aichat";
+export type AppId = Domain | SystemApp | UtilityApp | GameApp | AIApp;
 
 export const WALLPAPERS = [
   { id: "gradient", label: "Default Gradient", type: "css" as const, value: "linear-gradient(135deg, #E0E7FF 0%, #F0F9FF 25%, #F5F3FF 50%, #ECFDF5 75%, #FFF7ED 100%)", dark: false },
