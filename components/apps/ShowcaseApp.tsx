@@ -5,13 +5,30 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, ExternalLink } from "lucide-react";
 import { ALL_PRODUCTS, DOMAINS, type Product } from "@/lib/data";
 
-// Domain-based images for cards
-const DOMAIN_IMAGES: Record<string, string> = {
-  education: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&q=80",
-  climate: "https://images.unsplash.com/photo-1534088568595-a066f410bcda?w=600&q=80",
-  enterprise: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=600&q=80",
-  fintech: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=600&q=80",
-  construction: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=600&q=80",
+// Unique image per project (keyed by product id)
+const PROJECT_IMAGES: Record<string, string> = {
+  // Featured
+  "alia": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&q=80",             // AI learning
+  "sahara-sense": "https://images.unsplash.com/photo-1534088568595-a066f410bcda?w=600&q=80",      // dust storm clouds
+  "garmi-mitra": "https://images.unsplash.com/photo-1561484930-998b6a7b22e8?w=600&q=80",          // heatwave sun
+  "cognispace": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&q=80",        // tech globe
+  // Additional
+  "bsa": "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&q=80",                  // financial documents
+  "nlp-classifier": "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=600&q=80",    // matrix code
+  "trails-miles": "https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=600&q=80",       // travel map
+  "stationeryhub": "https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=600&q=80",      // shop storefront
+  "forecasting": "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80",           // analytics charts
+  "ai-email": "https://images.unsplash.com/photo-1596526131083-e8c633c948d2?w=600&q=80",           // email inbox
+  "churn": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80",              // dashboard screens
+  "predictive-maintenance": "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&q=80", // industrial machinery
+  "health": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&q=80",             // medical stethoscope
+  "inventory": "https://images.unsplash.com/photo-1553413077-190dd305871c?w=600&q=80",             // warehouse shelves
+  "taskflow": "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=600&q=80",           // kanban board
+  "housing": "https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&q=80",               // house keys
+  "cost-estimator": "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=600&q=80",     // construction site
+  "healthcare-analytics": "https://images.unsplash.com/photo-1530497610245-94d3c16cda28?w=600&q=80", // hospital corridor
+  "hubspot-integration": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&q=80",   // CRM team meeting
+  "code-archaeologist": "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=600&q=80",    // code on screen
 };
 
 export default function ShowcaseApp() {
@@ -29,7 +46,7 @@ export default function ShowcaseApp() {
     return () => clearInterval(id);
   }, [hovering, active]);
 
-  const getImage = (product: Product) => DOMAIN_IMAGES[product.domain] || DOMAIN_IMAGES.enterprise;
+  const getImage = (product: Product) => PROJECT_IMAGES[product.id] || "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=600&q=80";
 
   return (
     <div className="p-4 bg-[#0A0A0F] min-h-[450px] text-white" onMouseEnter={() => setHovering(true)} onMouseLeave={() => setHovering(false)}>
