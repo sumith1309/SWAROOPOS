@@ -8,7 +8,8 @@ export const KNOWLEDGE_BASE = `
 - Full Name: S. Jyothi Swaroop
 - Current Role: COO & Co-Founder at CogniSpace | Business Analyst at LUC Learners
 - Location: Dubai, UAE (Open to Hyderabad, India)
-- Education: Master of AI in Business (MAIB), SP Jain School of Global Management (Sep 2024 – Sep 2026, Expected). Campuses: Singapore, Sydney, Dubai. Previous: Bachelor of Commerce, Badruka College, Hyderabad (2019–2022).
+- Top Skills: Vibe Coding, Artificial Intelligence (AI), Revit
+- Education: Master's degree in Artificial Intelligence, SP Jain School of Global Management (Sep 2024 – Aug 2026, Expected). Campuses: Singapore, Sydney, Dubai. Previous: Bachelor of Commerce, Badruka College, Hyderabad (2019–2022).
 - Summary: AI Product Manager and startup co-founder with hands-on experience defining, building, and shipping 20+ AI-powered digital products across healthcare, education, HR tech, and supply chain domains.
 - Contact: Email: sumithswaroop@gmail.com | Phone: +91 9490064789 | LinkedIn: linkedin.com/in/jyothi-swaroop-753116295 | GitHub: github.com/sumith1309
 
@@ -21,11 +22,12 @@ export const KNOWLEDGE_BASE = `
 - Designed immersive 3D landing with Three.js, 18 UI components
 - Stack: Next.js 16, React 19, TypeScript, Three.js, tRPC, PostgreSQL, Redis, Stripe, AWS
 
-### v1.3 — LUC Learners (Feb 2026 – Present) | Business Analyst & Digital Product Manager | Dubai, UAE
-- Led product requirements and sprint coordination for multi-tenant HRMS
-- Defined specifications across 12 modules serving 80+ employees
-- Coordinated 6-phase delivery lifecycle
-- Zero-defect production deployments (10/10 + 14/14 acceptance criteria)
+### v1.3 — Learners Education (Feb 2026 – Present) | Business Analyst & Digital Product Manager (Intern) | Dubai, UAE
+- Led product requirements, roadmap planning, and sprint coordination for multi-tenant enterprise HRMS serving 3 organizations and 80+ employees
+- Defined and documented functional specifications across 12 modules: attendance, leave, payroll, recruitment, performance, helpdesk, reports, dashboard, notifications, announcements, salary certificates, and employee management
+- Coordinated 6-phase product delivery lifecycle from policy engine design through biometric integration, leave lifecycle, payroll settlement, live dashboards, and production go-live
+- Managed BioTime biometric integration (ZKTeco devices), defining sync requirements, timezone handling, and employee mapping for 64+ field employees
+- Authored acceptance criteria for each phase (10/10 pass rate across Phases 1-5, 14/14 for Phase 6), ensuring zero-defect production deployments
 - Stack: Django 5.2, Next.js 15, PostgreSQL, Redis, Celery
 
 ### v1.2 — SP Jain JPT (Jun – Dec 2025) | Project Manager | Dubai, UAE
@@ -100,7 +102,7 @@ Product Strategy & Roadmapping, PRD/TRD Documentation, Sprint Planning & Agile (
 NLP, Computer Vision, Ensemble Methods, Prompt Engineering, RAG Pipelines, LLM Integration (OpenAI, Gemini, Claude, Ollama), Data Visualization, ETL Processes
 
 ### Technical
-Python, TypeScript, SQL (PostgreSQL, MySQL), React/Next.js, FastAPI, Django, Express, tRPC, REST APIs, WebSocket, Git, Docker, CI/CD, AWS, Vercel, Render
+Python, TypeScript, SQL (PostgreSQL, MySQL), React/Next.js, FastAPI, Django, Express, tRPC, REST APIs, WebSocket, Git, Docker, CI/CD, AWS, Vercel, Render, Vibe Coding, Revit
 
 ### Business & Operations
 Business Process Automation, Resource Planning, Vendor Management, Budget Forecasting, Cross-functional Coordination, Client Communication

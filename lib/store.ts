@@ -8,7 +8,8 @@ export type AIApp = "aichat";
 export type AppId = Domain | SystemApp | UtilityApp | GameApp | AIApp;
 
 export const WALLPAPERS = [
-  { id: "gradient", label: "Default Gradient", type: "css" as const, value: "linear-gradient(135deg, #E0E7FF 0%, #F0F9FF 25%, #F5F3FF 50%, #ECFDF5 75%, #FFF7ED 100%)", dark: false },
+  { id: "landscape", label: "Landscape", type: "url" as const, value: "/wallpapers/landscape.jpg", dark: false },
+  { id: "gradient", label: "Pastel", type: "css" as const, value: "linear-gradient(135deg, #E0E7FF 0%, #F0F9FF 25%, #F5F3FF 50%, #ECFDF5 75%, #FFF7ED 100%)", dark: false },
   { id: "aurora", label: "Aurora", type: "url" as const, value: "/wallpapers/aurora-gradient.jpg", dark: true },
   { id: "mountains", label: "Mountains", type: "url" as const, value: "/wallpapers/mountains.jpg", dark: false },
   { id: "soft", label: "Soft Gradient", type: "url" as const, value: "/wallpapers/soft-gradient.jpg", dark: false },
@@ -127,6 +128,6 @@ export const useStore = create<Store>((set) => ({
   activeProjectId: null,
   setActiveProjectId: (id) => set({ activeProjectId: id }),
 
-  wallpaperId: "gradient",
+  wallpaperId: "landscape",
   setWallpaper: (id) => set({ wallpaperId: id }),
 }));

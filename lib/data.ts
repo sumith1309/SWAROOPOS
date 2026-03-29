@@ -425,15 +425,16 @@ export const CAREER: CareerEntry[] = [
   },
   {
     version: "v1.3",
-    company: "LUC Learners",
-    role: "Business Analyst & Digital Product Manager",
+    company: "Learners Education",
+    role: "Business Analyst & Digital Product Manager (Intern)",
     period: "Feb 2026 – Present",
     location: "Dubai, UAE",
     active: true,
     highlights: [
-      "Led product requirements and sprint coordination for multi-tenant HRMS",
-      "Defined specifications across 12 modules serving 80+ employees",
-      "Coordinated 6-phase delivery lifecycle",
+      "Led product requirements and sprint coordination for multi-tenant HRMS serving 3 organizations and 80+ employees",
+      "Defined specifications across 12 modules: attendance, leave, payroll, recruitment, performance, helpdesk, reports, dashboard, notifications, announcements, salary certificates, employee management",
+      "Coordinated 6-phase delivery lifecycle from policy engine through biometric integration, payroll settlement, and production go-live",
+      "Managed BioTime biometric integration (ZKTeco devices) for 64+ field employees",
       "Zero-defect production deployments (10/10 + 14/14 acceptance criteria)",
     ],
     stack: ["Django 5.2", "Next.js 15", "PostgreSQL", "Redis", "Celery"],
@@ -457,7 +458,7 @@ export const CAREER: CareerEntry[] = [
     version: "v1.0",
     company: "Geetha Constructions",
     role: "Partner & Operations Manager",
-    period: "2019 – 2024",
+    period: "Jun 2019 – Sep 2024",
     location: "Hyderabad, India",
     active: false,
     highlights: [
@@ -474,7 +475,7 @@ export const EDUCATION = [
   {
     institution: "SP Jain School of Global Management",
     degree: "Master of AI in Business (MAIB)",
-    period: "Sep 2024 – Sep 2026 (Expected)",
+    period: "Sep 2024 – Aug 2026 (Expected)",
     campuses: "Singapore · Sydney · Dubai",
     coursework: ["AI Strategy & Implementation", "MLOps & Model Deployment", "Data-Driven Decision Making", "AI Ethics & Governance"],
   },
@@ -524,6 +525,8 @@ export const SKILLS = {
     "AWS",
     "Vercel",
     "Render",
+    "Vibe Coding",
+    "Revit",
   ],
   "Business & Operations": [
     "Business Process Automation",

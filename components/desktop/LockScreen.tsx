@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
@@ -9,58 +9,38 @@ interface LockScreenProps {
 }
 
 const BG_IMAGE = "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1920&q=85";
-const HERO_IMAGE = "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1280&q=85";
 
 export default function LockScreen({ onUnlock }: LockScreenProps) {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [unlocked, setUnlocked] = useState(false);
   const [touchStartY, setTouchStartY] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
-  const lockRef = useRef<HTMLDivElement>(null);
 
-  // Check mobile
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
-
-  // Handle scroll/touch to expand
   const handleProgress = useCallback((delta: number) => {
     if (unlocked) return;
     const newProgress = Math.min(Math.max(scrollProgress + delta, 0), 1);
     setScrollProgress(newProgress);
-
     if (newProgress >= 1) {
       setUnlocked(true);
-      setTimeout(onUnlock, 600);
+      setTimeout(onUnlock, 500);
     }
   }, [scrollProgress, unlocked, onUnlock]);
 
   useEffect(() => {
     if (unlocked) return;
-
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault();
-      handleProgress(e.deltaY * 0.001);
+      handleProgress(e.deltaY * 0.003);
     };
-
-    const handleTouchStart = (e: TouchEvent) => {
-      setTouchStartY(e.touches[0].clientY);
-    };
-
+    const handleTouchStart = (e: TouchEvent) => setTouchStartY(e.touches[0].clientY);
     const handleTouchMove = (e: TouchEvent) => {
       e.preventDefault();
-      const deltaY = touchStartY - e.touches[0].clientY;
-      handleProgress(deltaY * 0.005);
+      const delta = touchStartY - e.touches[0].clientY;
+      handleProgress(delta * 0.008);
       setTouchStartY(e.touches[0].clientY);
     };
-
     window.addEventListener("wheel", handleWheel, { passive: false });
     window.addEventListener("touchstart", handleTouchStart, { passive: false });
     window.addEventListener("touchmove", handleTouchMove, { passive: false });
-
     return () => {
       window.removeEventListener("wheel", handleWheel);
       window.removeEventListener("touchstart", handleTouchStart);
@@ -68,26 +48,17 @@ export default function LockScreen({ onUnlock }: LockScreenProps) {
     };
   }, [scrollProgress, unlocked, touchStartY, handleProgress]);
 
-  // Media dimensions — expand from card to fullscreen
-  const mediaWidth = 320 + scrollProgress * (isMobile ? 600 : 1200);
-  const mediaHeight = 420 + scrollProgress * (isMobile ? 200 : 500);
-  const textOffset = scrollProgress * (isMobile ? 120 : 100);
-  const overlayOpacity = 0.5 - scrollProgress * 0.3;
-  const bgOpacity = 1 - scrollProgress;
-  const borderRadius = 20 - scrollProgress * 20;
+  const translateY = -scrollProgress * 100;
 
   return (
     <motion.div
-      ref={lockRef}
-      className="fixed inset-0 z-[80] overflow-hidden"
-      animate={unlocked ? { opacity: 0, scale: 1.05 } : { opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5 }}
+      className="fixed inset-0 z-[80]"
+      style={{ transform: `translateY(${translateY}vh)` }}
+      animate={unlocked ? { y: "-100vh" } : {}}
+      transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
     >
-      {/* Background image — fades out as scroll progresses */}
-      <motion.div
-        className="absolute inset-0 z-0"
-        style={{ opacity: bgOpacity }}
-      >
+      {/* Nature background — full screen */}
+      <div className="absolute inset-0">
         <Image
           src={BG_IMAGE}
           alt="Background"
@@ -96,89 +67,88 @@ export default function LockScreen({ onUnlock }: LockScreenProps) {
           className="w-full h-full object-cover"
           priority
         />
-        <div className="absolute inset-0 bg-black/20" />
-      </motion.div>
-
-      {/* Expanding media card */}
-      <div className="absolute inset-0 z-10 flex items-center justify-center">
-        <div
-          className="relative overflow-hidden"
-          style={{
-            width: `${mediaWidth}px`,
-            height: `${mediaHeight}px`,
-            maxWidth: "98vw",
-            maxHeight: "95vh",
-            borderRadius: `${borderRadius}px`,
-            boxShadow: scrollProgress < 0.95
-              ? "0 20px 60px rgba(0, 0, 0, 0.4)"
-              : "none",
-            transition: "box-shadow 0.3s",
-          }}
-        >
-          <Image
-            src={HERO_IMAGE}
-            alt="SwaroopOS"
-            width={1920}
-            height={1080}
-            className="w-full h-full object-cover"
-            priority
-          />
-          {/* Dark overlay — fades as you scroll */}
-          <div
-            className="absolute inset-0"
-            style={{
-              background: `rgba(0,0,0,${overlayOpacity})`,
-              borderRadius: `${borderRadius}px`,
-            }}
-          />
-        </div>
+        <div className="absolute inset-0 bg-black/15" />
       </div>
 
-      {/* Text overlay — splits apart as user scrolls */}
-      <div className="absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-none">
-        <motion.h1
-          className="text-4xl md:text-6xl lg:text-7xl font-heading font-black text-white uppercase tracking-wider"
-          style={{
-            transform: `translateX(-${textOffset}vw)`,
-            textShadow: "0 4px 20px rgba(0,0,0,0.4)",
-            mixBlendMode: "difference",
-          }}
-        >
-          Welcome to
-        </motion.h1>
-        <motion.h1
-          className="text-4xl md:text-6xl lg:text-7xl font-heading font-black text-white uppercase tracking-wider"
-          style={{
-            transform: `translateX(${textOffset}vw)`,
-            textShadow: "0 4px 20px rgba(0,0,0,0.4)",
-            mixBlendMode: "difference",
-          }}
-        >
-          SwaroopOS
-        </motion.h1>
-      </div>
-
-      {/* Bottom hints — fade out as scroll progresses */}
-      <motion.div
-        className="absolute bottom-[8vh] left-0 right-0 z-20 flex flex-col items-center gap-2 pointer-events-none"
-        style={{ opacity: 1 - scrollProgress * 3 }}
-      >
-        {/* Scroll indicator animation */}
+      {/* Glass welcome card — center */}
+      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center">
         <motion.div
-          className="w-6 h-10 rounded-full border-2 border-white/50 flex items-start justify-center p-1.5"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
+          initial={{ opacity: 0, scale: 0.9, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.8, type: "spring", stiffness: 150 }}
+          className="px-14 py-12 rounded-[32px] flex flex-col items-center text-center"
+          style={{
+            background: "rgba(255,255,255,0.12)",
+            backdropFilter: "blur(40px) saturate(1.6)",
+            WebkitBackdropFilter: "blur(40px) saturate(1.6)",
+            border: "1px solid rgba(255,255,255,0.25)",
+            boxShadow: "0 20px 60px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.3)",
+          }}
         >
+          {/* Logo */}
           <motion.div
-            className="w-1.5 h-1.5 rounded-full bg-white/80"
-            animate={{ y: [0, 16, 0] }}
-            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.5, type: "spring", stiffness: 150 }}
+            className="mb-6"
+          >
+            <img src="/logo.png" alt="SwaroopOS" className="w-20 h-20 object-contain drop-shadow-lg" />
+          </motion.div>
+
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+            className="text-[14px] text-white/50 font-light tracking-[0.25em] uppercase mb-3"
+          >
+            Welcome to
+          </motion.p>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7 }}
+            className="text-[46px] md:text-[56px] font-heading font-semibold text-white tracking-[-0.02em] leading-none mb-4"
+          >
+            Swaroop<span className="font-light">OS</span>
+          </motion.h1>
+
+          <motion.div
+            initial={{ opacity: 0, scaleX: 0 }}
+            animate={{ opacity: 1, scaleX: 1 }}
+            transition={{ delay: 0.85, duration: 0.6 }}
+            className="w-10 h-[1px] mb-4"
+            style={{ background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)" }}
           />
+
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.9 }}
+            className="text-[12px] text-white/35 tracking-[0.15em] uppercase font-light"
+          >
+            AI Product Manager & Builder
+          </motion.p>
         </motion.div>
-        <p className="text-white/60 text-[13px] font-medium">
-          Scroll to enter
-        </p>
+      </div>
+
+      {/* Scroll indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2 }}
+        className="absolute bottom-[6vh] left-0 right-0 z-20 flex flex-col items-center gap-2"
+        style={{ opacity: 1 - scrollProgress * 4 }}
+      >
+        <motion.svg
+          width="20" height="20" viewBox="0 0 24 24" fill="none"
+          stroke="rgba(255,255,255,0.5)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+          animate={{ y: [0, 6, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <polyline points="6 9 12 15 18 9" />
+        </motion.svg>
+        <span className="text-[12px] text-white/40 font-medium">Scroll to enter</span>
       </motion.div>
     </motion.div>
   );

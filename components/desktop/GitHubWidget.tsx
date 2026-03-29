@@ -49,8 +49,8 @@ export default function GitHubWidget({ isDark }: { isDark: boolean }) {
 
   const stats = [
     { label: "Repos", value: data.repos, color: "#3B82F6" },
-    { label: "Stars", value: data.stars, color: "#F59E0B" },
-    { label: "Followers", value: data.followers, color: "#8B5CF6" },
+    { label: "Commits", value: "500+", color: "#10B981" },
+    { label: "Languages", value: "5", color: "#8B5CF6" },
   ];
 
   return (

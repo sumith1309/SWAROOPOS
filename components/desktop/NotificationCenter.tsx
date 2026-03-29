@@ -15,12 +15,12 @@ const WELCOME_NOTIFICATIONS: Omit<Notification, "id" | "timestamp">[] = [
   {
     title: "SwaroopOS",
     body: "Welcome! Explore apps, use ⌘K to search, or right-click for options.",
-    icon: "S",
+    icon: "OS",
   },
   {
     title: "Portfolio",
     body: "20+ products shipped across 5 industries. Open Showcase to explore.",
-    icon: "🚀",
+    icon: "20+",
   },
 ];
 
@@ -76,10 +76,14 @@ export default function NotificationCenter() {
           >
             {/* Icon */}
             <div
-              className="w-10 h-10 rounded-[12px] flex items-center justify-center shrink-0 text-white text-[13px] font-bold"
-              style={{ background: "linear-gradient(135deg, #3B82F6, #8B5CF6)" }}
+              className="w-10 h-10 rounded-[12px] flex items-center justify-center shrink-0 relative overflow-hidden"
+              style={{ background: "#0F172A", boxShadow: "0 2px 8px rgba(0,0,0,0.15)" }}
             >
-              {notif.icon}
+              <span className="text-[11px] font-heading font-bold tracking-wide" style={{
+                background: "linear-gradient(135deg, #60A5FA, #A78BFA, #F472B6)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}>{notif.icon}</span>
             </div>
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between">

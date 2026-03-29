@@ -6,7 +6,7 @@ import { useStore, WALLPAPERS } from "@/lib/store";
 
 const ROLES = ["AI Product Manager", "Startup Co-Founder", "Builder of 20+ Products", "COO @ CogniSpace", "SP Jain MAIB '26"];
 
-export default function Taskbar() {
+export default function Taskbar({ onLock }: { onLock?: () => void }) {
   const [time, setTime] = useState("");
   const [date, setDate] = useState("");
   const [location, setLocation] = useState("Loading...");
@@ -52,21 +52,18 @@ export default function Taskbar() {
       data-taskbar
       className="fixed top-0 left-0 right-0 h-10 z-40 flex items-center px-4 text-[13px]"
       style={{
-        background: isDark ? "rgba(0,0,0,0.35)" : "rgba(255,255,255,0.6)",
-        backdropFilter: "blur(30px) saturate(1.6)",
-        WebkitBackdropFilter: "blur(30px) saturate(1.6)",
-        borderBottom: isDark ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(255,255,255,0.5)",
+        background: isDark ? "rgba(0,0,0,0.45)" : "rgba(255,255,255,0.8)",
+        backdropFilter: "blur(50px) saturate(2)",
+        WebkitBackdropFilter: "blur(50px) saturate(2)",
+        borderBottom: isDark ? "1px solid rgba(255,255,255,0.1)" : "1px solid rgba(255,255,255,0.6)",
       }}
     >
       {/* Left */}
       <div className="flex items-center gap-3">
-        <div className="flex items-center gap-1.5">
-          <div className="w-5 h-5 rounded-[6px] flex items-center justify-center text-white text-[10px] font-bold"
-            style={{ background: "linear-gradient(135deg, #3B82F6, #8B5CF6)" }}>
-            S
-          </div>
+        <button onClick={onLock} className="flex items-center gap-1.5 cursor-pointer hover:opacity-80 transition-opacity">
+          <img src="/logo.png" alt="SwaroopOS" className="w-6 h-6 object-contain" />
           <span className={`font-heading font-bold text-[14px] ${isDark ? "text-white" : "text-[#0F172A]"}`}>SwaroopOS</span>
-        </div>
+        </button>
         <div className="hidden md:flex items-center gap-1.5">
           <div className="w-[1px] h-3.5" style={{ background: isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.08)" }} />
           <AnimatePresence mode="wait">

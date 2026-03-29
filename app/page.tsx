@@ -14,6 +14,7 @@ export default function Home() {
 
   const handleBootComplete = useCallback(() => setPhase("lock"), []);
   const handleUnlock = useCallback(() => setPhase("desktop"), []);
+  const handleLock = useCallback(() => setPhase("lock"), []);
 
   return (
     <main className="w-screen h-screen overflow-hidden">
@@ -26,7 +27,7 @@ export default function Home() {
       </AnimatePresence>
 
       {/* Desktop (always mounted, revealed by lock screen exit) */}
-      {phase !== "boot" && <Desktop />}
+      {phase !== "boot" && <Desktop onLock={handleLock} />}
 
       {/* Project detail modal */}
       <AnimatePresence>
