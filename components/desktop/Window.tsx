@@ -37,7 +37,7 @@ export default function Window({ id, title, accentColor, zIndex, position, child
       dragConstraints={{ top: -position.y + 40, left: -position.x, right: typeof window !== "undefined" ? window.innerWidth - position.x - 360 : 400, bottom: typeof window !== "undefined" ? window.innerHeight - position.y - 100 : 400 }}
       dragElastic={0}
       onPointerDown={() => focusWindow(id)}
-      className={isMobile ? "fixed inset-0 z-50" : "fixed"}
+      className={isMobile ? "fixed inset-0 top-10 z-50" : "fixed"}
       style={isMobile ? { zIndex } : { top: position.y, left: position.x, zIndex, width: "clamp(360px, 55vw, 800px)", maxHeight: "calc(100vh - 120px)" }}
     >
       <div data-window className={`overflow-hidden flex flex-col h-full ${isMobile ? "" : "rounded-[16px]"}`}
@@ -64,7 +64,7 @@ export default function Window({ id, title, accentColor, zIndex, position, child
           <div className="w-2 h-2 rounded-full" style={{ backgroundColor: accentColor }} />
         </div>
         {/* Body */}
-        <div className="flex-1 overflow-y-auto" style={{ maxHeight: isMobile ? "calc(100vh - 48px)" : "calc(100vh - 160px)" }}>
+        <div className="flex-1 overflow-y-auto" style={{ maxHeight: isMobile ? "calc(100vh - 88px)" : "calc(100vh - 160px)" }}>
           {children}
         </div>
       </div>
