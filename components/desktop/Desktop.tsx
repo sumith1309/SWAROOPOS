@@ -147,7 +147,7 @@ function DesktopView({ openWindow, isDark }: { openWindow: (id: AppId) => void; 
       >
         <div className="flex items-center gap-2 mb-5">
           <div className="w-2.5 h-2.5 rounded-full bg-[#10B981] animate-pulse-soft" />
-          <span className={`text-[12px] font-mono font-medium ${isDark ? "text-white/60" : "text-[#64748B]"}`}>Available · Dubai, UAE</span>
+          <span className={`text-[12px] font-mono font-medium ${isDark ? "text-white/60" : "text-[#64748B]"}`}>Available · Open to Work Globally</span>
         </div>
 
         {/* Flip-animated name */}

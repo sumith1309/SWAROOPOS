@@ -1,139 +1,183 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { motion, useMotionValue, useTransform, animate } from "framer-motion";
-import { useStore, WALLPAPERS } from "@/lib/store";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { motion } from "framer-motion";
+import Image from "next/image";
 
 interface LockScreenProps {
   onUnlock: () => void;
 }
 
+const BG_IMAGE = "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1920&q=85";
+const HERO_IMAGE = "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=1280&q=85";
+
 export default function LockScreen({ onUnlock }: LockScreenProps) {
-  const wallpaperId = useStore((s) => s.wallpaperId);
-  const wallpaper = WALLPAPERS.find((w) => w.id === wallpaperId) || WALLPAPERS[0];
-  const isDark = wallpaper.dark;
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [unlocked, setUnlocked] = useState(false);
+  const [touchStartY, setTouchStartY] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const lockRef = useRef<HTMLDivElement>(null);
 
-  const [time, setTime] = useState("");
-  const [date, setDate] = useState("");
-  const [unlocking, setUnlocking] = useState(false);
-
-  // Slide to unlock
-  const sliderX = useMotionValue(0);
-  const sliderProgress = useTransform(sliderX, [0, 260], [0, 1]);
-  const sliderOpacity = useTransform(sliderProgress, [0, 0.8], [1, 0]);
-  const containerRef = useRef<HTMLDivElement>(null);
-
+  // Check mobile
   useEffect(() => {
-    const update = () => {
-      const now = new Date();
-      setTime(now.toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit", hour12: false }));
-      setDate(now.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" }));
-    };
-    update();
-    const interval = setInterval(update, 1000);
-    return () => clearInterval(interval);
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
   }, []);
 
-  const handleDragEnd = () => {
-    const current = sliderX.get();
-    if (current > 200) {
-      setUnlocking(true);
-      animate(sliderX, 300, { duration: 0.2 });
-      setTimeout(onUnlock, 400);
-    } else {
-      animate(sliderX, 0, { type: "spring", stiffness: 400, damping: 30 });
+  // Handle scroll/touch to expand
+  const handleProgress = useCallback((delta: number) => {
+    if (unlocked) return;
+    const newProgress = Math.min(Math.max(scrollProgress + delta, 0), 1);
+    setScrollProgress(newProgress);
+
+    if (newProgress >= 1) {
+      setUnlocked(true);
+      setTimeout(onUnlock, 600);
     }
-  };
+  }, [scrollProgress, unlocked, onUnlock]);
 
-  const wallpaperStyle = wallpaper.type === "css"
-    ? { background: wallpaper.value }
-    : { backgroundImage: `url(${wallpaper.value})`, backgroundSize: "cover", backgroundPosition: "center" };
+  useEffect(() => {
+    if (unlocked) return;
 
-  const textColor = isDark ? "white" : "#0F172A";
-  const textMuted = isDark ? "rgba(255,255,255,0.6)" : "rgba(15,23,42,0.5)";
-  const glassBg = isDark ? "rgba(0,0,0,0.2)" : "rgba(255,255,255,0.3)";
-  const glassBorder = isDark ? "rgba(255,255,255,0.1)" : "rgba(0,0,0,0.06)";
+    const handleWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      handleProgress(e.deltaY * 0.001);
+    };
+
+    const handleTouchStart = (e: TouchEvent) => {
+      setTouchStartY(e.touches[0].clientY);
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      e.preventDefault();
+      const deltaY = touchStartY - e.touches[0].clientY;
+      handleProgress(deltaY * 0.005);
+      setTouchStartY(e.touches[0].clientY);
+    };
+
+    window.addEventListener("wheel", handleWheel, { passive: false });
+    window.addEventListener("touchstart", handleTouchStart, { passive: false });
+    window.addEventListener("touchmove", handleTouchMove, { passive: false });
+
+    return () => {
+      window.removeEventListener("wheel", handleWheel);
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", handleTouchMove);
+    };
+  }, [scrollProgress, unlocked, touchStartY, handleProgress]);
+
+  // Media dimensions — expand from card to fullscreen
+  const mediaWidth = 320 + scrollProgress * (isMobile ? 600 : 1200);
+  const mediaHeight = 420 + scrollProgress * (isMobile ? 200 : 500);
+  const textOffset = scrollProgress * (isMobile ? 120 : 100);
+  const overlayOpacity = 0.5 - scrollProgress * 0.3;
+  const bgOpacity = 1 - scrollProgress;
+  const borderRadius = 20 - scrollProgress * 20;
 
   return (
     <motion.div
-      className="fixed inset-0 z-[80] flex flex-col items-center justify-center"
-      style={wallpaperStyle}
-      animate={unlocking ? { scale: 1.1, opacity: 0 } : { scale: 1, opacity: 1 }}
-      transition={{ duration: 0.4 }}
-      onClick={() => { if (!unlocking) { setUnlocking(true); setTimeout(onUnlock, 400); } }}
+      ref={lockRef}
+      className="fixed inset-0 z-[80] overflow-hidden"
+      animate={unlocked ? { opacity: 0, scale: 1.05 } : { opacity: 1, scale: 1 }}
+      transition={{ duration: 0.5 }}
     >
-      {/* Overlay */}
-      <div className="absolute inset-0" style={{
-        background: isDark ? "rgba(0,0,0,0.3)" : "rgba(255,255,255,0.15)",
-        backdropFilter: "blur(2px)",
-      }} />
-
-      {/* Time & Date */}
+      {/* Background image — fades out as scroll progresses */}
       <motion.div
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
-        className="relative z-10 text-center mb-auto mt-[15vh]"
+        className="absolute inset-0 z-0"
+        style={{ opacity: bgOpacity }}
       >
-        <h1 className="text-[80px] md:text-[120px] font-heading font-bold leading-none tracking-tight" style={{ color: textColor }}>
-          {time}
-        </h1>
-        <p className="text-[18px] font-medium mt-2" style={{ color: textMuted }}>
-          {date}
-        </p>
+        <Image
+          src={BG_IMAGE}
+          alt="Background"
+          width={1920}
+          height={1080}
+          className="w-full h-full object-cover"
+          priority
+        />
+        <div className="absolute inset-0 bg-black/20" />
       </motion.div>
 
-      {/* Slide to Unlock */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6 }}
-        className="relative z-10 mb-[10vh]"
-        onClick={(e) => e.stopPropagation()}
-      >
+      {/* Expanding media card */}
+      <div className="absolute inset-0 z-10 flex items-center justify-center">
         <div
-          ref={containerRef}
-          className="relative w-[320px] h-[56px] rounded-full overflow-hidden"
+          className="relative overflow-hidden"
           style={{
-            background: glassBg,
-            backdropFilter: "blur(20px)",
-            border: `1px solid ${glassBorder}`,
+            width: `${mediaWidth}px`,
+            height: `${mediaHeight}px`,
+            maxWidth: "98vw",
+            maxHeight: "95vh",
+            borderRadius: `${borderRadius}px`,
+            boxShadow: scrollProgress < 0.95
+              ? "0 20px 60px rgba(0, 0, 0, 0.4)"
+              : "none",
+            transition: "box-shadow 0.3s",
           }}
         >
-          {/* Text */}
-          <motion.div
-            className="absolute inset-0 flex items-center justify-center text-[14px] font-medium"
-            style={{ opacity: sliderOpacity, color: textMuted }}
-          >
-            Slide to unlock &rarr;
-          </motion.div>
-
-          {/* Slider thumb */}
-          <motion.div
-            drag="x"
-            dragConstraints={{ left: 0, right: 260 }}
-            dragElastic={0}
-            dragMomentum={false}
-            onDragEnd={handleDragEnd}
-            style={{ x: sliderX }}
-            className="absolute left-1 top-1 w-[48px] h-[48px] rounded-full flex items-center justify-center cursor-grab active:cursor-grabbing"
-            whileTap={{ scale: 0.95 }}
-          >
-            <div className="w-full h-full rounded-full flex items-center justify-center"
-              style={{
-                background: isDark ? "rgba(255,255,255,0.9)" : "rgba(15,23,42,0.9)",
-                boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-              }}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={isDark ? "#0F172A" : "white"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="9 18 15 12 9 6" />
-              </svg>
-            </div>
-          </motion.div>
+          <Image
+            src={HERO_IMAGE}
+            alt="SwaroopOS"
+            width={1920}
+            height={1080}
+            className="w-full h-full object-cover"
+            priority
+          />
+          {/* Dark overlay — fades as you scroll */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background: `rgba(0,0,0,${overlayOpacity})`,
+              borderRadius: `${borderRadius}px`,
+            }}
+          />
         </div>
+      </div>
 
-        {/* Or click anywhere hint */}
-        <p className="text-center text-[11px] mt-3 font-medium" style={{ color: textMuted }}>
-          or click anywhere to unlock
+      {/* Text overlay — splits apart as user scrolls */}
+      <div className="absolute inset-0 z-20 flex flex-col items-center justify-center pointer-events-none">
+        <motion.h1
+          className="text-4xl md:text-6xl lg:text-7xl font-heading font-black text-white uppercase tracking-wider"
+          style={{
+            transform: `translateX(-${textOffset}vw)`,
+            textShadow: "0 4px 20px rgba(0,0,0,0.4)",
+            mixBlendMode: "difference",
+          }}
+        >
+          Welcome to
+        </motion.h1>
+        <motion.h1
+          className="text-4xl md:text-6xl lg:text-7xl font-heading font-black text-white uppercase tracking-wider"
+          style={{
+            transform: `translateX(${textOffset}vw)`,
+            textShadow: "0 4px 20px rgba(0,0,0,0.4)",
+            mixBlendMode: "difference",
+          }}
+        >
+          SwaroopOS
+        </motion.h1>
+      </div>
+
+      {/* Bottom hints — fade out as scroll progresses */}
+      <motion.div
+        className="absolute bottom-[8vh] left-0 right-0 z-20 flex flex-col items-center gap-2 pointer-events-none"
+        style={{ opacity: 1 - scrollProgress * 3 }}
+      >
+        {/* Scroll indicator animation */}
+        <motion.div
+          className="w-6 h-10 rounded-full border-2 border-white/50 flex items-start justify-center p-1.5"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 }}
+        >
+          <motion.div
+            className="w-1.5 h-1.5 rounded-full bg-white/80"
+            animate={{ y: [0, 16, 0] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </motion.div>
+        <p className="text-white/60 text-[13px] font-medium">
+          Scroll to enter
         </p>
       </motion.div>
     </motion.div>
