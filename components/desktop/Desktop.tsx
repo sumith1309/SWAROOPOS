@@ -170,7 +170,7 @@ function DesktopView({ openWindow, isDark }: { openWindow: (id: AppId) => void; 
             COO & Co-Founder at CogniSpace. Building intelligent systems across 5 industries. 20+ products shipped with 97% accuracy.
           </p>
 
-          <div className="flex gap-3">
+          <div className="flex gap-3 flex-wrap">
             <a href="https://github.com/sumith1309" target="_blank" rel="noopener noreferrer"
               className="px-5 py-2.5 rounded-full bg-[#0F172A] text-white text-[13px] font-semibold hover:bg-[#1E293B] transition-colors flex items-center gap-2">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5"/></svg>
@@ -184,6 +184,11 @@ function DesktopView({ openWindow, isDark }: { openWindow: (id: AppId) => void; 
               className={`px-5 py-2.5 rounded-full text-[13px] font-semibold transition-all cursor-pointer ${isDark ? "bg-white/10 text-white/70 hover:bg-white/15" : "bg-[rgba(0,0,0,0.04)] text-[#64748B] hover:bg-[rgba(0,0,0,0.08)]"}`}>
               View Work
             </button>
+            <a href="/api/cv" target="_blank" rel="noopener noreferrer"
+              className={`px-5 py-2.5 rounded-full text-[13px] font-semibold transition-all flex items-center gap-2 ${isDark ? "bg-[#1e40af] text-white hover:bg-[#1d4ed8]" : "bg-[#1e40af] text-white hover:bg-[#1d4ed8]"}`}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download CV
+            </a>
           </div>
         </motion.div>
 
@@ -305,6 +310,11 @@ function MobileView({ openWindow, isDark }: { openWindow: (id: AppId) => void; i
             className={`px-4 py-2 rounded-full text-[12px] font-semibold cursor-pointer ${isDark ? "bg-white/10 text-white/70" : "bg-[rgba(0,0,0,0.04)] text-[#64748B]"}`}>
             View Work
           </button>
+          <a href="/api/cv" target="_blank" rel="noopener noreferrer"
+            className="px-4 py-2 rounded-full bg-[#1e40af] text-white text-[12px] font-semibold flex items-center gap-1.5">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download CV
+          </a>
         </div>
       </motion.div>
 
