@@ -15,6 +15,7 @@ export interface Product {
   role: string;
   featured: boolean;
   github?: string;
+  website?: string;
   problem?: string;
   impact?: string;
   architecture?: string;
@@ -215,6 +216,7 @@ export const FEATURED_PRODUCTS: Product[] = [
     ],
     role: "Co-founded. Defined product vision, pricing strategy, and go-to-market. Led end-to-end product development.",
     github: "https://github.com/sumith1309/COGNISPACE",
+    website: "https://www.cognispace.co.in/",
     featured: true,
   },
 ];
@@ -362,14 +364,15 @@ export const ADDITIONAL_PRODUCTS: Product[] = [
   {
     id: "taskflow",
     name: "TaskFlow",
-    tagline: "Socket.IO Real-time Dashboards",
+    tagline: "Socket.IO Real-time Task Management",
     domain: "enterprise",
     year: "2025",
-    description: "Real-time task management with Socket.IO and role-based dashboards.",
-    metrics: [],
-    techStack: [{ category: "Stack", items: ["Socket.IO", "Role-based Dashboards"] }],
-    features: ["Real-time collaboration", "Role-based access", "Live dashboards"],
+    description: "Lightweight real-time task management web application for small teams (1 Manager + 3 Employees). Features role-based dashboards with Kanban board and analytics for managers, JWT authentication, Socket.IO real-time updates, file attachments via MongoDB GridFS, online presence indicators, and a glassmorphism Ocean Glass UI design system.",
+    metrics: [{ label: "Real-time", value: "Socket.IO" }, { label: "Auth", value: "JWT" }],
+    techStack: [{ category: "Stack", items: ["Node.js", "Express", "MongoDB", "Socket.IO", "JWT", "Chart.js"] }],
+    features: ["Real-time task updates via Socket.IO", "Role-based Kanban + analytics dashboards", "File attachments with GridFS", "Online presence tracking"],
     role: "Built end-to-end",
+    github: "https://github.com/sumith1309/LUC_Progress_Tracker",
     featured: false,
   },
   {
@@ -383,6 +386,7 @@ export const ADDITIONAL_PRODUCTS: Product[] = [
     techStack: [{ category: "Stack", items: ["Docker", "Kubernetes", "ML"] }],
     features: ["Containerized deployment", "Kubernetes orchestration", "ML prediction"],
     role: "Built end-to-end",
+    github: "https://github.com/sumith1309/Housing-Price-Service",
     featured: false,
   },
   {
@@ -397,6 +401,48 @@ export const ADDITIONAL_PRODUCTS: Product[] = [
     features: ["Instant cost estimation", "Payment integration", "Automated quoting"],
     role: "Built to solve real problems experienced during 5 years of construction operations",
     github: "https://github.com/sumith1309/instant-house-construction-cost-report",
+    featured: false,
+  },
+  {
+    id: "healthcare-analytics",
+    name: "Healthcare Analytics Platform",
+    tagline: "AI Model Comparison for Healthcare KPIs",
+    domain: "enterprise",
+    year: "2026",
+    description: "Comprehensive analytics platform for evaluating and comparing AI model performance across healthcare departments (Radiology, Pathology, Cardiology, Operations). Features Python analysis engine with statistical comparison, interactive ECharts web dashboard with real-time visualizations, 6-month accuracy forecasts using linear regression, and an executive one-pager report for stakeholders.",
+    metrics: [{ label: "Departments", value: "4" }, { label: "KPIs", value: "4" }],
+    techStack: [{ category: "Stack", items: ["Python", "ECharts", "Matplotlib", "Seaborn", "Linear Regression"] }],
+    features: ["AI model comparison (Baseline vs AI_v1 vs AI_v2)", "Interactive ECharts dashboard", "6-month accuracy forecasting", "Executive one-pager report"],
+    role: "Built end-to-end",
+    github: "https://github.com/sumith1309/AI-Powered-Healthcare-Analytics",
+    featured: false,
+  },
+  {
+    id: "hubspot-integration",
+    name: "HubSpot Contact Manager",
+    tagline: "CRM Data Cleaning & Standardization",
+    domain: "enterprise",
+    year: "2026",
+    description: "Modern web application for managing, cleaning, and standardizing HubSpot CRM contacts. Features CSV drag-and-drop upload with auto-column mapping, Clean Bot for auto-filling missing fields, Standardize Bot for name/phone/email normalization, Audit Agent with visual data quality reports, and one-click batch push to HubSpot via API.",
+    metrics: [{ label: "Bots", value: "3" }, { label: "CRM", value: "HubSpot" }],
+    techStack: [{ category: "Stack", items: ["React", "Vite", "Netlify Functions", "HubSpot API"] }],
+    features: ["CSV upload with auto-column mapping", "Clean Bot for missing fields", "Standardize Bot for data normalization", "Audit Agent with visual reports", "One-click batch push to HubSpot"],
+    role: "Built end-to-end",
+    github: "https://github.com/sumith1309/-HubSpot-Integration",
+    featured: false,
+  },
+  {
+    id: "code-archaeologist",
+    name: "Code Archaeologist",
+    tagline: "AI Legacy Code Analysis Platform",
+    domain: "enterprise",
+    year: "2025",
+    description: "Enterprise-grade AI-powered platform for understanding, documenting, and modernizing legacy codebases. Supports 10+ programming languages with advanced static analysis, intelligent documentation generation, interactive visualizations, and a REST API. Built with FastAPI backend, Next.js 14 frontend, and PostgreSQL storage.",
+    metrics: [{ label: "Languages", value: "10+" }, { label: "Architecture", value: "Full-stack" }],
+    techStack: [{ category: "Stack", items: ["FastAPI", "Next.js 14", "TypeScript", "PostgreSQL", "Docker"] }],
+    features: ["AI-powered legacy code analysis", "10+ language support", "Interactive codebase visualizations", "Automated documentation generation", "REST API"],
+    role: "Built end-to-end",
+    github: "https://github.com/sumith1309/AI-Code-Archaeologist",
     featured: false,
   },
 ];
