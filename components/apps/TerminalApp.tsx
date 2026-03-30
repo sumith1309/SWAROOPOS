@@ -129,6 +129,9 @@ export default function TerminalApp() {
         education: "education", climate: "climate", enterprise: "enterprise",
         fintech: "fintech", construction: "construction",
         tictactoe: "tictactoe", "2048": "game2048",
+        resume: "resumetailor", "resume-tailor": "resumetailor", resumetailor: "resumetailor",
+        recommender: "recommender", guide: "recommender",
+        demo: "aidemo", playground: "aidemo", aidemo: "aidemo",
       };
       const appId = appMap[appName];
       if (appId) {

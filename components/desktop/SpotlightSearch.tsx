@@ -58,12 +58,21 @@ function DomainSearchIcon({ id }: { id: string }) {
   return <SearchIcon>{paths[id]}</SearchIcon>;
 }
 
+function SparkleIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z" />
+    </svg>
+  );
+}
+
 export default function SpotlightSearch() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [selectedIndex, setSelectedIndex] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const openWindow = useStore((s) => s.openWindow);
+  const setPendingAIQuery = useStore((s) => s.setPendingAIQuery);
 
   const filtered = query.trim()
     ? SEARCH_ITEMS.filter((item) =>
@@ -71,6 +80,10 @@ export default function SpotlightSearch() {
         item.category.toLowerCase().includes(query.toLowerCase())
       )
     : SEARCH_ITEMS;
+
+  // Show "Ask AI" option when query is 3+ chars and no static results match
+  const showAskAI = query.trim().length >= 3 && filtered.length === 0;
+  const totalItems = filtered.length + (showAskAI ? 1 : 0);
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -101,15 +114,25 @@ export default function SpotlightSearch() {
     setOpen(false);
   };
 
+  const launchAIWithQuery = () => {
+    setPendingAIQuery(query.trim());
+    openWindow("aichat");
+    setOpen(false);
+  };
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "ArrowDown") {
       e.preventDefault();
-      setSelectedIndex((i) => Math.min(i + 1, filtered.length - 1));
+      setSelectedIndex((i) => Math.min(i + 1, totalItems - 1));
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       setSelectedIndex((i) => Math.max(i - 1, 0));
-    } else if (e.key === "Enter" && filtered[selectedIndex]) {
-      launch(filtered[selectedIndex].id);
+    } else if (e.key === "Enter") {
+      if (showAskAI && selectedIndex === 0) {
+        launchAIWithQuery();
+      } else if (filtered[selectedIndex]) {
+        launch(filtered[selectedIndex].id);
+      }
     }
   };
 
@@ -162,39 +185,76 @@ export default function SpotlightSearch() {
 
             {/* Results */}
             <div className="max-h-[360px] overflow-y-auto py-2" style={{ scrollbarWidth: "none" }}>
-              {filtered.length === 0 ? (
+              {filtered.length === 0 && !showAskAI ? (
                 <div className="px-5 py-8 text-center">
                   <p className="text-[14px] text-[#8E8E93]">No results found</p>
                 </div>
               ) : (
-                filtered.map((item, i) => (
-                  <button
-                    key={item.id}
-                    onClick={() => launch(item.id)}
-                    onMouseEnter={() => setSelectedIndex(i)}
-                    className={`w-full flex items-center gap-3 px-5 py-2.5 text-left transition-colors cursor-pointer ${
-                      i === selectedIndex ? "bg-[#3B82F6]" : "hover:bg-[rgba(0,0,0,0.04)]"
-                    }`}
-                  >
-                    <div
-                      className="w-8 h-8 rounded-[10px] flex items-center justify-center shrink-0"
-                      style={{
-                        background: i === selectedIndex ? "rgba(255,255,255,0.2)" : `${item.color}12`,
-                        color: i === selectedIndex ? "white" : item.color,
-                      }}
+                <>
+                  {filtered.map((item, i) => (
+                    <button
+                      key={item.id}
+                      onClick={() => launch(item.id)}
+                      onMouseEnter={() => setSelectedIndex(i)}
+                      className={`w-full flex items-center gap-3 px-5 py-2.5 text-left transition-colors cursor-pointer ${
+                        i === selectedIndex ? "bg-[#3B82F6]" : "hover:bg-[rgba(0,0,0,0.04)]"
+                      }`}
                     >
-                      {item.icon}
-                    </div>
-                    <div className="flex-1 min-w-0">
-                      <p className={`text-[14px] font-medium truncate ${i === selectedIndex ? "text-white" : "text-[#1C1C1E]"}`}>
-                        {item.label}
-                      </p>
-                    </div>
-                    <span className={`text-[11px] font-medium shrink-0 ${i === selectedIndex ? "text-white/60" : "text-[#C7C7CC]"}`}>
-                      {item.category}
-                    </span>
-                  </button>
-                ))
+                      <div
+                        className="w-8 h-8 rounded-[10px] flex items-center justify-center shrink-0"
+                        style={{
+                          background: i === selectedIndex ? "rgba(255,255,255,0.2)" : `${item.color}12`,
+                          color: i === selectedIndex ? "white" : item.color,
+                        }}
+                      >
+                        {item.icon}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className={`text-[14px] font-medium truncate ${i === selectedIndex ? "text-white" : "text-[#1C1C1E]"}`}>
+                          {item.label}
+                        </p>
+                      </div>
+                      <span className={`text-[11px] font-medium shrink-0 ${i === selectedIndex ? "text-white/60" : "text-[#C7C7CC]"}`}>
+                        {item.category}
+                      </span>
+                    </button>
+                  ))}
+
+                  {/* Ask AI option */}
+                  {showAskAI && (
+                    <button
+                      onClick={launchAIWithQuery}
+                      onMouseEnter={() => setSelectedIndex(filtered.length)}
+                      className={`w-full flex items-center gap-3 px-5 py-2.5 text-left transition-colors cursor-pointer ${
+                        selectedIndex === filtered.length ? "bg-[#8B5CF6]" : "hover:bg-[rgba(0,0,0,0.04)]"
+                      }`}
+                    >
+                      <div
+                        className="w-8 h-8 rounded-[10px] flex items-center justify-center shrink-0"
+                        style={{
+                          background: selectedIndex === filtered.length
+                            ? "rgba(255,255,255,0.2)"
+                            : "rgba(139,92,246,0.08)",
+                          color: selectedIndex === filtered.length ? "white" : "#8B5CF6",
+                        }}
+                      >
+                        <SparkleIcon />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className={`text-[14px] font-medium truncate ${
+                          selectedIndex === filtered.length ? "text-white" : "text-[#1C1C1E]"
+                        }`}>
+                          Ask AI: {query.trim()}
+                        </p>
+                      </div>
+                      <span className={`text-[11px] font-medium shrink-0 ${
+                        selectedIndex === filtered.length ? "text-white/60" : "text-[#C7C7CC]"
+                      }`}>
+                        AI
+                      </span>
+                    </button>
+                  )}
+                </>
               )}
             </div>
 
@@ -204,7 +264,7 @@ export default function SpotlightSearch() {
                 <span className="flex items-center gap-1"><kbd className="px-1 py-0.5 rounded bg-[#F2F2F7] text-[10px] font-mono">↑↓</kbd> Navigate</span>
                 <span className="flex items-center gap-1"><kbd className="px-1 py-0.5 rounded bg-[#F2F2F7] text-[10px] font-mono">↵</kbd> Open</span>
               </div>
-              <span className="text-[11px] text-[#C7C7CC]">{filtered.length} results</span>
+              <span className="text-[11px] text-[#C7C7CC]">{totalItems} results</span>
             </div>
           </motion.div>
         </>

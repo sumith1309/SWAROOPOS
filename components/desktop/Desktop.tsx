@@ -16,6 +16,7 @@ import ContextMenu from "./ContextMenu";
 import NotificationCenter from "./NotificationCenter";
 import SmartRecommendations from "./SmartRecommendations";
 import FlagshipSpotlight from "./FlagshipSpotlight";
+import AIGreeting from "./AIGreeting";
 
 export default function Desktop({ onLock }: { onLock?: () => void }) {
   const [isMobile, setIsMobile] = useState(false);
@@ -267,6 +268,7 @@ function DesktopView({ openWindow, isDark }: { openWindow: (id: AppId) => void; 
         <div className="flex flex-col gap-3 w-[180px]">
           <AnalogClock isDark={isDark} />
           <NowPlayingWidget isDark={isDark} />
+          <AIGreeting isDark={isDark} />
           <FlagshipSpotlight isDark={isDark} />
         </div>
         {/* Column 2: Weather + GitHub + Stats */}

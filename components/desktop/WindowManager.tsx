@@ -17,6 +17,9 @@ import CalendarApp from "../apps/CalendarApp";
 import GalleryApp from "../apps/GalleryApp";
 import ShowcaseApp from "../apps/ShowcaseApp";
 import AIChatApp from "../apps/AIChatApp";
+import ResumeTailorApp from "../apps/ResumeTailorApp";
+import RecommenderApp from "../apps/RecommenderApp";
+import AIDemoApp from "../apps/AIDemoApp";
 
 const WINDOW_TITLES: Record<string, string> = {
   education: "Education Lab",
@@ -37,6 +40,9 @@ const WINDOW_TITLES: Record<string, string> = {
   gallery: "Project Gallery",
   showcase: "Showcase",
   aichat: "Ask Swaroop AI",
+  resumetailor: "AI Resume Tailor",
+  recommender: "AI Project Guide",
+  aidemo: "AI Playground",
 };
 
 const WINDOW_COLORS: Record<string, string> = {
@@ -58,6 +64,9 @@ const WINDOW_COLORS: Record<string, string> = {
   gallery: "#6366F1",
   showcase: "#F97316",
   aichat: "#3B82F6",
+  resumetailor: "#10B981",
+  recommender: "#8B5CF6",
+  aidemo: "#F97316",
 };
 
 function AppContent({ id }: { id: AppId }) {
@@ -76,6 +85,9 @@ function AppContent({ id }: { id: AppId }) {
     case "gallery": return <GalleryApp />;
     case "showcase": return <ShowcaseApp />;
     case "aichat": return <AIChatApp />;
+    case "resumetailor": return <ResumeTailorApp />;
+    case "recommender": return <RecommenderApp />;
+    case "aidemo": return <AIDemoApp />;
     default: return null;
   }
 }

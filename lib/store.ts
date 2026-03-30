@@ -4,7 +4,7 @@ export type Domain = "education" | "climate" | "enterprise" | "fintech" | "const
 export type SystemApp = "about" | "skills" | "terminal" | "contact";
 export type UtilityApp = "calculator" | "music" | "settings" | "calendar";
 export type GameApp = "tictactoe" | "game2048" | "gallery" | "showcase";
-export type AIApp = "aichat";
+export type AIApp = "aichat" | "resumetailor" | "recommender" | "aidemo";
 export type AppId = Domain | SystemApp | UtilityApp | GameApp | AIApp;
 
 export const WALLPAPERS = [
@@ -42,6 +42,10 @@ interface Store {
   activeProjectId: string | null;
   setActiveProjectId: (id: string | null) => void;
 
+  // Pending AI query (from Spotlight → AI Chat)
+  pendingAIQuery: string | null;
+  setPendingAIQuery: (query: string | null) => void;
+
   // Wallpaper
   wallpaperId: string;
   setWallpaper: (id: string) => void;
@@ -65,6 +69,10 @@ const DEFAULT_POSITIONS: Record<string, { x: number; y: number }> = {
   calendar: { x: 190, y: 75 },
   gallery: { x: 120, y: 70 },
   showcase: { x: 210, y: 65 },
+  aichat: { x: 130, y: 65 },
+  resumetailor: { x: 150, y: 70 },
+  recommender: { x: 170, y: 75 },
+  aidemo: { x: 190, y: 65 },
 };
 
 export const useStore = create<Store>((set) => ({
@@ -127,6 +135,9 @@ export const useStore = create<Store>((set) => ({
 
   activeProjectId: null,
   setActiveProjectId: (id) => set({ activeProjectId: id }),
+
+  pendingAIQuery: null,
+  setPendingAIQuery: (query) => set({ pendingAIQuery: query }),
 
   wallpaperId: "landscape",
   setWallpaper: (id) => set({ wallpaperId: id }),

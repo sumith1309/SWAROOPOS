@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useState, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface GitHubData {
   repos: number;
@@ -12,6 +12,9 @@ interface GitHubData {
 
 export default function GitHubWidget({ isDark }: { isDark: boolean }) {
   const [data, setData] = useState<GitHubData | null>(null);
+  const [aiSummary, setAiSummary] = useState<string | null>(null);
+  const [summaryLoading, setSummaryLoading] = useState(false);
+  const [summaryExpanded, setSummaryExpanded] = useState(false);
 
   useEffect(() => {
     async function fetchGitHub() {
@@ -38,6 +41,69 @@ export default function GitHubWidget({ isDark }: { isDark: boolean }) {
     }
     fetchGitHub();
   }, []);
+
+  const fetchAISummary = useCallback(async () => {
+    if (aiSummary) {
+      setSummaryExpanded((v) => !v);
+      return;
+    }
+
+    setSummaryLoading(true);
+    setSummaryExpanded(true);
+
+    try {
+      // Fetch 5 most recently pushed repos
+      const reposRes = await fetch(
+        "https://api.github.com/users/sumith1309/repos?sort=pushed&per_page=5"
+      );
+      const repos = await reposRes.json();
+
+      if (!Array.isArray(repos) || repos.length === 0) {
+        setAiSummary("Unable to fetch recent activity.");
+        setSummaryLoading(false);
+        return;
+      }
+
+      // Fetch latest commit for each repo
+      const commitPromises = repos.map(async (repo: { name: string; full_name: string }) => {
+        try {
+          const commitRes = await fetch(
+            `https://api.github.com/repos/${repo.full_name}/commits?per_page=1`
+          );
+          const commits = await commitRes.json();
+          const message = Array.isArray(commits) && commits[0]?.commit?.message
+            ? commits[0].commit.message
+            : "No commits";
+          return `${repo.name}: ${message}`;
+        } catch {
+          return `${repo.name}: Unable to fetch`;
+        }
+      });
+
+      const commitMessages = await Promise.all(commitPromises);
+
+      // Call AI to summarize
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: [
+            {
+              role: "user",
+              content: `Summarize what Swaroop has been building recently based on these commits (keep it under 2-3 sentences, be concise): ${commitMessages.join(" | ")}`,
+            },
+          ],
+        }),
+      });
+
+      const data = await res.json();
+      setAiSummary(data.response || "Could not generate summary.");
+    } catch {
+      setAiSummary("Failed to generate summary. Try again later.");
+    } finally {
+      setSummaryLoading(false);
+    }
+  }, [aiSummary]);
 
   if (!data) {
     return (
@@ -87,6 +153,56 @@ export default function GitHubWidget({ isDark }: { isDark: boolean }) {
           </motion.div>
         ))}
       </div>
+
+      {/* AI Summary Button */}
+      <button
+        onClick={fetchAISummary}
+        disabled={summaryLoading}
+        className={`w-full mt-3 flex items-center justify-center gap-1.5 px-2 py-1.5 rounded-lg text-[10px] font-semibold transition-all cursor-pointer ${
+          isDark
+            ? "bg-white/5 hover:bg-white/10 text-white/50 hover:text-white/70 border border-white/10"
+            : "bg-[rgba(0,0,0,0.03)] hover:bg-[rgba(0,0,0,0.06)] text-[#8E8E93] hover:text-[#6B6B70] border border-[rgba(0,0,0,0.06)]"
+        } ${summaryLoading ? "opacity-60" : ""}`}
+      >
+        {summaryLoading ? (
+          <>
+            <motion.div
+              className="w-3 h-3 rounded-full border-2 border-current border-t-transparent"
+              animate={{ rotate: 360 }}
+              transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+            />
+            Analyzing...
+          </>
+        ) : (
+          <>
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 3l1.912 5.813a2 2 0 0 0 1.275 1.275L21 12l-5.813 1.912a2 2 0 0 0-1.275 1.275L12 21l-1.912-5.813a2 2 0 0 0-1.275-1.275L3 12l5.813-1.912a2 2 0 0 0 1.275-1.275L12 3z" />
+            </svg>
+            {aiSummary ? (summaryExpanded ? "Hide Summary" : "Show Summary") : "AI Summary"}
+          </>
+        )}
+      </button>
+
+      {/* AI Summary Content */}
+      <AnimatePresence>
+        {summaryExpanded && aiSummary && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="overflow-hidden"
+          >
+            <div className={`mt-2 p-2.5 rounded-lg text-[10px] leading-relaxed ${
+              isDark
+                ? "bg-white/5 text-white/60 border border-white/10"
+                : "bg-[#F8FAFC] text-[#64748B] border border-[rgba(0,0,0,0.04)]"
+            }`}>
+              {aiSummary}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }
