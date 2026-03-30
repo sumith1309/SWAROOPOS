@@ -42,10 +42,6 @@ function getSpeechRecognitionConstructor(): (new () => SpeechRecognitionInstance
   return w.SpeechRecognition || w.webkitSpeechRecognition || null;
 }
 
-function isSpeechSynthesisSupported(): boolean {
-  return typeof window !== "undefined" && "speechSynthesis" in window;
-}
-
 export default function AIChatApp() {
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -58,9 +54,7 @@ export default function AIChatApp() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
-  const [ttsEnabled, setTtsEnabled] = useState(false);
   const [speechSupported, setSpeechSupported] = useState(false);
-  const [ttsSupported, setTtsSupported] = useState(false);
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -72,7 +66,6 @@ export default function AIChatApp() {
   // Check browser support on mount
   useEffect(() => {
     setSpeechSupported(getSpeechRecognitionConstructor() !== null);
-    setTtsSupported(isSpeechSynthesisSupported());
   }, []);
 
   // Handle pending AI query from Spotlight Search
@@ -88,31 +81,6 @@ export default function AIChatApp() {
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages]);
-
-  // Speak text using SpeechSynthesis with best available voice
-  const speakText = useCallback((text: string) => {
-    if (!ttsEnabled || !isSpeechSynthesisSupported()) return;
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 0.95;
-    utterance.pitch = 1;
-    utterance.lang = "en-US";
-
-    // Pick the best natural-sounding voice available
-    const voices = window.speechSynthesis.getVoices();
-    const preferred = [
-      "Samantha", "Karen", "Daniel", "Google UK English Female",
-      "Google UK English Male", "Google US English", "Moira", "Tessa",
-      "Alex", "Rishi", "Veena",
-    ];
-    const bestVoice = preferred.reduce<SpeechSynthesisVoice | null>((found, name) => {
-      if (found) return found;
-      return voices.find((v) => v.name.includes(name)) || null;
-    }, null);
-    if (bestVoice) utterance.voice = bestVoice;
-
-    window.speechSynthesis.speak(utterance);
-  }, [ttsEnabled]);
 
   const sendMessage = useCallback(async (text: string) => {
     if (!text.trim() || loading) return;
@@ -152,7 +120,6 @@ export default function AIChatApp() {
       };
 
       setMessages((prev) => [...prev, assistantMsg]);
-      speakText(responseText);
     } catch {
       const errorText = "Connection error. Please try again later.";
       setMessages((prev) => [
@@ -168,7 +135,7 @@ export default function AIChatApp() {
 
     setLoading(false);
     inputRef.current?.focus();
-  }, [loading, messages, speakText]);
+  }, [loading, messages]);
 
   // Start/stop voice recording
   const toggleRecording = useCallback(() => {
@@ -231,39 +198,6 @@ export default function AIChatApp() {
 
   return (
     <div className="flex flex-col h-full min-h-[450px] bg-[#F2F2F7]">
-      {/* TTS toggle in header area */}
-      {ttsSupported && (
-        <div className="flex justify-end px-4 pt-2">
-          <button
-            onClick={() => {
-              if (ttsEnabled) window.speechSynthesis.cancel();
-              setTtsEnabled(!ttsEnabled);
-            }}
-            className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium transition-all cursor-pointer"
-            style={{
-              background: ttsEnabled ? "linear-gradient(135deg, #3B82F6, #8B5CF6)" : "white",
-              color: ttsEnabled ? "white" : "#8E8E93",
-              border: ttsEnabled ? "none" : "1px solid rgba(0,0,0,0.08)",
-              boxShadow: "0 1px 3px rgba(0,0,0,0.06)",
-            }}
-            title={ttsEnabled ? "Disable text-to-speech" : "Enable text-to-speech"}
-          >
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
-              {ttsEnabled ? (
-                <>
-                  <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
-                  <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
-                </>
-              ) : (
-                <line x1="23" y1="9" x2="17" y2="15" />
-              )}
-            </svg>
-            {ttsEnabled ? "TTS On" : "TTS Off"}
-          </button>
-        </div>
-      )}
-
       {/* Chat messages */}
       <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4 space-y-3" style={{ scrollbarWidth: "none" }}>
         <AnimatePresence>
