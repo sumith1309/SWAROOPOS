@@ -190,8 +190,17 @@ export default function AIChatApp() {
       setInput((finalTranscript + interim).trim());
     };
 
-    recognition.onerror = () => {
+    recognition.onerror = (event: Event & { error: string }) => {
       setIsRecording(false);
+      if (event.error === "not-allowed") {
+        setInput("Microphone access denied. Please allow in browser settings.");
+      } else if (event.error === "no-speech") {
+        setInput("No speech detected. Please try again.");
+      } else if (event.error === "network") {
+        setInput("Network error. Speech recognition requires internet.");
+      } else {
+        setInput(`Speech error: ${event.error}`);
+      }
     };
 
     recognition.onend = () => {
