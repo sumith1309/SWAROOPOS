@@ -89,14 +89,28 @@ export default function AIChatApp() {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [messages]);
 
-  // Speak text using SpeechSynthesis
+  // Speak text using SpeechSynthesis with best available voice
   const speakText = useCallback((text: string) => {
     if (!ttsEnabled || !isSpeechSynthesisSupported()) return;
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 1;
+    utterance.rate = 0.95;
     utterance.pitch = 1;
     utterance.lang = "en-US";
+
+    // Pick the best natural-sounding voice available
+    const voices = window.speechSynthesis.getVoices();
+    const preferred = [
+      "Samantha", "Karen", "Daniel", "Google UK English Female",
+      "Google UK English Male", "Google US English", "Moira", "Tessa",
+      "Alex", "Rishi", "Veena",
+    ];
+    const bestVoice = preferred.reduce<SpeechSynthesisVoice | null>((found, name) => {
+      if (found) return found;
+      return voices.find((v) => v.name.includes(name)) || null;
+    }, null);
+    if (bestVoice) utterance.voice = bestVoice;
+
     window.speechSynthesis.speak(utterance);
   }, [ttsEnabled]);
 
