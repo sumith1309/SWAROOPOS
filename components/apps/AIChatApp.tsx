@@ -168,15 +168,26 @@ export default function AIChatApp() {
     if (!SpeechRecognitionCtor) return;
 
     const recognition = new SpeechRecognitionCtor();
-    recognition.continuous = false;
-    recognition.interimResults = false;
+    recognition.continuous = true;
+    recognition.interimResults = true;
     recognition.lang = "en-US";
 
+    let finalTranscript = "";
+
     recognition.onresult = (event: SpeechRecognitionEvent) => {
-      const transcript = event.results[0]?.[0]?.transcript;
-      if (transcript) {
-        setInput(transcript);
+      let interim = "";
+      for (let i = 0; i < event.results.length; i++) {
+        const result = event.results[i];
+        if (result?.[0]) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          if ((result as any).isFinal) {
+            finalTranscript += result[0].transcript + " ";
+          } else {
+            interim = result[0].transcript;
+          }
+        }
       }
+      setInput((finalTranscript + interim).trim());
     };
 
     recognition.onerror = () => {
@@ -185,6 +196,9 @@ export default function AIChatApp() {
 
     recognition.onend = () => {
       setIsRecording(false);
+      if (finalTranscript.trim()) {
+        setInput(finalTranscript.trim());
+      }
     };
 
     recognitionRef.current = recognition;
