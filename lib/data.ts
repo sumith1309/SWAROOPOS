@@ -219,6 +219,39 @@ export const FEATURED_PRODUCTS: Product[] = [
     website: "https://www.cognispace.co.in/",
     featured: true,
   },
+  {
+    id: "health",
+    name: "Health Prediction",
+    tagline: "96.6% Accuracy Heart Disease Detection — EU AI Act Compliant",
+    domain: "enterprise",
+    year: "2025",
+    description:
+      "Production-grade ML system for early heart disease detection achieving 96.6% accuracy with Gradient Boosting. Features a zero-bias architecture with 98.4% fairness across demographics via SMOTE resampling, full EU AI Act high-risk system compliance with transparent risk management documentation, and a premium fintech-style dashboard with Framer Motion animations.",
+    problem: "Heart disease is the leading cause of death globally, yet early screening tools are inaccessible to primary care and often carry demographic bias that disproportionately misdiagnoses underrepresented groups.",
+    impact: "96.6% accuracy enables reliable early screening at the primary care level. 98.4% fairness score ensures equitable predictions across demographics. Full EU AI Act compliance makes this deployment-ready for regulated healthcare markets.",
+    architecture: "Patient Data Input → Feature Engineering → SMOTE Resampling (Bias Elimination) → Gradient Boosting Classifier (96.6%) → Fairness Auditor (98.4% Demographic Parity) → EU AI Act Risk Management Module → React Dashboard (Framer Motion)",
+    metrics: [
+      { label: "Accuracy", value: "96.6%" },
+      { label: "Fairness", value: "98.4%" },
+      { label: "Compliance", value: "EU AI Act" },
+      { label: "Bias", value: "Zero-bias" },
+    ],
+    techStack: [
+      { category: "Frontend", items: ["React", "Framer Motion", "TailwindCSS"] },
+      { category: "AI", items: ["Gradient Boosting", "SMOTE Resampling", "scikit-learn", "Feature Engineering"] },
+      { category: "Compliance", items: ["EU AI Act Risk Framework", "Fairness Auditor", "Transparent Model Explanations"] },
+    ],
+    features: [
+      "96.6% heart disease prediction accuracy",
+      "Zero-bias architecture (98.4% fairness across demographics)",
+      "EU AI Act high-risk system compliance",
+      "Transparent model decision explanations",
+      "Premium fintech-style interactive dashboard",
+    ],
+    role: "Built end-to-end: ML pipeline, fairness framework, compliance documentation, dashboard",
+    github: "https://github.com/sumith1309/Predicting-Health-with-Precision",
+    featured: true,
+  },
 ];
 
 export const ADDITIONAL_PRODUCTS: Product[] = [
@@ -424,32 +457,6 @@ export const ADDITIONAL_PRODUCTS: Product[] = [
     features: ["CNN-LSTM prediction", "Computer vision inspection", "Statistical process control"],
     role: "Built end-to-end",
     github: "https://github.com/sumith1309/Predictive-Maintenance",
-    featured: false,
-  },
-  {
-    id: "health",
-    name: "Health Prediction",
-    tagline: "96.6% Accuracy, EU AI Act Compliance",
-    domain: "enterprise",
-    year: "2025",
-    description: "Production-grade ML system for early heart disease detection achieving 96.6% accuracy with Gradient Boosting. Features zero-bias architecture (98.4% fairness across demographics via SMOTE resampling), EU AI Act compliant risk management, and a premium fintech-style dashboard with Framer Motion animations.",
-    problem: "Heart disease is the leading cause of death globally, yet early screening tools are inaccessible to primary care and often carry demographic bias that disproportionately misdiagnoses underrepresented groups.",
-    impact: "96.6% accuracy enables reliable early screening at the primary care level. 98.4% fairness score ensures equitable predictions across demographics, meeting EU AI Act high-risk system requirements.",
-    architecture: "Patient Data Input → SMOTE Resampling → Gradient Boosting Classifier (96.6%) → Fairness Auditor (98.4%) → EU AI Act Risk Module → React Dashboard (Framer Motion)",
-    metrics: [
-      { label: "Accuracy", value: "96.6%" },
-      { label: "Fairness Score", value: "98.4%" },
-      { label: "Compliance", value: "EU AI Act" },
-      { label: "Model", value: "Gradient Boosting" },
-    ],
-    techStack: [
-      { category: "Frontend", items: ["React", "Framer Motion", "TailwindCSS"] },
-      { category: "AI", items: ["Gradient Boosting", "SMOTE Resampling", "scikit-learn"] },
-      { category: "Infrastructure", items: ["EU AI Act Risk Framework", "Fairness Auditor"] },
-    ],
-    features: ["96.6% prediction accuracy", "EU AI Act compliant", "Transparent model decisions"],
-    role: "Built end-to-end",
-    github: "https://github.com/sumith1309/Predicting-Health-with-Precision",
     featured: false,
   },
   {

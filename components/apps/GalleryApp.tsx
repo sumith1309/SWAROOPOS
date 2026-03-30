@@ -5,10 +5,11 @@ import { FEATURED_PRODUCTS, DOMAINS } from "@/lib/data";
 
 // Map each product to an Unsplash image representing its domain
 const PRODUCT_IMAGES = [
-  "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&q=80", // education - AI/learning
-  "https://images.unsplash.com/photo-1534088568595-a066f410bcda?w=400&q=80", // climate - weather/dust
-  "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=400&q=80", // climate - heatwave/india
-  "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&q=80", // enterprise - tech/space
+  "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&q=80", // ALIA - AI/learning
+  "https://images.unsplash.com/photo-1534088568595-a066f410bcda?w=400&q=80", // Sahara Sense - dust storm
+  "https://images.unsplash.com/photo-1561484930-998b6a7b22e8?w=400&q=80",    // Garmi Mitra - heatwave
+  "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&q=80",  // CogniSpace - tech globe
+  "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=400&q=80",  // Health Prediction - medical
 ];
 
 export default function GalleryApp() {
@@ -27,7 +28,7 @@ export default function GalleryApp() {
             <div
               key={product.id}
               className="relative cursor-pointer overflow-hidden rounded-2xl transition-all duration-500 ease-in-out h-full"
-              style={{ width: isExpanded ? "20rem" : "4rem" }}
+              style={{ width: isExpanded ? "18rem" : "3.5rem" }}
               onMouseEnter={() => setExpandedIndex(idx)}
             >
               {/* Background image */}
