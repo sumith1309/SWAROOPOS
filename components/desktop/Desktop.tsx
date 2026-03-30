@@ -169,7 +169,7 @@ function DesktopView({ openWindow, isDark }: { openWindow: (id: AppId) => void; 
             I architect AI systems that predict, protect, and automate
           </p>
           <p className={`text-[14px] leading-relaxed mb-4 ${isDark ? "text-white/50" : "text-[#94A3B8]"}`}>
-            97% prediction accuracy. 380M lives targeted. 20+ AI products shipped. From dust storm prediction to heatwave early warning — I build AI that solves real problems.
+            97% prediction accuracy. 380M lives targeted. 20+ AI products shipped across 5 industries. I build AI that solves real problems.
           </p>
 
           {/* Impact proof ticker */}

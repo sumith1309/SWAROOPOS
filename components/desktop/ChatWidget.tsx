@@ -150,7 +150,7 @@ export default function ChatWidget({ isDark }: { isDark: boolean }) {
                     </svg>
                   </div>
                   <p className={`text-[12px] text-center max-w-[200px] ${isDark ? "text-white/30" : "text-[#C7C7CC]"}`}>
-                    Ask anything about Swaroop — his projects, skills, career, or education.
+                    Ask anything about Swaroop: projects, skills, career, or education.
                   </p>
                   <div className="flex flex-wrap gap-1.5 justify-center">
                     {QUICK_PROMPTS.map((p) => (

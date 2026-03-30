@@ -806,7 +806,7 @@ export const CONTACT = {
 };
 
 export const PROFESSIONAL_SUMMARY =
-  "97% prediction accuracy. 380M lives targeted. 20+ AI products shipped across 5 industries. I architect AI systems that predict dust storms, protect outdoor workers from heatwaves, and automate enterprise operations — then ship them to production. COO & Co-Founder at CogniSpace, completing Master's in AI in Business (SP Jain, Dubai), and leading business analysis for a production HRMS at LUC Learners.";
+  "97% prediction accuracy. 380M lives targeted. 20+ AI products shipped across 5 industries. I architect AI systems that predict dust storms, protect outdoor workers from heatwaves, and automate enterprise operations. COO & Co-Founder at CogniSpace. Master's in AI in Business (SP Jain, Dubai). Leading business analysis for a production HRMS at LUC Learners.";
 
 export const BOOT_LINES = [
   "[SwaroopOS v2.0]",

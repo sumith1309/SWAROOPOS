@@ -88,8 +88,7 @@ export default function HeroSection() {
           transition={{ delay: 1 }}
           className="text-[16px] text-[#94A3B8] max-w-xl mx-auto leading-relaxed mb-14"
         >
-          97% prediction accuracy. 380M lives targeted. 20+ AI products shipped.
-          From dust storm prediction to heatwave early warning — I build AI that solves real problems.
+          97% prediction accuracy. 380M lives targeted. 20+ AI products shipped across 5 industries. I build AI that solves real problems.
         </motion.p>
 
         {/* Stats */}
