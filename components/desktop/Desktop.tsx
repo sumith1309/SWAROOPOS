@@ -15,6 +15,7 @@ import SpotlightSearch from "./SpotlightSearch";
 import ContextMenu from "./ContextMenu";
 import NotificationCenter from "./NotificationCenter";
 import SmartRecommendations from "./SmartRecommendations";
+import FlagshipSpotlight from "./FlagshipSpotlight";
 
 export default function Desktop({ onLock }: { onLock?: () => void }) {
   const [isMobile, setIsMobile] = useState(false);
@@ -164,11 +165,28 @@ function DesktopView({ openWindow, isDark }: { openWindow: (id: AppId) => void; 
           </div>
 
           <p className={`text-[17px] mb-1 font-medium ${isDark ? "text-white/70" : "text-[#64748B]"}`}>
-            AI Product Manager & Full-Stack Builder
+            I architect AI systems that predict, protect, and automate
           </p>
-          <p className={`text-[14px] leading-relaxed mb-8 ${isDark ? "text-white/50" : "text-[#94A3B8]"}`}>
-            COO & Co-Founder at CogniSpace. Building intelligent systems across 5 industries. 20+ products shipped with 97% accuracy.
+          <p className={`text-[14px] leading-relaxed mb-4 ${isDark ? "text-white/50" : "text-[#94A3B8]"}`}>
+            97% prediction accuracy. 380M lives targeted. 20+ AI products shipped. From dust storm prediction to heatwave early warning — I build AI that solves real problems.
           </p>
+
+          {/* Impact proof ticker */}
+          <div className="flex flex-wrap gap-3 mb-6">
+            {[
+              { metric: "97% Accuracy", project: "Sahara Sense", color: "#F59E0B" },
+              { metric: "380M Protected", project: "Garmi Mitra", color: "#10B981" },
+              { metric: "Zero-Defect Deploys", project: "HRMS", color: "#3B82F6" },
+            ].map((item, i) => (
+              <motion.div key={item.project} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 + i * 0.1 }}
+                className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-[11px] font-semibold ${isDark ? "bg-white/5 border border-white/10" : "bg-white/60 border border-[rgba(0,0,0,0.06)]"}`}>
+                <span className="w-1.5 h-1.5 rounded-full" style={{ background: item.color }} />
+                <span className={isDark ? "text-white/70" : "text-[#475569]"}>{item.metric}</span>
+                <span className={isDark ? "text-white/30" : "text-[#94A3B8]"}>—</span>
+                <span className={isDark ? "text-white/40" : "text-[#94A3B8]"}>{item.project}</span>
+              </motion.div>
+            ))}
+          </div>
 
           <div className="flex gap-3 flex-wrap">
             <a href="https://github.com/sumith1309" target="_blank" rel="noopener noreferrer"
@@ -249,7 +267,7 @@ function DesktopView({ openWindow, isDark }: { openWindow: (id: AppId) => void; 
         <div className="flex flex-col gap-3 w-[180px]">
           <AnalogClock isDark={isDark} />
           <NowPlayingWidget isDark={isDark} />
-          <SystemWidget isDark={isDark} />
+          <FlagshipSpotlight isDark={isDark} />
         </div>
         {/* Column 2: Weather + GitHub + Stats */}
         <div className="flex flex-col gap-3 w-[180px]">
@@ -290,11 +308,26 @@ function MobileView({ openWindow, isDark }: { openWindow: (id: AppId) => void; i
         </h1>
 
         <p className={`text-[15px] font-medium mb-1 ${isDark ? "text-white/70" : "text-[#64748B]"}`}>
-          AI Product Manager & Full-Stack Builder
+          I architect AI systems that predict, protect, and automate
         </p>
-        <p className={`text-[13px] leading-relaxed mb-5 ${isDark ? "text-white/50" : "text-[#94A3B8]"}`}>
-          COO & Co-Founder at CogniSpace. 20+ products across 5 industries.
+        <p className={`text-[13px] leading-relaxed mb-3 ${isDark ? "text-white/50" : "text-[#94A3B8]"}`}>
+          97% accuracy. 380M lives targeted. 20+ AI products across 5 industries.
         </p>
+
+        {/* Impact proof ticker */}
+        <div className="flex flex-wrap gap-2 mb-4">
+          {[
+            { metric: "97% Accuracy", project: "Sahara Sense", color: "#F59E0B" },
+            { metric: "380M Protected", project: "Garmi Mitra", color: "#10B981" },
+            { metric: "Zero-Defect", project: "HRMS", color: "#3B82F6" },
+          ].map((item) => (
+            <div key={item.project}
+              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-semibold ${isDark ? "bg-white/5 border border-white/10" : "bg-white/60 border border-[rgba(0,0,0,0.06)]"}`}>
+              <span className="w-1 h-1 rounded-full" style={{ background: item.color }} />
+              <span className={isDark ? "text-white/60" : "text-[#475569]"}>{item.metric}</span>
+            </div>
+          ))}
+        </div>
 
         <div className="flex gap-2 flex-wrap">
           <a href="https://github.com/sumith1309" target="_blank" rel="noopener noreferrer"

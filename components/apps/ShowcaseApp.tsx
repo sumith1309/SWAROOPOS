@@ -101,6 +101,7 @@ export default function ShowcaseApp() {
                       )}
                     </div>
                     {product.tagline && <div className="text-[11px] text-white/60 mt-0.5 line-clamp-1">{product.tagline}</div>}
+                    {isActive && product.impact && <div className="text-[10px] text-[#10B981] mt-1 line-clamp-1 font-medium">↗ {product.impact.split(".")[0]}</div>}
                   </div>
                 </div>
               </motion.div>

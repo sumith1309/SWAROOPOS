@@ -10,7 +10,7 @@ export const KNOWLEDGE_BASE = `
 - Location: Dubai, UAE (Open to Hyderabad, India)
 - Top Skills: Vibe Coding, Artificial Intelligence (AI), Revit
 - Education: Master's degree in Artificial Intelligence, SP Jain School of Global Management (Sep 2024 – Aug 2026, Expected). Campuses: Singapore, Sydney, Dubai. Previous: Bachelor of Commerce, Badruka College, Hyderabad (2019–2022).
-- Summary: AI Product Manager and startup co-founder with hands-on experience defining, building, and shipping 20+ AI-powered digital products across healthcare, education, HR tech, and supply chain domains.
+- Summary: 97% prediction accuracy. 380M lives targeted. 20+ AI products shipped across 5 industries. I architect AI systems that predict dust storms, protect outdoor workers from heatwaves, and automate enterprise operations — then ship them to production.
 - Contact: Email: sumithswaroop@gmail.com | Phone: +91 9490064789 | LinkedIn: linkedin.com/in/jyothi-swaroop-753116295 | GitHub: github.com/sumith1309
 - CV: Visitors can download Swaroop's latest CV directly from the portfolio website.
 

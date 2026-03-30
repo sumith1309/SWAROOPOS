@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { CAREER, EDUCATION, PROFESSIONAL_SUMMARY } from "@/lib/data";
+import { CAREER, EDUCATION, PROFESSIONAL_SUMMARY, CERTIFICATIONS } from "@/lib/data";
 
 export default function AboutApp() {
   return (
@@ -11,7 +11,7 @@ export default function AboutApp() {
         background: "linear-gradient(180deg, rgba(59, 130, 246, 0.06) 0%, transparent 100%)"
       }}>
         <h2 className="text-[24px] font-heading font-semibold text-gradient-accent mb-1">S. Jyothi Swaroop</h2>
-        <p className="text-[13px] font-mono text-[#94A3B8]">AI Product Manager · COO & Co-Founder · Dubai, UAE</p>
+        <p className="text-[13px] font-mono text-[#94A3B8]">I architect AI systems that predict, protect, and automate</p>
         <div className="gradient-line mt-4" />
       </div>
 
@@ -126,6 +126,27 @@ export default function AboutApp() {
               </div>
             </div>
           ))}
+        </motion.div>
+
+        {/* Certifications */}
+        <motion.div
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: CAREER.length * 0.1 + 0.1, duration: 0.3 }}
+          className="relative mt-6"
+        >
+          <div className="flex items-center gap-3 mb-3">
+            <span className="text-[16px] font-mono font-medium text-[#10B981]">certs</span>
+            <span className="text-[18px] font-heading font-medium text-[#0F172A]">Certifications</span>
+          </div>
+          <div className="grid grid-cols-1 gap-1.5">
+            {CERTIFICATIONS.map((cert) => (
+              <div key={cert} className="flex items-center gap-2 text-[13px] text-[#475569] p-2 rounded-[10px] bg-[#F8FAFC]">
+                <span className="w-5 h-5 rounded-md flex items-center justify-center text-[10px] bg-[#10B98110] text-[#10B981] font-bold shrink-0">✓</span>
+                {cert}
+              </div>
+            ))}
+          </div>
         </motion.div>
       </div>
     </div>

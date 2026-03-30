@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useStore } from "@/lib/store";
 import { ALL_PRODUCTS, DOMAINS } from "@/lib/data";
 import { X, ExternalLink, ArrowRight } from "lucide-react";
+import ArchitectureDiagram from "./ArchitectureDiagram";
 
 export default function ProjectDetail() {
   const activeProjectId = useStore((s) => s.activeProjectId);
@@ -119,11 +120,7 @@ export default function ProjectDetail() {
                 <div className="w-6 h-6 rounded-lg flex items-center justify-center text-[10px] font-bold" style={{ background: `${domain.color}10`, color: domain.color }}>&lt;/&gt;</div>
                 <h3 className="text-[13px] font-heading font-bold text-[#0F172A] uppercase tracking-wider">Architecture</h3>
               </div>
-              <div className="pl-8">
-                <div className="text-[12px] font-mono text-[#64748B] leading-relaxed p-3 rounded-[12px] bg-[#F8FAFC] border border-[rgba(0,0,0,0.04)] overflow-x-auto">
-                  {product.architecture}
-                </div>
-              </div>
+              <ArchitectureDiagram architecture={product.architecture} color={domain.color} />
             </motion.div>
           )}
 

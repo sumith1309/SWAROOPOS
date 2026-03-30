@@ -85,23 +85,15 @@ export default function ProductCard({ product, onOpen }: ProductCardProps) {
           </div>
         )}
 
-        {/* Tech pills */}
-        <div className="flex flex-wrap gap-1.5 mb-3">
-          {product.techStack.flatMap((c) => c.items.slice(0, 6)).map((t) => (
-            <span key={t} className="text-[10px] font-medium px-2 py-0.5 rounded-full"
-              style={{ color: `${color}CC`, background: `${color}06`, border: `1px solid ${color}12` }}>
-              {t}
-            </span>
-          ))}
-          {product.techStack.reduce((s, c) => s + c.items.length, 0) > 6 && (
-            <span className="text-[10px] text-[#94A3B8] self-center">
-              +{product.techStack.reduce((s, c) => s + c.items.length, 0) - 6}
-            </span>
-          )}
-        </div>
+        {/* Impact line */}
+        {product.impact && (
+          <p className="text-[11px] text-[#10B981] font-medium mb-3 line-clamp-1">
+            ↗ {product.impact.split(".")[0]}
+          </p>
+        )}
 
         {/* Actions */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 mb-2">
           <span className="text-[12px] font-semibold opacity-0 group-hover:opacity-100 transition-opacity" style={{ color }}>
             Explore project →
           </span>
@@ -113,6 +105,21 @@ export default function ProductCard({ product, onOpen }: ProductCardProps) {
               </svg>
               Source
             </a>
+          )}
+        </div>
+
+        {/* Tech pills (compact) */}
+        <div className="flex flex-wrap gap-1">
+          {product.techStack.flatMap((c) => c.items.slice(0, 4)).map((t) => (
+            <span key={t} className="text-[9px] font-medium px-1.5 py-0.5 rounded-full"
+              style={{ color: `${color}99`, background: `${color}04`, border: `1px solid ${color}08` }}>
+              {t}
+            </span>
+          ))}
+          {product.techStack.reduce((s, c) => s + c.items.length, 0) > 4 && (
+            <span className="text-[9px] text-[#CBD5E1] self-center">
+              +{product.techStack.reduce((s, c) => s + c.items.length, 0) - 4}
+            </span>
           )}
         </div>
       </div>

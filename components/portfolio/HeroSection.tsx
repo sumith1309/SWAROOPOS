@@ -78,7 +78,7 @@ export default function HeroSection() {
           transition={{ delay: 0.8 }}
           className="text-[clamp(18px,3vw,26px)] text-[#64748B] font-light mb-4"
         >
-          AI Product Manager & Full-Stack Builder
+          I architect AI systems that predict, protect, and automate
         </motion.p>
 
         {/* Tagline */}
@@ -88,8 +88,8 @@ export default function HeroSection() {
           transition={{ delay: 1 }}
           className="text-[16px] text-[#94A3B8] max-w-xl mx-auto leading-relaxed mb-14"
         >
-          From construction sites to AI labs — building intelligent systems
-          that serve millions across 5 industries. COO & Co-Founder at CogniSpace.
+          97% prediction accuracy. 380M lives targeted. 20+ AI products shipped.
+          From dust storm prediction to heatwave early warning — I build AI that solves real problems.
         </motion.p>
 
         {/* Stats */}
