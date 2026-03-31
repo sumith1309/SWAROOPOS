@@ -670,16 +670,16 @@ export const CAREER: CareerEntry[] = [
   {
     version: "v1.3",
     company: "Learners Education",
-    role: "Business Analyst & Digital Product Manager (Intern)",
+    role: "AI Product Manager & Full-Stack Developer (Intern)",
     period: "Feb 2026 – Present",
     location: "Dubai, UAE",
     active: true,
     highlights: [
-      "Led product requirements and sprint coordination for multi-tenant HRMS serving 3 organizations and 80+ employees",
-      "Defined specifications across 12 modules: attendance, leave, payroll, recruitment, performance, helpdesk, reports, dashboard, notifications, announcements, salary certificates, employee management",
-      "Coordinated 6-phase delivery lifecycle from policy engine through biometric integration, payroll settlement, and production go-live",
-      "Managed BioTime biometric integration (ZKTeco devices) for 64+ field employees",
-      "Zero-defect production deployments (10/10 + 14/14 acceptance criteria)",
+      "Single-handedly built and deployed a production multi-tenant HRMS platform now live and serving 3 organizations and 80+ employees daily",
+      "Architected and developed all 12 modules end-to-end: attendance, leave, payroll, recruitment, performance, helpdesk, reports, dashboard, notifications, announcements, salary certificates, employee management",
+      "Engineered 6-phase delivery lifecycle from policy engine through biometric integration, payroll settlement, and production go-live",
+      "Integrated BioTime biometric system (ZKTeco devices) with timezone handling and employee mapping for 64+ field employees",
+      "Achieved zero-defect production deployments (10/10 + 14/14 acceptance criteria across all phases)",
     ],
     stack: ["Django 5.2", "Next.js 15", "PostgreSQL", "Redis", "Celery"],
   },
@@ -806,7 +806,7 @@ export const CONTACT = {
 };
 
 export const PROFESSIONAL_SUMMARY =
-  "97% prediction accuracy. 380M lives targeted. 20+ AI products shipped across 5 industries. I architect AI systems that predict dust storms, protect outdoor workers from heatwaves, and automate enterprise operations. COO & Co-Founder at CogniSpace. Master's in AI in Business (SP Jain, Dubai). Leading business analysis for a production HRMS at LUC Learners.";
+  "97% prediction accuracy. 380M lives targeted. 20+ AI products built across 5 industries. I architect AI systems that predict dust storms, protect outdoor workers from heatwaves, and automate enterprise operations. Single-handedly built and deployed a production HRMS platform serving 80+ employees daily. COO & Co-Founder at CogniSpace. Master's in AI in Business (SP Jain, Dubai).";
 
 export const BOOT_LINES = [
   "[SwaroopOS v2.0]",

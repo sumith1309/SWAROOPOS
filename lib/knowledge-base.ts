@@ -24,12 +24,12 @@ export const KNOWLEDGE_BASE = `
 - Designed immersive 3D landing with Three.js, 18 UI components
 - Stack: Next.js 16, React 19, TypeScript, Three.js, tRPC, PostgreSQL, Redis, Stripe, AWS
 
-### v1.3 — Learners Education (Feb 2026 – Present) | Business Analyst & Digital Product Manager (Intern) | Dubai, UAE
-- Led product requirements, roadmap planning, and sprint coordination for multi-tenant enterprise HRMS serving 3 organizations and 80+ employees
-- Defined and documented functional specifications across 12 modules: attendance, leave, payroll, recruitment, performance, helpdesk, reports, dashboard, notifications, announcements, salary certificates, and employee management
-- Coordinated 6-phase product delivery lifecycle from policy engine design through biometric integration, leave lifecycle, payroll settlement, live dashboards, and production go-live
-- Managed BioTime biometric integration (ZKTeco devices), defining sync requirements, timezone handling, and employee mapping for 64+ field employees
-- Authored acceptance criteria for each phase (10/10 pass rate across Phases 1-5, 14/14 for Phase 6), ensuring zero-defect production deployments
+### v1.3 — Learners Education (Feb 2026 – Present) | AI Product Manager & Full-Stack Developer (Intern) | Dubai, UAE
+- Single-handedly built and deployed a production multi-tenant HRMS platform now live and serving 3 organizations and 80+ employees daily
+- Architected and developed all 12 modules end-to-end: attendance, leave, payroll, recruitment, performance, helpdesk, reports, dashboard, notifications, announcements, salary certificates, employee management
+- Engineered 6-phase delivery lifecycle from policy engine through biometric integration, payroll settlement, and production go-live
+- Integrated BioTime biometric system (ZKTeco devices) with timezone handling and employee mapping for 64+ field employees
+- Achieved zero-defect production deployments (10/10 + 14/14 acceptance criteria across all phases)
 - Stack: Django 5.2, Next.js 15, PostgreSQL, Redis, Celery
 
 ### v1.2 — SP Jain JPT (Jun – Dec 2025) | Project Manager | Dubai, UAE
