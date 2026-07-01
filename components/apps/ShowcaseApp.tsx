@@ -7,7 +7,13 @@ import { ALL_PRODUCTS, DOMAINS, type Product } from "@/lib/data";
 
 // Unique image per project (keyed by product id)
 const PROJECT_IMAGES: Record<string, string> = {
-  // Featured
+  // Tier 1 — Production
+  "hrms": "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&q=80",             // office operations
+  "samba-retail": "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&q=80",     // retail storefront
+  "advait": "https://images.unsplash.com/photo-1518432031352-d6fc5c10da5a?w=600&q=80",           // server racks / systems
+  "webq-team": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80",        // marketing analytics
+  "prism-rag": "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&q=80",           // network light prism
+  "urban-illusion": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600&q=80",      // neon graphics craft
   "alia": "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&q=80",             // AI learning
   "sahara-sense": "https://images.unsplash.com/photo-1534088568595-a066f410bcda?w=600&q=80",      // dust storm clouds
   "garmi-mitra": "https://images.unsplash.com/photo-1561484930-998b6a7b22e8?w=600&q=80",          // heatwave sun
@@ -50,8 +56,8 @@ export default function ShowcaseApp() {
 
   return (
     <div className="p-4 bg-[#0A0A0F] min-h-[450px] text-white" onMouseEnter={() => setHovering(true)} onMouseLeave={() => setHovering(false)}>
-      <h3 className="text-[14px] font-heading font-bold text-white/90 mb-2 px-1">Project Showcase</h3>
-      <p className="text-[12px] text-white/40 mb-6 px-1">All {ALL_PRODUCTS.length} AI products</p>
+      <h3 className="text-[14px] font-heading font-bold text-white/90 mb-2 px-1">Work Showcase</h3>
+      <p className="text-[12px] text-white/40 mb-6 px-1">Production first — {ALL_PRODUCTS.length} systems, shipped work leading</p>
 
       {/* Card stack area */}
       <div className="relative h-[280px] flex items-center justify-center" style={{ perspective: "1100px" }}>
@@ -96,8 +102,14 @@ export default function ShowcaseApp() {
                   <div className="absolute bottom-0 left-0 right-0 p-4">
                     <div className="flex items-center gap-2">
                       <div className="text-[16px] font-bold text-white">{product.name}</div>
-                      {product.featured && (
-                        <span className="text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded-full bg-white/20 text-white/80 font-bold">Featured</span>
+                      {product.status === "live" && (
+                        <span className="flex items-center gap-1 text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded-full bg-[#10B981]/25 text-[#6EE7B7] font-bold">
+                          <span className="w-1 h-1 rounded-full bg-[#10B981]" />
+                          Live
+                        </span>
+                      )}
+                      {product.tier === "production" && product.status !== "live" && (
+                        <span className="text-[8px] uppercase tracking-wider px-1.5 py-0.5 rounded-full bg-white/20 text-white/80 font-bold">Flagship</span>
                       )}
                     </div>
                     {product.tagline && <div className="text-[11px] text-white/60 mt-0.5 line-clamp-1">{product.tagline}</div>}
@@ -126,6 +138,13 @@ export default function ShowcaseApp() {
           <ChevronRight className="w-4 h-4" />
         </button>
 
+        {ALL_PRODUCTS[active]?.website && (
+          <a href={ALL_PRODUCTS[active].website} target="_blank" rel="noopener noreferrer"
+            className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider text-[#6EE7B7] hover:text-white transition">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />
+            Open Live
+          </a>
+        )}
         {ALL_PRODUCTS[active]?.github && (
           <a href={ALL_PRODUCTS[active].github} target="_blank" rel="noopener noreferrer" className="text-white/50 hover:text-white transition">
             <ExternalLink className="w-4 h-4" />

@@ -11,22 +11,13 @@ export default function AboutApp() {
         background: "linear-gradient(180deg, rgba(59, 130, 246, 0.06) 0%, transparent 100%)"
       }}>
         <h2 className="text-[24px] font-heading font-semibold text-gradient-accent mb-1">S. Jyothi Swaroop</h2>
-        <p className="text-[13px] font-mono text-[#94A3B8]">I architect AI systems that predict, protect, and automate</p>
+        <p className="text-[13px] font-mono text-[#94A3B8]">I build production systems that businesses run on</p>
         <div className="gradient-line mt-4" />
       </div>
 
       {/* Professional Summary */}
       <div>
-        <p className="text-[15px] leading-[1.7] text-[#64748B]">
-          {PROFESSIONAL_SUMMARY.split(/(20\+ AI-powered digital products|5 domains|healthcare, education, HR tech, and supply chain)/g).map(
-            (part, i) =>
-              ["20+ AI-powered digital products", "5 domains", "healthcare, education, HR tech, and supply chain"].includes(part) ? (
-                <span key={i} className="text-[#0F172A] font-medium">{part}</span>
-              ) : (
-                <span key={i}>{part}</span>
-              )
-          )}
-        </p>
+        <p className="text-[15px] leading-[1.7] text-[#64748B]">{PROFESSIONAL_SUMMARY}</p>
       </div>
 
       {/* Timeline header */}

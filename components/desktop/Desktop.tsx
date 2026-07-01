@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useStore, WALLPAPERS, type AppId } from "@/lib/store";
-import { FlipLink } from "@/components/ui/flip-links";
+import { HEADLINE, SUBLINE, CONTACT, ALL_PRODUCTS, LIVE_PRODUCTS } from "@/lib/data";
 import Taskbar from "./Taskbar";
 import Dock from "./Dock";
 import WindowManager from "./WindowManager";
@@ -76,12 +76,12 @@ export default function Desktop({ onLock }: { onLock?: () => void }) {
   );
 }
 
-/* ─── Quick Stats ─── */
+/* ─── Quick Stats — computed from real data, no vanity metrics ─── */
 function QuickStats({ isDark }: { isDark: boolean }) {
   const stats = [
-    { value: "20+", label: "Products", color: "#3B82F6" },
+    { value: `${LIVE_PRODUCTS.length}`, label: "Live", color: "#10B981" },
+    { value: `${ALL_PRODUCTS.length}`, label: "Systems", color: "#3B82F6" },
     { value: "5", label: "Domains", color: "#8B5CF6" },
-    { value: "97%", label: "Accuracy", color: "#10B981" },
   ];
   return (
     <motion.div
@@ -102,40 +102,6 @@ function QuickStats({ isDark }: { isDark: boolean }) {
   );
 }
 
-/* ─── System Status ─── */
-function SystemWidget({ isDark }: { isDark: boolean }) {
-  const [uptime, setUptime] = useState("");
-  useEffect(() => {
-    const start = Date.now();
-    const update = () => {
-      const elapsed = Math.floor((Date.now() - start) / 1000);
-      const m = Math.floor(elapsed / 60);
-      const s = elapsed % 60;
-      setUptime(`${m}m ${s}s`);
-    };
-    update();
-    const interval = setInterval(update, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.6 }}
-      className={`p-3 ${isDark ? "liquid-glass-sm-dark" : "liquid-glass-sm"}`}
-    >
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse-soft" />
-          <span className={`text-[10px] font-semibold ${isDark ? "text-white/60" : "text-[#6B6B70]"}`}>System Online</span>
-        </div>
-        <span className={`text-[10px] font-mono ${isDark ? "text-white/40" : "text-[#8E8E93]"}`}>{uptime}</span>
-      </div>
-    </motion.div>
-  );
-}
-
 /* ─── Desktop View: Hero + Widgets (no app grid) ─── */
 function DesktopView({ openWindow, isDark }: { openWindow: (id: AppId) => void; isDark: boolean }) {
   return (
@@ -150,64 +116,60 @@ function DesktopView({ openWindow, isDark }: { openWindow: (id: AppId) => void; 
         >
           <div className="flex items-center gap-2 mb-5">
             <div className="w-2.5 h-2.5 rounded-full bg-[#10B981] animate-pulse-soft" />
-            <span className={`text-[12px] font-mono font-medium ${isDark ? "text-white/60" : "text-[#64748B]"}`}>Available · Open to Work Globally</span>
+            <span className={`text-[12px] font-mono font-medium ${isDark ? "text-white/60" : "text-[#64748B]"}`}>
+              S. Jyothi Swaroop · Available · Dubai, UAE
+            </span>
           </div>
 
-          <div className="mb-2">
-            <FlipLink className={`text-[42px] font-heading tracking-[-0.03em] cursor-default ${isDark ? "text-white" : "text-[#0F172A]"}`}>
-              S. Jyothi
-            </FlipLink>
-            <FlipLink
-              className="text-[42px] font-heading tracking-[-0.03em] cursor-default"
-              gradient="linear-gradient(135deg, #6366F1 0%, #8B5CF6 35%, #EC4899 70%, #F43F5E 100%)"
-            >
-              Swaroop
-            </FlipLink>
-          </div>
+          <h1 className={`text-[34px] leading-[1.12] font-heading font-bold tracking-[-0.03em] mb-3 ${isDark ? "text-white" : "text-[#0F172A]"}`}>
+            {HEADLINE}
+          </h1>
 
-          <p className={`text-[17px] mb-1 font-medium ${isDark ? "text-white/70" : "text-[#64748B]"}`}>
-            I architect AI systems that predict, protect, and automate
-          </p>
-          <p className={`text-[14px] leading-relaxed mb-4 ${isDark ? "text-white/50" : "text-[#94A3B8]"}`}>
-            97% prediction accuracy. 380M lives targeted. 20+ AI products shipped across 5 industries. I build AI that solves real problems.
+          <p className={`text-[14px] leading-relaxed mb-4 ${isDark ? "text-white/60" : "text-[#64748B]"}`}>
+            {SUBLINE}
           </p>
 
-          {/* Impact proof ticker */}
+          {/* Production proof ticker — real shipped systems */}
           <div className="flex flex-wrap gap-3 mb-6">
             {[
-              { metric: "97% Accuracy", project: "Sahara Sense", color: "#F59E0B" },
-              { metric: "380M Protected", project: "Garmi Mitra", color: "#10B981" },
-              { metric: "Zero-Defect Deploys", project: "HRMS", color: "#3B82F6" },
+              { metric: "HRMS — Live · 80+ daily users", tag: "Solo", color: "#10B981" },
+              { metric: "Samba Retail — Live client site", tag: "Solo", color: "#10B981" },
+              { metric: "ALIA — RAG on AWS EC2", tag: "LMS · my system", color: "#8B5CF6" },
             ].map((item, i) => (
-              <motion.div key={item.project} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 + i * 0.1 }}
+              <motion.div key={item.metric} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 + i * 0.1 }}
                 className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-[11px] font-semibold ${isDark ? "bg-white/5 border border-white/10" : "bg-white/60 border border-[rgba(0,0,0,0.06)]"}`}>
                 <span className="w-1.5 h-1.5 rounded-full" style={{ background: item.color }} />
                 <span className={isDark ? "text-white/70" : "text-[#475569]"}>{item.metric}</span>
-                <span className={isDark ? "text-white/30" : "text-[#94A3B8]"}>—</span>
-                <span className={isDark ? "text-white/40" : "text-[#94A3B8]"}>{item.project}</span>
+                <span className={isDark ? "text-white/30" : "text-[#94A3B8]"}>·</span>
+                <span className={isDark ? "text-white/40" : "text-[#94A3B8]"}>{item.tag}</span>
               </motion.div>
             ))}
           </div>
 
+          {/* Recruiter fast-path */}
           <div className="flex gap-3 flex-wrap">
-            <a href="https://github.com/sumith1309" target="_blank" rel="noopener noreferrer"
-              className="px-5 py-2.5 rounded-full bg-[#0F172A] text-white text-[13px] font-semibold hover:bg-[#1E293B] transition-colors flex items-center gap-2">
+            <button onClick={() => openWindow("showcase")}
+              className="px-5 py-2.5 rounded-full bg-[#0F172A] text-white text-[13px] font-semibold hover:bg-[#1E293B] transition-colors cursor-pointer">
+              View Production Work
+            </button>
+            <a href="/api/cv" target="_blank" rel="noopener noreferrer"
+              className="px-5 py-2.5 rounded-full text-[13px] font-semibold transition-all flex items-center gap-2 bg-[#1e40af] text-white hover:bg-[#1d4ed8]">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download Resume
+            </a>
+            <a href={CONTACT.github} target="_blank" rel="noopener noreferrer"
+              className={`px-5 py-2.5 rounded-full border text-[13px] font-semibold transition-all flex items-center gap-2 ${isDark ? "border-white/20 text-white/80 hover:bg-white/10" : "border-[rgba(0,0,0,0.1)] text-[#475569] hover:bg-white/80"}`}>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5"/></svg>
               GitHub
             </a>
-            <button onClick={() => openWindow("contact")}
+            <a href={CONTACT.linkedin} target="_blank" rel="noopener noreferrer"
               className={`px-5 py-2.5 rounded-full border text-[13px] font-semibold transition-all cursor-pointer ${isDark ? "border-white/20 text-white/80 hover:bg-white/10" : "border-[rgba(0,0,0,0.1)] text-[#475569] hover:bg-white/80"}`}>
-              Contact Me
-            </button>
-            <button onClick={() => openWindow("showcase")}
-              className={`px-5 py-2.5 rounded-full text-[13px] font-semibold transition-all cursor-pointer ${isDark ? "bg-white/10 text-white/70 hover:bg-white/15" : "bg-[rgba(0,0,0,0.04)] text-[#64748B] hover:bg-[rgba(0,0,0,0.08)]"}`}>
-              View Work
-            </button>
-            <a href="/api/cv" target="_blank" rel="noopener noreferrer"
-              className={`px-5 py-2.5 rounded-full text-[13px] font-semibold transition-all flex items-center gap-2 ${isDark ? "bg-[#1e40af] text-white hover:bg-[#1d4ed8]" : "bg-[#1e40af] text-white hover:bg-[#1d4ed8]"}`}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              Download CV
+              LinkedIn
             </a>
+            <button onClick={() => openWindow("contact")}
+              className={`px-5 py-2.5 rounded-full text-[13px] font-semibold transition-all cursor-pointer ${isDark ? "bg-white/10 text-white/70 hover:bg-white/15" : "bg-[rgba(0,0,0,0.04)] text-[#64748B] hover:bg-[rgba(0,0,0,0.08)]"}`}>
+              Contact
+            </button>
           </div>
         </motion.div>
 
@@ -295,35 +257,27 @@ function MobileView({ openWindow, isDark }: { openWindow: (id: AppId) => void; i
       >
         <div className="flex items-center gap-2 mb-3">
           <div className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse-soft" />
-          <span className={`text-[11px] font-mono font-medium ${isDark ? "text-white/60" : "text-[#64748B]"}`}>Available · Open to Work Globally</span>
+          <span className={`text-[11px] font-mono font-medium ${isDark ? "text-white/60" : "text-[#64748B]"}`}>
+            S. Jyothi Swaroop · Available · Dubai, UAE
+          </span>
         </div>
 
-        <h1 className={`text-[32px] font-heading font-bold leading-tight tracking-[-0.02em] ${isDark ? "text-white" : "text-[#0F172A]"}`}>
-          S. Jyothi
-        </h1>
-        <h1 className="text-[32px] font-heading font-bold leading-tight tracking-[-0.02em] mb-2" style={{
-          background: "linear-gradient(135deg, #6366F1 0%, #8B5CF6 35%, #EC4899 70%, #F43F5E 100%)",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
-        }}>
-          Swaroop
+        <h1 className={`text-[26px] font-heading font-bold leading-[1.15] tracking-[-0.02em] mb-2 ${isDark ? "text-white" : "text-[#0F172A]"}`}>
+          {HEADLINE}
         </h1>
 
-        <p className={`text-[15px] font-medium mb-1 ${isDark ? "text-white/70" : "text-[#64748B]"}`}>
-          I architect AI systems that predict, protect, and automate
-        </p>
-        <p className={`text-[13px] leading-relaxed mb-3 ${isDark ? "text-white/50" : "text-[#94A3B8]"}`}>
-          97% accuracy. 380M lives targeted. 20+ AI products across 5 industries.
+        <p className={`text-[13px] leading-relaxed mb-3 ${isDark ? "text-white/60" : "text-[#64748B]"}`}>
+          {SUBLINE}
         </p>
 
-        {/* Impact proof ticker */}
+        {/* Production proof ticker */}
         <div className="flex flex-wrap gap-2 mb-4">
           {[
-            { metric: "97% Accuracy", project: "Sahara Sense", color: "#F59E0B" },
-            { metric: "380M Protected", project: "Garmi Mitra", color: "#10B981" },
-            { metric: "Zero-Defect", project: "HRMS", color: "#3B82F6" },
+            { metric: "HRMS — Live · 80+ users", color: "#10B981" },
+            { metric: "Samba Retail — Live", color: "#10B981" },
+            { metric: "ALIA — RAG on EC2", color: "#8B5CF6" },
           ].map((item) => (
-            <div key={item.project}
+            <div key={item.metric}
               className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-semibold ${isDark ? "bg-white/5 border border-white/10" : "bg-white/60 border border-[rgba(0,0,0,0.06)]"}`}>
               <span className="w-1 h-1 rounded-full" style={{ background: item.color }} />
               <span className={isDark ? "text-white/60" : "text-[#475569]"}>{item.metric}</span>
@@ -332,24 +286,28 @@ function MobileView({ openWindow, isDark }: { openWindow: (id: AppId) => void; i
         </div>
 
         <div className="flex gap-2 flex-wrap">
-          <a href="https://github.com/sumith1309" target="_blank" rel="noopener noreferrer"
-            className="px-4 py-2 rounded-full bg-[#0F172A] text-white text-[12px] font-semibold flex items-center gap-1.5">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5"/></svg>
-            GitHub
-          </a>
-          <button onClick={() => openWindow("contact")}
-            className={`px-4 py-2 rounded-full border text-[12px] font-semibold cursor-pointer ${isDark ? "border-white/20 text-white/80" : "border-[rgba(0,0,0,0.1)] text-[#475569]"}`}>
-            Contact Me
-          </button>
           <button onClick={() => openWindow("showcase")}
-            className={`px-4 py-2 rounded-full text-[12px] font-semibold cursor-pointer ${isDark ? "bg-white/10 text-white/70" : "bg-[rgba(0,0,0,0.04)] text-[#64748B]"}`}>
-            View Work
+            className="px-4 py-2 rounded-full bg-[#0F172A] text-white text-[12px] font-semibold cursor-pointer">
+            View Production Work
           </button>
           <a href="/api/cv" target="_blank" rel="noopener noreferrer"
             className="px-4 py-2 rounded-full bg-[#1e40af] text-white text-[12px] font-semibold flex items-center gap-1.5">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Download CV
+            Resume
           </a>
+          <a href={CONTACT.github} target="_blank" rel="noopener noreferrer"
+            className={`px-4 py-2 rounded-full border text-[12px] font-semibold flex items-center gap-1.5 ${isDark ? "border-white/20 text-white/80" : "border-[rgba(0,0,0,0.1)] text-[#475569]"}`}>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5"/></svg>
+            GitHub
+          </a>
+          <a href={CONTACT.linkedin} target="_blank" rel="noopener noreferrer"
+            className={`px-4 py-2 rounded-full border text-[12px] font-semibold ${isDark ? "border-white/20 text-white/80" : "border-[rgba(0,0,0,0.1)] text-[#475569]"}`}>
+            LinkedIn
+          </a>
+          <button onClick={() => openWindow("contact")}
+            className={`px-4 py-2 rounded-full text-[12px] font-semibold cursor-pointer ${isDark ? "bg-white/10 text-white/70" : "bg-[rgba(0,0,0,0.04)] text-[#64748B]"}`}>
+            Contact
+          </button>
         </div>
       </motion.div>
 
@@ -383,10 +341,10 @@ function MobileView({ openWindow, isDark }: { openWindow: (id: AppId) => void; i
       >
         <div className="flex items-center justify-around">
           {[
-            { value: "20+", label: "Products", color: "#3B82F6" },
+            { value: `${LIVE_PRODUCTS.length}`, label: "Live", color: "#10B981" },
+            { value: `${ALL_PRODUCTS.length}`, label: "Systems", color: "#3B82F6" },
             { value: "5", label: "Domains", color: "#8B5CF6" },
-            { value: "97%", label: "Accuracy", color: "#10B981" },
-            { value: "22", label: "Repos", color: "#F59E0B" },
+            { value: "2019", label: "Since", color: "#F59E0B" },
           ].map((s) => (
             <div key={s.label} className="text-center">
               <div className="text-[18px] font-heading font-bold leading-none" style={{ color: s.color }}>{s.value}</div>

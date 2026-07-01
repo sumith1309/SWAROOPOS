@@ -4,10 +4,9 @@ import { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface GitHubData {
-  repos: number;
-  followers: number;
-  stars: number;
-  contributions: number;
+  repos: number | null;
+  followers: number | null;
+  stars: number | null;
 }
 
 export default function GitHubWidget({ isDark }: { isDark: boolean }) {
@@ -16,27 +15,26 @@ export default function GitHubWidget({ isDark }: { isDark: boolean }) {
   const [summaryLoading, setSummaryLoading] = useState(false);
   const [summaryExpanded, setSummaryExpanded] = useState(false);
 
+  // Live-fetched numbers only — if the API fails we show links, never fake stats.
   useEffect(() => {
     async function fetchGitHub() {
       try {
         const res = await fetch("https://api.github.com/users/sumith1309");
         const user = await res.json();
 
-        // Fetch repos to count stars
         const reposRes = await fetch("https://api.github.com/users/sumith1309/repos?per_page=100&sort=updated");
         const repos = await reposRes.json();
         const totalStars = Array.isArray(repos)
           ? repos.reduce((sum: number, r: { stargazers_count: number }) => sum + (r.stargazers_count || 0), 0)
-          : 0;
+          : null;
 
         setData({
-          repos: user.public_repos || 18,
-          followers: user.followers || 0,
+          repos: typeof user.public_repos === "number" ? user.public_repos : null,
+          followers: typeof user.followers === "number" ? user.followers : null,
           stars: totalStars,
-          contributions: 200 + Math.floor(Math.random() * 50), // Approximate — GitHub doesn't expose this via REST
         });
       } catch {
-        setData({ repos: 18, followers: 5, stars: 12, contributions: 230 });
+        setData({ repos: null, followers: null, stars: null });
       }
     }
     fetchGitHub();
@@ -113,11 +111,12 @@ export default function GitHubWidget({ isDark }: { isDark: boolean }) {
     );
   }
 
+  // Only live-fetched values are shown; nulls are hidden rather than faked.
   const stats = [
     { label: "Repos", value: data.repos, color: "#3B82F6" },
-    { label: "Commits", value: "500+", color: "#10B981" },
-    { label: "Languages", value: "5", color: "#8B5CF6" },
-  ];
+    { label: "Stars", value: data.stars, color: "#F59E0B" },
+    { label: "Followers", value: data.followers, color: "#8B5CF6" },
+  ].filter((s) => s.value !== null && s.value !== undefined);
 
   return (
     <motion.div
@@ -135,24 +134,35 @@ export default function GitHubWidget({ isDark }: { isDark: boolean }) {
         </span>
       </div>
 
-      <div className="flex items-center justify-around">
-        {stats.map((stat, i) => (
-          <motion.div
-            key={stat.label}
-            initial={{ opacity: 0, y: 5 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 + i * 0.08 }}
-            className="text-center"
-          >
-            <div className="text-[18px] font-heading font-bold leading-none" style={{ color: stat.color }}>
-              {stat.value}
-            </div>
-            <div className={`text-[8px] uppercase tracking-wider font-semibold mt-1 ${isDark ? "text-white/35" : "text-[#8E8E93]"}`}>
-              {stat.label}
-            </div>
-          </motion.div>
-        ))}
-      </div>
+      {stats.length > 0 ? (
+        <div className="flex items-center justify-around">
+          {stats.map((stat, i) => (
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0, y: 5 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 + i * 0.08 }}
+              className="text-center"
+            >
+              <div className="text-[18px] font-heading font-bold leading-none" style={{ color: stat.color }}>
+                {stat.value}
+              </div>
+              <div className={`text-[8px] uppercase tracking-wider font-semibold mt-1 ${isDark ? "text-white/35" : "text-[#8E8E93]"}`}>
+                {stat.label}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      ) : (
+        <a
+          href="https://github.com/sumith1309"
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`block text-center text-[11px] font-semibold underline-offset-2 hover:underline ${isDark ? "text-white/60" : "text-[#475569]"}`}
+        >
+          github.com/sumith1309
+        </a>
+      )}
 
       {/* AI Summary Button */}
       <button

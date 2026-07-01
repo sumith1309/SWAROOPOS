@@ -1,245 +1,197 @@
-// Comprehensive knowledge base for RAG-powered AI chat
-// This serves as the complete context about S. Jyothi Swaroop
+// Knowledge base for the RAG-powered AI chat.
+// HONESTY CONTRACT: every claim here is evidence-backed (live URL, repo README,
+// or owner-vouched private-system numbers). Metrics carry their qualifier.
+// The chat must never invent links, stats, roles, or expertise beyond this file.
 
 export const KNOWLEDGE_BASE = `
 # S. JYOTHI SWAROOP — Complete Profile
 
-## IDENTITY & OVERVIEW
+## IDENTITY & POSITIONING
 - Full Name: S. Jyothi Swaroop
-- Current Role: COO & Co-Founder at CogniSpace | Business Analyst at LUC Learners
-- Location: Dubai, UAE (Open to Hyderabad, India)
-- Top Skills: Vibe Coding, Artificial Intelligence (AI), Revit
-- Education: Master's degree in Artificial Intelligence, SP Jain School of Global Management (Sep 2024 – Aug 2026, Expected). Campuses: Singapore, Sydney, Dubai. Previous: Bachelor of Commerce, Badruka College, Hyderabad (2019–2022).
-- Summary: 97% prediction accuracy. 380M lives targeted. 20+ AI products shipped across 5 industries. I architect AI systems that predict dust storms, protect outdoor workers from heatwaves, and automate enterprise operations.
+- One-liner: I build production systems that businesses run on.
+- Positioning: Forward Deployed Engineer (builder who embeds with real businesses and ships working software) and AI-First Transformation Consultant. An engineer first — not only a product manager.
+- Current Roles: COO & Co-Founder at CogniSpace | AI Product Manager & Full-Stack Developer (Intern) at Learners Education (LUC Learners), Dubai
+- Location: Dubai, UAE (open to Hyderabad, India)
+- Education: Master of AI in Business (MAIB), SP Jain School of Global Management (Sep 2024 – Sep 2026, expected). Campuses: Singapore, Sydney, Dubai. Previous: Bachelor of Commerce, Badruka College, Hyderabad (2019–2022).
 - Contact: Email: sumithswaroop@gmail.com | Phone: +91 9490064789 | LinkedIn: linkedin.com/in/jyothi-swaroop-753116295 | GitHub: github.com/sumith1309
-- CV: Visitors can download Swaroop's latest CV directly from the portfolio website.
+- CV: downloadable directly from the portfolio (Download Resume button).
 
-## CAREER HISTORY (Chronological)
+## AI-ASSISTED DEVELOPMENT (a strength, stated openly)
+Swaroop uses heavy AI-assisted development, especially Claude Code. Frame: human-led, AI-accelerated delivery — AI tools compress build cycles while he stays accountable for architecture, verification, and delivery. He is certified in "Claude Code in Action" (Anthropic, 2026). This is how one engineer solo-ships systems like the HRMS.
+
+## OWNERSHIP MAP (critical — never blur these lines)
+SOLO-BUILT AND DEPLOYED BY SWAROOP:
+- HRMS (production, live)
+- Samba Retail (client site, live)
+- All public GitHub projects (ADVAIT.io, WebQ Team, Prism-RAG, Urban Illusion, Sahara Sense, etc.)
+
+TEAM PROJECT WHERE HE OWNS SPECIFIC SYSTEMS:
+- The LMS at LUC Learners is a TEAM build — he was ONE OF SEVERAL developers. He personally built and owns ONLY: (1) ALIA, the AI teaching assistant (RAG pipeline, self-hosted on AWS EC2), (2) the support-ticket system (department routing, SLA tracking, escalation logic), (3) SSO via Microsoft Entra ID and Google OAuth/OIDC. NEVER imply he built the entire LMS alone.
+
+WHERE THE REAL PRODUCTION CODE LIVES:
+- Production client work (HRMS, LMS, Samba Retail) is in private repos — that's normal for client systems. The live products are linked instead of source. His public GitHub (25+ repos, live count fetched on the site) holds his open projects and flagship agent systems.
+
+## METRIC HONESTY RULES (the chat must follow these)
+- Use ONLY the numbers in this file, with their qualifiers.
+- HRMS numbers (80+ employees, 3 organizations, 64+ field employees, 794 tests, zero-defect 10/10 + 14/14 go-lives) are owner-vouched private-system facts — state them plainly.
+- Sahara Sense "97%" is actually R² = 0.97 on validation, self-reported in the repo README — say "R² of 0.97 (self-reported)", never plain "97% accuracy".
+- Health Prediction 96.6% accuracy is self-reported (validation set). Do NOT cite a fairness percentage. Say "designed around EU AI Act principles", NOT "EU AI Act compliant".
+- Garmi Mitra: say "designed for India's 380M outdoor workers" — NEVER "reached" or "protected" 380M.
+- ADVAIT.io (35 agents, 143 pytest) and WebQ Team (34 agents, 11 teams, 257 pytest) are documented in their repo READMEs.
+- Never invent latency, accuracy, user counts, star counts, or repo counts.
+
+## CAREER HISTORY
 
 ### v2.0 — CogniSpace (Jan 2026 – Present) | COO & Co-Founder | Dubai, UAE
-- Co-founded enterprise AI service platform
-- Website: www.cognispace.co.in
+- Co-founded AI service platform (live: www.cognispace.co.in)
 - Defined product vision, pricing strategy, go-to-market funnel
 - Led end-to-end product development: AI playground, API management, Stripe billing
-- Designed immersive 3D landing with Three.js, 18 UI components
 - Stack: Next.js 16, React 19, TypeScript, Three.js, tRPC, PostgreSQL, Redis, Stripe, AWS
 
-### v1.3 — Learners Education (Feb 2026 – Present) | AI Product Manager & Full-Stack Developer (Intern) | Dubai, UAE
-- Single-handedly built and deployed a production multi-tenant HRMS platform now live and serving 3 organizations and 80+ employees daily
-- Architected and developed all 12 modules end-to-end: attendance, leave, payroll, recruitment, performance, helpdesk, reports, dashboard, notifications, announcements, salary certificates, employee management
-- Engineered 6-phase delivery lifecycle from policy engine through biometric integration, payroll settlement, and production go-live
-- Integrated BioTime biometric system (ZKTeco devices) with timezone handling and employee mapping for 64+ field employees
-- Achieved zero-defect production deployments (10/10 + 14/14 acceptance criteria across all phases)
-- Stack: Django 5.2, Next.js 15, PostgreSQL, Redis, Celery
+### v1.3 — Learners Education / LUC Learners (Feb 2026 – Present) | AI Product Manager & Full-Stack Developer (Intern) | Dubai, UAE
+- Single-handedly built and deployed a production multi-tenant HRMS now live and serving 3 organizations and 80+ employees daily
+- All 12 modules end-to-end: attendance, leave, payroll, recruitment, performance, helpdesk, reports, dashboard, notifications, announcements, salary certificates, employee management
+- 6-phase delivery lifecycle from policy engine through biometric integration, payroll settlement, production go-live
+- BioTime (ZKTeco) biometric integration with timezone handling for 64+ field employees
+- Zero-defect production deployments (10/10 + 14/14 acceptance criteria)
+- Separately: one of several developers on the company's LMS — personally built and owns ALIA (AI teaching assistant, RAG on AWS EC2), the support-ticket system, and Entra ID + Google OIDC SSO
+- Stack: Django 5.2, Next.js 15, PostgreSQL, Redis, Celery, FastAPI, AWS EC2
 
 ### v1.2 — SP Jain JPT (Jun – Dec 2025) | Project Manager | Dubai, UAE
-- AI-powered mock interview and roleplay platform
-- WebRTC audio/video with live analytics
-- HeyGen AI avatars, WebSocket live feedback
+- AI-powered mock interview and roleplay platform (WebRTC, HeyGen avatars, WebSocket live feedback)
 - Certificate of Appreciation from VP Administration
-- Stack: React 18, Vite, TailwindCSS, WebRTC, WebSocket
 
 ### v1.0 — Geetha Constructions (2019 – 2024) | Partner & Operations Manager | Hyderabad, India
 - Co-managed construction operations for residential and commercial projects
-- Reduced operational delays by 30% with data-driven decisions
-- Budget forecasting and quality assurance for concurrent deliveries
-- Built SaaS construction cost estimation tool
-- This is where the builder journey began — 5 years of real-world operations before transitioning to tech
+- Reduced operational delays by an estimated 30% with data-driven decisions
+- This is where the builder journey began — 5 years of real-world operations before tech
 
-## FEATURED PRODUCTS (Flagship — 4 products)
+## TIER 1 — PRODUCTION / SHIPPED & LIVE
 
-### 1. ALIA — Adaptive Learning Intelligence Agent (2026) | Education
-AI-powered teaching assistant plugin (LMS-agnostic). Two user segments: students and educators.
-- Architecture: Multi-turn Tool-calling Agent → LangChain RAG Pipeline → pgvector Embeddings → PostgreSQL + TimescaleDB → Redis Cache → Ollama/LLM
-- Features: Multi-turn AI agent with tool calling, RAG pipeline grounded in course materials, real-time analytics engine, automated intervention detection, payment gateway integration
-- Tech: FastAPI, PostgreSQL, TimescaleDB, pgvector, Redis, Ollama/LLM, LangChain, React 19
-- Role: Defined product requirements (PRD, TRD), architected the AI agent, designed payment integration
+### 1. HRMS Platform (2026) | SOLO-BUILT, LIVE
+Multi-tenant HR system serving 3 organizations and 80+ employees daily.
+- 12 modules built end-to-end by one engineer; 6-phase delivery lifecycle
+- BioTime (ZKTeco) biometric REST integration, 64+ field employees, timezone handling
+- Security hardening: SQLi, IDOR, CSRF, XSS; 794-test suite; AWS S3; deployed on Render
+- Zero-defect go-lives (10/10 + 14/14 acceptance criteria)
+- Live: hrms-frontend-d7qs.onrender.com (code private — client system)
+- Stack: Django 5.2, Next.js 15, PostgreSQL, Redis, Celery
 
-### 2. Sahara Sense — Dust Storm Prediction Platform (2025) | Climate
-Enterprise-grade dust storm prediction for UAE/MENA region.
-- 97%+ prediction accuracy using 7-model AI ensemble with Kalman filtering
-- Models: ARIMA, XGBoost, LSTM, Prophet, Ridge, Random Forest, Gradient Boosting
-- Real-time monitoring across 8 UAE emirates, 9+ weather API integrations
-- WebSocket live updates at 45ms latency
-- Personalized health advisories for 8 user groups
-- Tech: Next.js 14, FastAPI, Leaflet, Recharts, WebSocket
-- GitHub: github.com/sumith1309/Project_Sahara_Sense
+### 2. Samba Retail (2026) | SOLO-BUILT, LIVE
+Client website for a retail business — built and deployed end-to-end solo.
+- Next.js 15 + Sanity CMS (owner edits content without a developer)
+- Live: samba-retail-web.vercel.app (code private)
 
-### 3. Garmi Mitra — AI Heatwave Warning System (2025) | Climate
-Targeting India's 380 million outdoor workers.
-- Proprietary Heat Risk Index combining UTCI, WBGT, and Heat Index
-- Voice-first multilingual alerts in 7 Indian languages via Telegram bot + Google TTS
-- 18 Indian cities coverage, crowdsourced shelter mapping, 4 UN SDG-aligned modules
-- Tech: Next.js 14, FastAPI, Mapbox GL JS, Telegram Bot API, Google TTS
+### 3. ALIA + LMS Systems (2026) | TEAM LMS — HIS SYSTEMS
+Inside the team-built LUC Learners LMS, he personally built and owns:
+- ALIA: AI teaching assistant — multi-turn tool-calling agent, LangChain RAG pipeline grounded in course materials, pgvector, self-hosted on AWS EC2
+- Support-ticket system: department routing, SLA tracking, escalation logic
+- SSO: Microsoft Entra ID + Google OAuth/OIDC
+- Staging is access-restricted; code private. The LMS as a whole was a team effort.
 
-### 4. CogniSpace — Enterprise AI Service Platform (2026) | Enterprise
-Enterprise-grade AI service platform for development teams.
-- AI playground for model testing, API key management with scope control
-- Real-time usage analytics dashboard, Stripe-integrated billing
-- Immersive 3D landing experience with Three.js, 18 accessible UI components
-- Tech: Next.js 16, React 19, TypeScript, Three.js, tRPC, PostgreSQL, Redis, Stripe, AWS ECS Fargate
-- Website: www.cognispace.co.in
-- GitHub: github.com/sumith1309/COGNISPACE
+### 4. ADVAIT.io (2026) | SOLO, FLAGSHIP AGENT SYSTEM
+Autonomous "AI software company" — 35 named agents turn a one-line brief into verified code.
+- Gated pipeline: CTO triage → contract-locked OpenAPI/SQL → tech-lead-routed engineering → build verification → Playwright browser QA → VP verdict
+- Deterministic validators, multi-model routing, live cost telemetry
+- 143 pytest tests (per README). Python + TypeScript, FastAPI, React + Vite
+- Repo: github.com/sumith1309/ADVAIT.io
 
-## ALL ADDITIONAL PRODUCTS (16 more — 20 total)
+### 5. WebQ Team (2026) | SOLO, FLAGSHIP AGENT SYSTEM
+Autonomous AI marketing agency — 34 agents across 11 teams, brief → approval-gated deliverables.
+- Human approval gate before anything ships; per-client brand memory; owning-agent revisions
+- 257 pytest tests (per README). Python + TypeScript, FastAPI, React + Vite
+- Repo: github.com/sumith1309/WEBQ- (an independent project)
 
-### 5. Bank Statement Analyzer (2026) | FinTech
-Full-stack TypeScript app converting raw bank statements (Excel) into auditor-ready voucher files.
-- AI: GPT-4o-mini for hybrid AI + deterministic regex classification
-- Features: RAG-powered chatbot for transaction querying, interactive Apache ECharts analytics, 8 professional Excel export modes with monthly consolidation and ZIP bundling
-- Tech: React 19, Express 5, OpenAI GPT-4o-mini, Apache ECharts, SheetJS
-- GitHub: github.com/sumith1309/Bank-Statement-Analyzer
+## TIER 2 — AI / RAG / AGENT SYSTEMS & VENTURES
 
-### 6. NLP Ticket Classifier (2025) | Enterprise
-Zero-shot ticket classification system.
-- Model: BART-large-mnli for zero-shot classification
-- Features: SLA tracking, automated routing
-- Tech: Python, BART, Zero-shot Classification
-- GitHub: github.com/sumith1309/NLP_Ticket_Classifier
+### Prism-RAG (2026)
+RBAC-enforced RAG: access control enforced at the vector-store filter level (Qdrant), not just the prompt.
+- Dense + BM25 retrieval fused via RRF, BGE reranker, MiniLM embeddings
+- 7 answer modes, confidence scoring, clarify-before-answer, public Pipeline Lab, ECharts analytics
+- FastAPI + SQLModel + Qdrant; React 18 + TS + Vite + Tailwind; JWT/bcrypt
+- Repo: github.com/sumith1309/Prism-RAG
 
-### 7. Trails & Miles (2025) | Enterprise
-AI-powered travel planning platform for Indian travellers.
-- AI: GPT-4o for day-wise itinerary generation (morning/afternoon/evening blocks)
-- Features: RAG-powered chatbot with SSE streaming, destination intelligence for 6 countries and 36+ cities, India-specific visa hub, 25 domestic city guides
-- Tech: GPT-4o, RAG, Full-stack TypeScript
-- GitHub: github.com/sumith1309/Travel-Itinerary
+### Sahara Sense (2025)
+Dust storm prediction platform for UAE/MENA.
+- 7-model ensemble (ARIMA, XGBoost, LSTM, Prophet, Ridge, Random Forest, Gradient Boosting) + Kalman filtering
+- R² = 0.97 on validation (self-reported, documented in README) — do not call it "97% accuracy"
+- 8 UAE emirates, 9+ weather APIs, WebSocket updates, health advisories for 8 user groups
+- Repo: github.com/sumith1309/Project_Sahara_Sense
 
-### 8. StationeryHub (2025) | Enterprise
-Full-featured B2B/B2C e-commerce platform.
-- Features: AI-powered search, Razorpay payment integration
-- Tech: E-commerce, AI Search, Razorpay
-- GitHub: github.com/sumith1309/Stationary_Hub
+### CogniSpace (2026) | CO-FOUNDED VENTURE, LIVE
+AI service platform for development teams: AI playground, API key management, usage analytics, Stripe billing.
+- Live: www.cognispace.co.in | Repo: github.com/sumith1309/COGNISPACE
 
-### 9. Enterprise Forecasting (2025) | FinTech
-Comprehensive production-ready sales forecasting platform.
-- Models: 4 ML models — Naïve, ARIMA, Random Forest, XGBoost
-- AI: Google Gemini AI-powered insights
-- Features: Corporate interactive dashboard, seasonality detection, feature importance analysis, synthetic data generator, CSV import/export
-- Tech: ARIMA, XGBoost, Gemini AI, Python
-- GitHub: github.com/sumith1309/Enterprise-Forecasting
+### Bank Statement Analyzer (2026)
+Converts raw bank statements (Excel) into auditor-ready voucher files. GPT-4o-mini hybrid AI + regex classification, RAG chatbot, 8 export modes. Repo: github.com/sumith1309/Bank-Statement-Analyzer
 
-### 10. AI Email Automation (2025) | Enterprise
-AI-powered email automation system.
-- Features: Intelligent email classification, automated responses, workflow automation
-- Tech: AI, Email Processing, Automation
+### Code Archaeologist (2025)
+AI legacy-code analysis: 10+ languages, static analysis + AI documentation, FastAPI + Next.js 14. Repo: github.com/sumith1309/AI-Code-Archaeologist
 
-### 11. Customer Churn Dashboard (2025) | FinTech
-Professional-grade customer churn prediction dashboard.
-- Models: Random Forest, XGBoost
-- Features: Real-time risk assessment, interactive Chart.js/Plotly visualizations, model performance comparison, three-tier risk classification, actionable retention recommendations with ROI analysis
-- Tech: Random Forest, XGBoost, Chart.js, Plotly
-- GitHub: github.com/sumith1309/customer-churn-dashboard
+### Urban Illusion (2026) | LIVE
+Graphics-craft showcase — Next.js + TypeScript + GLSL shaders. Live: urban-illusion.vercel.app | Repo: github.com/sumith1309/Urban_Illusion
 
-### 12. Predictive Maintenance (2025) | Enterprise
-End-to-end predictive maintenance system combining 4 approaches.
-- Models: Logistic Regression, CNN-LSTM hybrid, Statistical Process Control, 2D CNN visual defect detection
-- Features: Interactive HTML dashboard with Apache ECharts, in-browser TF.js inference
-- Tech: CNN-LSTM, Logistic Regression, SPC, Computer Vision, TensorFlow.js
-- GitHub: github.com/sumith1309/Predictive-Maintenance
-
-### 13. Health Prediction (2025) | Enterprise
-Production-grade ML system for early heart disease detection.
-- 96.6% accuracy with Gradient Boosting
-- Zero-bias architecture: 98.4% fairness across demographics via SMOTE resampling
-- EU AI Act compliant risk management
-- Premium fintech-style dashboard with Framer Motion animations
-- Tech: ML, Gradient Boosting, SMOTE, EU AI Act Compliance
-- GitHub: github.com/sumith1309/Predicting-Health-with-Precision
-
-### 14. AI Inventory Management (2025) | FinTech
-Intelligent inventory management platform.
-- Features: Monte Carlo simulations (100-10,000 iterations), Bayesian sensitivity analysis, ML demand forecasting (hybrid linear regression + moving average), multi-SKU dashboard with real-time reorder point optimization
-- Tech: Monte Carlo, Bayesian Analysis, Linear Regression
-- GitHub: github.com/sumith1309/AI_Applications_in_Reorder_Point_Inventory_Management
-
-### 15. TaskFlow (2025) | Enterprise
-Real-time task management web application for small teams (1 Manager + 3 Employees).
-- Features: Role-based dashboards with Kanban board and analytics for managers, JWT authentication, Socket.IO real-time updates, file attachments via MongoDB GridFS, online presence indicators, glassmorphism Ocean Glass UI
-- Tech: Node.js, Express, MongoDB, Socket.IO, JWT, Chart.js
-- GitHub: github.com/sumith1309/LUC_Progress_Tracker
-
-### 16. Housing Price Service (2025) | FinTech
-Housing price prediction service with containerized deployment.
-- Tech: Docker, Kubernetes, ML, Python
-- GitHub: github.com/sumith1309/Housing-Price-Service
-
-### 17. Healthcare Analytics Platform (2026) | Enterprise
-Comprehensive analytics platform for evaluating AI model performance across healthcare departments.
-- Departments: Radiology, Pathology, Cardiology, Operations
-- Features: AI model comparison (Baseline vs AI_v1 vs AI_v2), interactive ECharts dashboard, 6-month accuracy forecasting with linear regression, executive one-pager report
-- KPIs tracked: Accuracy, Turnaround Time, Cost Efficiency, Patient Satisfaction
-- Tech: Python, ECharts, Matplotlib, Seaborn, Linear Regression
-- GitHub: github.com/sumith1309/AI-Powered-Healthcare-Analytics
-
-### 18. HubSpot Contact Manager (2026) | Enterprise
-Modern web application for managing, cleaning, and standardizing HubSpot CRM contacts.
-- Features: CSV drag-and-drop upload with auto-column mapping, Clean Bot for auto-filling missing fields, Standardize Bot for name/phone/email normalization, Audit Agent with visual data quality reports, one-click batch push to HubSpot
-- Tech: React, Vite, Netlify Functions, HubSpot API
-- GitHub: github.com/sumith1309/-HubSpot-Integration
-
-### 19. Code Archaeologist (2025) | Enterprise
-Enterprise-grade AI-powered platform for understanding and modernizing legacy codebases.
-- Supports 10+ programming languages
-- Features: Advanced static analysis, intelligent documentation generation, interactive codebase visualizations, REST API
-- Tech: FastAPI, Next.js 14, TypeScript, PostgreSQL, Docker
-- GitHub: github.com/sumith1309/AI-Code-Archaeologist
-
-### 20. Construction Cost Estimator (2024) | Construction
-Production SaaS construction cost estimation tool.
-- Features: Gumroad payment integration (₹499), JWT-secured server-side calculations, itemized 6-component cost breakdowns, construction timeline estimates, downloadable PDF reports
-- Built with zero client-side secrets architecture to prevent bypass
-- Tech: SaaS, Gumroad, JWT, Automation
-- GitHub: github.com/sumith1309/instant-house-construction-cost-report
+## TIER 3 — ML / EXPERIMENTAL LAB (selected)
+- Health Prediction (2025): heart disease detection, Gradient Boosting, 96.6% accuracy SELF-REPORTED on validation set; SMOTE as bias control; designed around EU AI Act principles (NOT "compliant"). Repo: github.com/sumith1309/Predicting-Health-with-Precision
+- Garmi Mitra (2025): heatwave early-warning DESIGNED FOR India's 380M outdoor workers; Heat Risk Index (UTCI+WBGT+Heat Index); voice-first alerts in 7 Indian languages via Telegram + Google TTS; 18-city coverage design. No public repo.
+- Enterprise Forecasting (ARIMA+XGBoost+Gemini), Customer Churn Dashboard (RF+XGBoost), Predictive Maintenance (CNN-LSTM + vision), AI Inventory Management (Monte Carlo), NLP Ticket Classifier (BART zero-shot), Trails & Miles (GPT-4o travel planner), StationeryHub (e-commerce), TaskFlow (Socket.IO), Housing Price Service (Docker+K8s), Construction Cost Estimator (Gumroad SaaS tool), Healthcare Analytics, HubSpot Contact Manager, AI Email Automation.
+- All public repos are at github.com/sumith1309/<repo> and are linked on their project cards.
 
 ## GITHUB PROFILE
-- Username: sumith1309
-- Profile: github.com/sumith1309
-- Total Public Repos: 22+
-- Primary Languages: TypeScript, Python, JavaScript, HTML
-- All repositories listed above with direct links
+- Username: sumith1309 — github.com/sumith1309
+- Public repos: 25+ (the site widget fetches the live count)
+- Primary languages: TypeScript, Python
+- Production client work is in private repos; live products are linked instead.
 
 ## SKILLS
-
-### Product Management
-Product Strategy & Roadmapping, PRD/TRD Documentation, Sprint Planning & Agile (JIRA), Stakeholder Management, User Story Writing, Acceptance Criteria, Feature Prioritization, Go-to-Market Planning
-
-### AI & Data
-NLP, Computer Vision, Ensemble Methods, Prompt Engineering, RAG Pipelines, LLM Integration (OpenAI, Gemini, Claude, Ollama), Data Visualization, ETL Processes
-
-### Technical
-Python, TypeScript, SQL (PostgreSQL, MySQL), React/Next.js, FastAPI, Django, Express, tRPC, REST APIs, WebSocket, Git, Docker, CI/CD, AWS, Vercel, Render, Vibe Coding, Revit
-
+### Engineering
+Python, TypeScript, SQL (PostgreSQL, MySQL), React/Next.js, Django, FastAPI, Express, tRPC, REST APIs, WebSocket, Git, Docker, CI/CD, AWS (EC2, S3), Vercel, Render
+### AI Engineering
+RAG Pipelines, Agent Systems & Tool Calling, LLM Integration (OpenAI, Gemini, Claude, Ollama), AI-Assisted Development (Claude Code), Prompt Engineering, NLP, Computer Vision, Ensemble Methods
+### Product & Delivery
+Product Strategy & Roadmapping, PRD/TRD Documentation, Agile (JIRA), Stakeholder Management, Acceptance Criteria, Go-to-Market Planning
 ### Business & Operations
-Business Process Automation, Resource Planning, Vendor Management, Budget Forecasting, Cross-functional Coordination, Client Communication
+Business Process Automation, Resource Planning, Vendor Management, Budget Forecasting, Client Communication
 
 ## CERTIFICATIONS
-- Claude Code in Action (Anthropic, 2026)
-- Python Programming Certificate
-- Microsoft Office Specialist — Word, Excel, PowerPoint (Advanced)
-- MySQL Database Fundamentals (Oracle)
-- JIRA Administration (Atlassian)
+Claude Code in Action (Anthropic, 2026) · Python Programming Certificate · Microsoft Office Specialist (Advanced) · MySQL Database Fundamentals (Oracle) · JIRA Administration (Atlassian)
 
 ## LANGUAGES
-- English: Professional Working (80%)
-- Telugu: Native (100%)
-- Hindi: Conversational (60%)
+English (Professional Working) · Telugu (Native) · Hindi (Conversational)
 
-## KEY METRICS
-- 20+ AI products shipped
-- 5 industry domains covered (Education, Climate, Enterprise, FinTech, Construction)
-- 97% prediction accuracy (best, Sahara Sense)
-- 380M workers targeted (Garmi Mitra)
-- 96.6% health prediction accuracy
-- Zero-defect deployments at LUC Learners
-- 22+ public GitHub repositories
+## KEY DIFFERENTIATORS
+- Ships real production software solo (HRMS, Samba Retail), not just demos
+- Rare path: 5 years construction operations → production engineering — comfortable with messy, real-world business problems
+- Both engineering (builds full-stack, deploys, hardens) AND strategy (PRDs, pricing, GTM at CogniSpace)
+- Open about method: human-led, AI-accelerated development with Claude Code
+- Honest about ownership: solo work labeled solo, team work labeled team
 
-## UNIQUE DIFFERENTIATORS
-- Rare combination: construction operations background (5 years hands-on) + AI/tech skills
-- Builder who ships — 20+ products, not prototypes
-- Both technical (builds full-stack) AND business (defines PRDs, runs GTM)
-- Social impact focus: climate safety products targeting vulnerable populations
-- Currently pursuing Master's while running a startup and consulting
+## REQUIRED Q&A (answer in this spirit, plain text, no markdown)
+
+Q: Are you an engineer or a PM?
+A: An engineer first. I build and ship production software — the solo-built HRMS live with 80+ daily users is the clearest proof. I also carry product skills (PRDs, pricing, go-to-market at CogniSpace), which is exactly the mix a Forward Deployed Engineer needs.
+
+Q: What have you shipped to production?
+A: Three things matter most: a multi-tenant HRMS I built alone, live with 3 organizations and 80+ daily users; Samba Retail, a live client site I delivered end-to-end; and inside a team LMS, the three systems I own — the ALIA AI teaching assistant (RAG on AWS EC2), the support-ticket system, and SSO.
+
+Q: Show me something live.
+A: HRMS: hrms-frontend-d7qs.onrender.com. Samba Retail: samba-retail-web.vercel.app. CogniSpace: www.cognispace.co.in. Urban Illusion: urban-illusion.vercel.app. This portfolio itself: swaroopos.vercel.app.
+
+Q: How do you use AI to build?
+A: Heavily and openly — mostly Claude Code. AI compresses my build cycles; I stay accountable for architecture, verification, and delivery. The HRMS's 794-test suite exists because AI-accelerated code still has to prove itself before production.
+
+Q: Did you build the full LMS?
+A: No. The LMS was a team build — I was one of several developers. What's mine: ALIA, the AI teaching assistant with its RAG pipeline self-hosted on AWS EC2; the support-ticket system with routing, SLA, and escalation; and SSO via Microsoft Entra ID and Google OAuth/OIDC.
+
+Q: Which projects are solo-built?
+A: HRMS and Samba Retail (both live), plus everything on my public GitHub — ADVAIT.io, WebQ Team, Prism-RAG, Urban Illusion, Sahara Sense, and the rest.
+
+Q: Which projects are team projects?
+A: The LMS at LUC Learners. I own three of its systems (ALIA, ticketing, SSO) but the platform was built by a team.
+
+Q: What is your strongest Forward Deployed Engineer evidence?
+A: The HRMS. I embedded with a real client, understood messy HR and biometric-attendance workflows, built all 12 modules alone, integrated ZKTeco hardware, hardened security, wrote 794 tests, and took it to production where 80+ people use it daily. That is the FDE loop end-to-end: business problem in, working production system out.
 
 ## PORTFOLIO WEBSITE
-This portfolio is called "SwaroopOS" — a macOS-inspired desktop operating system experience built with Next.js, React 19, Framer Motion, and TypeScript. Features include: 3D boot sequence, lock screen, glassmorphism UI, spotlight search (⌘K), right-click context menu, analog clock, live weather widget, AI chat assistant, CV download, and adaptive dark/light theming. Live at: swaroopos.vercel.app
+"SwaroopOS" — a macOS-inspired desktop experience built with Next.js 16, React 19, TypeScript, Tailwind v4, and Framer Motion. Boot screen (skippable), spotlight search (Cmd/Ctrl+K), draggable windows, terminal with real project data, AI chat, resume download. Live at swaroopos.vercel.app. He designed and built it himself — it is itself a proof of work.
 `;

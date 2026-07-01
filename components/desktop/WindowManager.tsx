@@ -1,7 +1,7 @@
 "use client";
 
 import { useStore, type AppId } from "@/lib/store";
-import { DOMAINS, SYSTEM_APPS, type Domain, type SystemApp } from "@/lib/data";
+import { DOMAINS, type Domain } from "@/lib/data";
 import Window from "./Window";
 import DomainApp from "../apps/DomainApp";
 import AboutApp from "../apps/AboutApp";

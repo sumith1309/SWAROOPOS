@@ -41,15 +41,18 @@ export default function AIGreeting({ isDark }: AIGreetingProps) {
   const [greeting, setGreeting] = useState<string | null>(null);
 
   useEffect(() => {
-    try {
-      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      const city = getCityFromTimezone(tz);
-      const hour = new Date().getHours();
-      const timeOfDay = getTimeOfDay(hour);
-      setGreeting(getGreeting(timeOfDay, city));
-    } catch {
-      setGreeting("Welcome! Nice to have you here.");
-    }
+    const t = setTimeout(() => {
+      try {
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const city = getCityFromTimezone(tz);
+        const hour = new Date().getHours();
+        const timeOfDay = getTimeOfDay(hour);
+        setGreeting(getGreeting(timeOfDay, city));
+      } catch {
+        setGreeting("Welcome! Nice to have you here.");
+      }
+    }, 0);
+    return () => clearTimeout(t);
   }, []);
 
   if (!greeting) return null;

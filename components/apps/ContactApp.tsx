@@ -22,7 +22,7 @@ const LinkedInIcon = ({ className }: { className?: string }) => (
 const SOCIAL_CARDS = [
   {
     title: "GitHub",
-    subtitle: "18+ open source repositories",
+    subtitle: "25+ public repositories",
     href: CONTACT.github,
     icon: <GitHubIcon className="w-5 h-5" />,
     gradient: "linear-gradient(135deg, #6366F1, #8B5CF6)",

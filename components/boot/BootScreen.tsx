@@ -7,15 +7,57 @@ interface BootScreenProps {
   onComplete: () => void;
 }
 
+const BOOT_SEEN_KEY = "swos:v3:booted";
+
 export default function BootScreen({ onComplete }: BootScreenProps) {
   const [phase, setPhase] = useState<"cube" | "branding" | "done">("cube");
 
+  // Returning visitors and reduced-motion users skip the boot entirely.
   useEffect(() => {
-    const t1 = setTimeout(() => setPhase("branding"), 2000);
-    const t2 = setTimeout(() => setPhase("done"), 4500);
-    const t3 = setTimeout(() => onComplete(), 5100);
-    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+    const t = setTimeout(() => {
+      let skip = false;
+      try {
+        skip =
+          localStorage.getItem(BOOT_SEEN_KEY) === "1" ||
+          window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      } catch {
+        // storage unavailable — run the boot normally
+      }
+      if (skip) {
+        setPhase("done");
+        onComplete();
+      }
+    }, 0);
+    return () => clearTimeout(t);
   }, [onComplete]);
+
+  useEffect(() => {
+    if (phase === "done") return;
+    const t1 = setTimeout(() => setPhase("branding"), 1200);
+    const t2 = setTimeout(() => setPhase("done"), 3000);
+    const t3 = setTimeout(() => onComplete(), 3500);
+    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
+  }, [phase, onComplete]);
+
+  // Skippable on any input; remember the visit.
+  useEffect(() => {
+    try {
+      localStorage.setItem(BOOT_SEEN_KEY, "1");
+    } catch {
+      // ignore
+    }
+    if (phase === "done") return;
+    const skip = () => {
+      setPhase("done");
+      onComplete();
+    };
+    window.addEventListener("keydown", skip);
+    window.addEventListener("pointerdown", skip);
+    return () => {
+      window.removeEventListener("keydown", skip);
+      window.removeEventListener("pointerdown", skip);
+    };
+  }, [phase, onComplete]);
 
   return (
     <AnimatePresence>
@@ -88,7 +130,7 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
               ) : (
                 <motion.div key="brand" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-center">
                   <h1 className="text-[28px] font-heading font-bold text-[#0F172A] tracking-[-0.02em]">SwaroopOS</h1>
-                  <p className="text-[13px] text-[#94A3B8] mt-1">S. Jyothi Swaroop · AI Product Manager</p>
+                  <p className="text-[13px] text-[#94A3B8] mt-1">S. Jyothi Swaroop · Builder of Production Systems</p>
                   {/* Progress bar */}
                   <div className="mt-4 w-[200px] mx-auto">
                     <div className="h-[3px] rounded-full bg-[#E2E8F0] overflow-hidden">

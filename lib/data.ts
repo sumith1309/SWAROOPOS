@@ -2,14 +2,40 @@ export type Domain = "education" | "climate" | "enterprise" | "fintech" | "const
 export type SystemApp = "about" | "skills" | "terminal" | "contact";
 export type AppId = Domain | SystemApp;
 
+/** Where a project sits in the production-first hierarchy. */
+export type Tier = "production" | "systems" | "lab";
+
+/** Honest ownership labeling — never imply solo work on team builds. */
+export type Ownership = "solo" | "team-owned" | "team";
+
+/** What a visitor can actually open. */
+export type ProjectStatus = "live" | "repo" | "private";
+
+/**
+ * Metric qualifier. Omitted = plain factual attribute (stack, counts of things
+ * in the repo). Any impressive numeric claim must carry a kind.
+ */
+export type MetricKind = "verified" | "self-reported" | "estimated" | "designed-for";
+
+export interface Metric {
+  label: string;
+  value: string;
+  kind?: MetricKind;
+  note?: string;
+}
+
 export interface Product {
   id: string;
   name: string;
   tagline: string;
   domain: Domain;
   year: string;
+  tier: Tier;
+  ownership: Ownership;
+  ownershipNote?: string;
+  status: ProjectStatus;
   description: string;
-  metrics: { label: string; value: string }[];
+  metrics: Metric[];
   techStack: { category: string; items: string[] }[];
   features: string[];
   role: string;
@@ -60,7 +86,7 @@ export const DOMAINS: Record<Domain, DomainInfo> = {
     label: "Enterprise AI",
     windowTitle: "Enterprise Console",
     color: "#8B5CF6",
-    description: "Production-grade enterprise platforms and tools",
+    description: "Production platforms, agent systems, and business tools",
   },
   fintech: {
     id: "fintech",
@@ -85,54 +111,289 @@ export const SYSTEM_APPS: Record<SystemApp, { label: string; windowTitle: string
   contact: { label: "Contact", windowTitle: "Connect" },
 };
 
-export const FEATURED_PRODUCTS: Product[] = [
+export const OWNERSHIP_LABELS: Record<Ownership, string> = {
+  solo: "Solo-built & deployed",
+  "team-owned": "Team project — systems I own",
+  team: "Team project",
+};
+
+export const METRIC_KIND_LABELS: Record<MetricKind, string> = {
+  verified: "verified",
+  "self-reported": "self-reported",
+  estimated: "estimated",
+  "designed-for": "design target",
+};
+
+/* ────────────────────────────────────────────────────────────────────────────
+   TIER 1 — PRODUCTION / SHIPPED & LIVE
+   Real systems in production, or flagship systems with verified repo evidence.
+──────────────────────────────────────────────────────────────────────────── */
+
+const TIER_PRODUCTION: Product[] = [
   {
-    id: "alia",
-    name: "ALIA",
-    tagline: "Adaptive Learning Intelligence Agent — AI-Powered Teaching Assistant Plugin",
-    domain: "education",
+    id: "hrms",
+    name: "HRMS Platform",
+    tagline: "Multi-tenant HR system — solo-built, live, 80+ employees daily",
+    domain: "enterprise",
     year: "2026",
+    tier: "production",
+    ownership: "solo",
+    status: "live",
     description:
-      "LMS-agnostic AI teaching assistant plugin serving two user segments: students (adaptive learning paths, AI tutoring, struggle detection) and educators (lesson planning, quiz generation, analytics). Features a multi-turn tool-calling AI agent with RAG pipeline grounding responses in actual course materials, real-time analytics engine for learning pattern detection, and automated intervention triggers.",
-    problem: "Educators spend 40% of their time on repetitive tasks (quiz creation, grading, lesson planning) while students lack personalized support outside classroom hours.",
-    impact: "AI tutoring provides 24/7 personalized learning support. Struggle detection identifies at-risk students before they fall behind. Automated lesson planning saves educators 15+ hours per week.",
-    architecture: "React 19 Frontend → FastAPI → Multi-turn Tool-calling Agent → LangChain RAG Pipeline → pgvector Embeddings → PostgreSQL + TimescaleDB → Redis Cache → Ollama/LLM",
+      "Multi-tenant HRMS built and deployed solo, now live and serving 3 organizations and 80+ employees daily. Twelve modules built end-to-end — attendance, leave, payroll, recruitment, performance, helpdesk, reports, dashboard, notifications, announcements, salary certificates, and employee management — delivered through a 6-phase lifecycle from policy engine to production go-live. Integrates BioTime (ZKTeco) biometric devices over REST with timezone handling for 64+ field employees. Hardened against SQL injection, IDOR, CSRF, and XSS, backed by a 794-test suite, with AWS S3 file storage.",
+    problem:
+      "Multiple organizations needed one HR platform — biometric attendance from field devices, leave, payroll, and helpdesk — where off-the-shelf tools didn't fit their workflows.",
+    impact:
+      "Live in production with zero-defect go-lives (10/10 and 14/14 acceptance criteria). 80+ employees across 3 organizations run attendance, leave, and payroll on it every day.",
+    architecture:
+      "Next.js 15 Frontend → Django 5.2 REST API → PostgreSQL → Redis + Celery Workers → BioTime (ZKTeco) REST Integration → AWS S3 Storage → Render Deployment",
     metrics: [
-      { label: "Architecture", value: "Multi-turn Agent" },
-      { label: "Pipeline", value: "RAG + pgvector" },
-      { label: "Users", value: "Students & Educators" },
+      { label: "Daily Users", value: "80+" },
+      { label: "Organizations", value: "3" },
+      { label: "Test Suite", value: "794 tests" },
+      { label: "Go-lives", value: "Zero-defect" },
     ],
     techStack: [
-      { category: "Backend", items: ["FastAPI", "PostgreSQL", "TimescaleDB", "pgvector", "Redis"] },
-      { category: "AI", items: ["Ollama/LLM", "LangChain", "RAG Pipeline"] },
-      { category: "Frontend", items: ["React 19"] },
+      { category: "Backend", items: ["Django 5.2", "PostgreSQL", "Redis", "Celery"] },
+      { category: "Frontend", items: ["Next.js 15", "TypeScript"] },
+      { category: "Infrastructure", items: ["AWS S3", "Render", "BioTime/ZKTeco REST"] },
     ],
     features: [
-      "Multi-turn AI agent with tool calling",
-      "RAG pipeline grounded in course materials",
-      "Real-time analytics engine",
-      "Automated intervention detection",
-      "Payment gateway integration",
+      "12 modules built end-to-end by one engineer",
+      "BioTime (ZKTeco) biometric integration for 64+ field employees",
+      "Multi-tenant: 3 organizations on one deployment",
+      "Security hardening: SQLi, IDOR, CSRF, XSS",
+      "794-test suite; zero-defect production go-lives",
     ],
-    role: "Defined product requirements (PRD, TRD), architected the AI agent, designed payment integration with complete documentation",
+    role:
+      "Built and deployed solo — architecture, all 12 modules, biometric integration, security hardening, and production operations. Code is private (client system); the live product is linked.",
     featured: true,
+    website: "https://hrms-frontend-d7qs.onrender.com",
+  },
+  {
+    id: "samba-retail",
+    name: "Samba Retail",
+    tagline: "Client retail website — solo-built, live in production",
+    domain: "enterprise",
+    // TODO: VERIFY — Samba Retail build year (assumed 2026)
+    year: "2026",
+    tier: "production",
+    ownership: "solo",
+    status: "live",
+    description:
+      "Client website built and deployed solo for a retail business: a Next.js 15 storefront with Sanity CMS so the owner edits content without a developer. Designed, built, and shipped end-to-end; live in production on Vercel.",
+    problem:
+      "A retail business needed a professional web presence the owner could update without calling a developer.",
+    impact:
+      "Live client site delivered end-to-end — design, build, CMS setup, and deployment — with content fully editable by the client.",
+    architecture:
+      "Next.js 15 Frontend → Sanity CMS (client-editable content) → Vercel Deployment",
+    metrics: [
+      { label: "Delivery", value: "Solo, end-to-end" },
+      { label: "CMS", value: "Sanity (client-editable)" },
+      { label: "Status", value: "Live" },
+    ],
+    techStack: [
+      { category: "Frontend", items: ["Next.js 15", "TypeScript", "TailwindCSS"] },
+      { category: "Content", items: ["Sanity CMS"] },
+      { category: "Infrastructure", items: ["Vercel"] },
+    ],
+    features: [
+      "Client-editable content via Sanity CMS",
+      "Solo delivery: design → build → deploy",
+      "Live production site for a real client",
+    ],
+    role: "Built and deployed solo for a client. Code is private; the live site is linked.",
+    featured: true,
+    website: "https://samba-retail-web.vercel.app",
+  },
+  {
+    id: "alia",
+    name: "ALIA + LMS Systems",
+    tagline: "AI teaching assistant, ticketing & SSO — my systems inside a team-built LMS",
+    domain: "education",
+    year: "2026",
+    tier: "production",
+    ownership: "team-owned",
+    ownershipNote:
+      "The LMS at LUC Learners is a team build — I was one of several developers. These three systems are the parts I personally built and own.",
+    status: "private",
+    description:
+      "Inside a team-built LMS, I personally built and own three systems. ALIA — an AI teaching assistant with a multi-turn tool-calling agent and a RAG pipeline grounded in actual course materials, self-hosted on AWS EC2. The support-ticket system — department routing, SLA tracking, and escalation logic. And single sign-on — Microsoft Entra ID plus Google OAuth/OIDC.",
+    problem:
+      "Students needed course-grounded AI help and staff needed a support workflow that routed, tracked, and escalated tickets — inside an LMS that also had to speak the organization's identity providers.",
+    impact:
+      "ALIA answers from real course materials instead of hallucinating; support tickets route to the right department with SLA and escalation; students and staff sign in with their existing Microsoft and Google accounts.",
+    architecture:
+      "React Frontend → FastAPI → Multi-turn Tool-calling Agent → LangChain RAG Pipeline (course materials) → pgvector Embeddings → PostgreSQL → Redis Cache → Self-hosted on AWS EC2",
+    metrics: [
+      { label: "Systems I Own", value: "3" },
+      { label: "RAG Hosting", value: "Self-hosted · AWS EC2" },
+      { label: "SSO", value: "Entra ID + Google OIDC" },
+    ],
+    techStack: [
+      { category: "AI", items: ["LangChain", "RAG Pipeline", "pgvector", "Ollama/LLM"] },
+      { category: "Backend", items: ["FastAPI", "PostgreSQL", "Redis"] },
+      { category: "Auth", items: ["Microsoft Entra ID", "Google OAuth/OIDC"] },
+      { category: "Infrastructure", items: ["AWS EC2 (self-hosted)"] },
+    ],
+    features: [
+      "Multi-turn tool-calling AI agent grounded via RAG in course materials",
+      "RAG stack self-hosted on AWS EC2",
+      "Support tickets: department routing, SLA, escalation",
+      "SSO: Microsoft Entra ID + Google OAuth/OIDC",
+    ],
+    role:
+      "One of several developers on the LMS. I built ALIA end-to-end (agent, RAG pipeline, EC2 hosting), the support-ticket system, and both SSO integrations. Staging is access-restricted; code is private.",
+    featured: true,
+  },
+  {
+    id: "advait",
+    name: "ADVAIT.io",
+    tagline: "Autonomous AI software company — 35 agents from brief to verified code",
+    domain: "enterprise",
+    year: "2026",
+    tier: "production",
+    ownership: "solo",
+    status: "repo",
+    description:
+      "An autonomous 'AI software company': 35 named agents across departments turn a one-line brief into working, verified code through a gated pipeline — CTO triage, contract-locked OpenAPI/SQL, tech-lead-routed engineering, build verification, Playwright browser QA, and a VP verdict. Deterministic validators and multi-model routing keep agents honest; live cost telemetry tracks spend per run.",
+    problem:
+      "Single-agent code generation drifts: no contracts, no verification, no accountability. Turning a brief into working software needs structure, not a bigger prompt.",
+    impact:
+      "A brief goes in; contract-checked, build-verified, browser-tested code comes out — enforced by deterministic validators rather than trust-me output, with cost telemetry on every run.",
+    architecture:
+      "Brief → CTO Triage → Contract Lock (OpenAPI + SQL) → Tech-Lead Routing → Engineering Agents → Build Verification → Playwright Browser QA → VP Verdict",
+    metrics: [
+      { label: "Named Agents", value: "35", kind: "verified", note: "per repo README" },
+      { label: "Tests", value: "143 pytest", kind: "verified", note: "per repo README" },
+      { label: "Browser QA", value: "Playwright" },
+      { label: "Contracts", value: "OpenAPI + SQL locked" },
+    ],
+    techStack: [
+      { category: "Backend", items: ["Python", "FastAPI", "pytest"] },
+      { category: "Frontend", items: ["TypeScript", "React", "Vite"] },
+      { category: "AI", items: ["Multi-model Routing", "Deterministic Validators", "Cost Telemetry"] },
+      { category: "QA", items: ["Playwright", "Build Verification"] },
+    ],
+    features: [
+      "35 named agents in a gated, department-style pipeline",
+      "Contract-locked OpenAPI + SQL before any code is written",
+      "Build verification + Playwright browser QA before the VP verdict",
+      "Deterministic validators and multi-model routing",
+      "Live cost telemetry per run",
+    ],
+    role:
+      "Built end-to-end with AI-assisted development (Claude Code) — agent architecture, gated pipeline, validators, and QA harness.",
+    featured: true,
+    github: "https://github.com/sumith1309/ADVAIT.io",
+  },
+  {
+    id: "webq-team",
+    name: "WebQ Team",
+    tagline: "Autonomous AI marketing agency — 34 agents, 11 teams, human approval gate",
+    domain: "enterprise",
+    year: "2026",
+    tier: "production",
+    ownership: "solo",
+    status: "repo",
+    description:
+      "An autonomous AI marketing agency: 34 agents across 11 teams turn a brief into approval-gated marketing deliverables. A human approval gate sits before anything ships, per-client brand memory keeps voice consistent across campaigns, and revisions route back to the agent that owns the piece.",
+    problem:
+      "AI marketing output is generic and unaccountable: no brand memory between requests, no clear owner for revisions, and nothing stopping bad output from shipping.",
+    impact:
+      "One brief becomes coordinated deliverables from 11 specialist teams — and nothing ships without a human saying yes. Revisions go to the owning agent instead of starting over.",
+    architecture:
+      "Brief → Team Routing (11 Teams · 34 Agents) → Drafting → Human Approval Gate → Owning-Agent Revisions → Per-Client Brand Memory → Deliverables",
+    metrics: [
+      { label: "Agents", value: "34", kind: "verified", note: "per repo README" },
+      { label: "Teams", value: "11", kind: "verified", note: "per repo README" },
+      { label: "Tests", value: "257 pytest", kind: "verified", note: "per repo README" },
+      { label: "Shipping", value: "Human approval gate" },
+    ],
+    techStack: [
+      { category: "Backend", items: ["Python", "FastAPI", "pytest"] },
+      { category: "Frontend", items: ["TypeScript", "React", "Vite"] },
+      { category: "AI", items: ["Per-client Brand Memory", "Owning-Agent Revisions", "Approval Gating"] },
+    ],
+    features: [
+      "34 agents organized into 11 specialist teams",
+      "Human approval gate before anything ships",
+      "Per-client brand memory across campaigns",
+      "Revisions routed to the owning agent",
+    ],
+    role:
+      "Built end-to-end with AI-assisted development (Claude Code) — team architecture, approval workflow, and brand-memory system.",
+    featured: true,
+    github: "https://github.com/sumith1309/WEBQ-",
+  },
+];
+
+/* ────────────────────────────────────────────────────────────────────────────
+   TIER 2 — SERIOUS AI / RAG / AGENT SYSTEMS & VENTURES
+──────────────────────────────────────────────────────────────────────────── */
+
+const TIER_SYSTEMS: Product[] = [
+  {
+    id: "prism-rag",
+    name: "Prism-RAG",
+    tagline: "RBAC-enforced RAG — access control at the vector-store filter level",
+    domain: "enterprise",
+    year: "2026",
+    tier: "systems",
+    ownership: "solo",
+    status: "repo",
+    description:
+      "RAG where security is structural: role-based access control is enforced at the vector-store filter level (Qdrant), not just in the prompt — users cannot retrieve what they are not allowed to see. Dense and BM25 retrieval are fused with reciprocal rank fusion and reranked with BGE. Seven answer modes, confidence scoring, clarify-before-answer behavior, and a public Pipeline Lab with ECharts analytics.",
+    problem:
+      "Most 'secure' RAG systems filter in the prompt, which a determined user can talk their way around. Access control has to live in retrieval itself.",
+    impact:
+      "Documents a user cannot access are never retrieved in the first place — the security boundary is the vector-store filter, not a polite instruction to the model.",
+    architecture:
+      "React 18 → FastAPI → JWT Auth → RBAC Filter @ Qdrant → MiniLM Embeddings + BM25 → RRF Fusion → BGE Reranker → 7 Answer Modes → Confidence Scoring",
+    metrics: [
+      { label: "Access Control", value: "Vector-store level" },
+      { label: "Answer Modes", value: "7", kind: "verified", note: "per repo README" },
+      { label: "Retrieval", value: "Dense + BM25 → RRF" },
+      { label: "Reranker", value: "BGE" },
+    ],
+    techStack: [
+      { category: "Backend", items: ["FastAPI", "SQLModel", "Qdrant", "JWT/bcrypt"] },
+      { category: "AI", items: ["MiniLM Embeddings", "BGE Reranker", "RRF Fusion", "BM25"] },
+      { category: "Frontend", items: ["React 18", "TypeScript", "Vite", "Tailwind", "ECharts"] },
+    ],
+    features: [
+      "RBAC enforced at the Qdrant filter level, not in the prompt",
+      "Dense + BM25 retrieval fused via reciprocal rank fusion",
+      "BGE reranking, confidence scoring, clarify-before-answer",
+      "7 answer modes and a public Pipeline Lab with analytics",
+    ],
+    role: "Built end-to-end with AI-assisted development (Claude Code).",
+    featured: false,
+    github: "https://github.com/sumith1309/Prism-RAG",
   },
   {
     id: "sahara-sense",
     name: "Sahara Sense",
-    tagline: "Dust Storm Prediction Platform — AI Environmental Monitoring (UAE)",
+    tagline: "Dust storm prediction platform — 7-model ensemble with Kalman filtering (UAE)",
     domain: "climate",
     year: "2025",
+    tier: "systems",
+    ownership: "solo",
+    status: "repo",
     description:
-      "Enterprise-grade dust storm prediction and monitoring platform designed for UAE and the broader MENA region. Leverages a sophisticated 7-model AI ensemble with Kalman filtering to achieve 97%+ prediction accuracy. Features real-time monitoring across 8 UAE emirates with 9+ weather API integrations, WebSocket live updates at 45ms latency, and personalized health advisories for 8 distinct user groups.",
-    problem: "Dust storms in the UAE cause billions in damages annually, disrupt transportation, and pose severe health risks. Existing weather services provide generic, delayed alerts without personalization.",
-    impact: "97%+ prediction accuracy enables proactive evacuations and infrastructure protection. Personalized health advisories protect vulnerable populations across 8 user groups including construction workers, asthmatics, and outdoor athletes.",
-    architecture: "Next.js 14 Frontend → FastAPI Backend → 7-Model AI Ensemble (ARIMA, XGBoost, LSTM, Prophet, Ridge, Random Forest, Gradient Boosting) → Kalman Filter Fusion → 9 Weather APIs → WebSocket Real-time Layer → Leaflet Maps",
+      "Dust storm prediction and monitoring platform designed for the UAE and broader MENA region. A 7-model ensemble (ARIMA, XGBoost, LSTM, Prophet, Ridge, Random Forest, Gradient Boosting) fused with Kalman filtering reports R² = 0.97 on validation (self-reported). Real-time monitoring across 8 UAE emirates with 9+ weather API integrations, WebSocket live updates, and personalized health advisories for 8 user groups.",
+    problem:
+      "Dust storms in the UAE disrupt transport and pose severe health risks, while existing weather services give generic, delayed alerts with no personalization.",
+    impact:
+      "Designed for proactive alerts: ensemble forecasts feed personalized health advisories for vulnerable groups — construction workers, asthmatics, outdoor athletes — across all 8 emirates.",
+    architecture:
+      "Next.js 14 Frontend → FastAPI Backend → 7-Model AI Ensemble (ARIMA, XGBoost, LSTM, Prophet, Ridge, Random Forest, Gradient Boosting) → Kalman Filter Fusion → 9 Weather APIs → WebSocket Real-time Layer → Leaflet Maps",
     metrics: [
-      { label: "Accuracy", value: "97%" },
+      { label: "R² (validation)", value: "0.97", kind: "self-reported", note: "documented in repo README" },
       { label: "AI Models", value: "7" },
-      { label: "APIs", value: "9+" },
-      { label: "Cities", value: "8" },
+      { label: "Weather APIs", value: "9+" },
+      { label: "Emirates", value: "8" },
     ],
     techStack: [
       { category: "Frontend", items: ["Next.js 14", "Leaflet", "Recharts"] },
@@ -140,62 +401,34 @@ export const FEATURED_PRODUCTS: Product[] = [
       { category: "AI", items: ["7-Model Ensemble", "Kalman Filtering"] },
     ],
     features: [
-      "97%+ prediction accuracy",
-      "7-model AI ensemble with Kalman filtering",
-      "9+ weather API integrations",
-      "WebSocket live updates (45ms latency)",
+      "R² = 0.97 on validation (self-reported, documented in README)",
+      "7-model ensemble fused with Kalman filtering",
+      "9+ weather API integrations across 8 emirates",
+      "WebSocket live updates (45ms latency, self-reported)",
       "Personalized health advisories for 8 user groups",
       "Multi-language support (EN/AR)",
-      "Interactive Leaflet satellite maps",
     ],
-    role: "Built end-to-end: data pipeline, AI ensemble architecture, real-time frontend, health advisory system",
+    role: "Built end-to-end: data pipeline, ensemble architecture, real-time frontend, health advisory system.",
+    featured: false,
     github: "https://github.com/sumith1309/Project_Sahara_Sense",
-    featured: true,
-  },
-  {
-    id: "garmi-mitra",
-    name: "Garmi Mitra",
-    tagline: "AI Heatwave Early Warning System — Social Impact (India)",
-    domain: "climate",
-    year: "2025",
-    description:
-      "AI-driven heatwave warning system targeting India's 380 million outdoor workers with personalized risk assessment using a proprietary Heat Risk Index combining UTCI, WBGT, and Heat Index. Delivers voice-first multilingual alerts in 7 Indian languages via Telegram bot with Google TTS integration. Covers 18 Indian cities with crowdsourced shelter mapping and 4 UN SDG-aligned modules.",
-    problem: "India's 380M outdoor workers (construction, agriculture, delivery) face lethal heatwave risks with no accessible, personalized warning system in their language.",
-    impact: "Voice-first alerts in 7 languages ensure illiterate workers receive life-saving warnings. Crowdsourced shelter mapping provides immediate actionable escape routes during heat emergencies.",
-    architecture: "Next.js 14 → FastAPI → Proprietary Heat Risk Index (UTCI + WBGT + Heat Index) → Mapbox GL JS → Telegram Bot API → Google TTS (7 languages) → Crowdsourced Shelter DB",
-    metrics: [
-      { label: "Workers Targeted", value: "380M" },
-      { label: "Languages", value: "7" },
-      { label: "Cities", value: "18" },
-      { label: "UN SDG Modules", value: "4" },
-    ],
-    techStack: [
-      { category: "Frontend", items: ["Next.js 14", "Mapbox GL JS"] },
-      { category: "Backend", items: ["FastAPI", "Google TTS"] },
-      { category: "Distribution", items: ["Telegram Bot API"] },
-    ],
-    features: [
-      "Proprietary Heat Risk Index (UTCI + WBGT + Heat Index)",
-      "Telegram bot with voice-first multilingual alerts",
-      "7 Indian languages via Google TTS",
-      "Crowdsourced shelter mapping",
-      "4 UN SDG-aligned modules",
-      "18 Indian cities coverage",
-    ],
-    role: "Designed product end-to-end: risk index algorithm, multilingual alert system, Telegram distribution, crowdsourced mapping",
-    featured: true,
   },
   {
     id: "cognispace",
     name: "CogniSpace",
-    tagline: "Enterprise AI Service Platform",
+    tagline: "Enterprise AI service platform — co-founded venture, live",
     domain: "enterprise",
     year: "2026",
+    tier: "systems",
+    ownership: "solo",
+    status: "live",
     description:
-      "Enterprise-grade AI service platform providing modern development teams with tools and infrastructure to build, deploy, and scale AI-powered applications. Features a premium marketing site with immersive 3D visuals (Three.js), comprehensive developer dashboard, interactive AI playground for model testing, and robust API layer with JWT + API key authentication.",
-    problem: "Development teams struggle to integrate AI capabilities without deep ML expertise, complex infrastructure setup, and months of development time.",
-    impact: "Self-service onboarding reduces integration time from months to hours. Interactive demos convert enterprise leads through developer engagement.",
-    architecture: "Next.js 16 App Router → tRPC + REST API Gateway → Redis Rate Limiter → Auth Middleware (JWT + API Key) → AI Service Layer → PostgreSQL + Redis",
+      "AI service platform providing development teams with tools and infrastructure to build, deploy, and scale AI-powered applications. Marketing site with immersive Three.js visuals, developer dashboard, interactive AI playground for model testing, and an API layer with JWT + API key authentication.",
+    problem:
+      "Development teams struggle to integrate AI capabilities without deep ML expertise, complex infrastructure setup, and months of development time.",
+    impact:
+      "Self-service onboarding is designed to cut integration from months to hours; interactive demos convert leads through developer engagement.",
+    architecture:
+      "Next.js 16 App Router → tRPC + REST API Gateway → Redis Rate Limiter → Auth Middleware (JWT + API Key) → AI Service Layer → PostgreSQL + Redis",
     metrics: [
       { label: "Role", value: "COO & Co-Founder" },
       { label: "UI Components", value: "18" },
@@ -212,59 +445,29 @@ export const FEATURED_PRODUCTS: Product[] = [
       "Real-time usage analytics dashboard",
       "Stripe-integrated billing system",
       "Immersive 3D landing experience",
-      "18 accessible UI components design system",
     ],
-    role: "Co-founded. Defined product vision, pricing strategy, and go-to-market. Led end-to-end product development.",
+    role: "Co-founded. Defined product vision, pricing, and go-to-market; led end-to-end product development.",
+    featured: false,
     github: "https://github.com/sumith1309/COGNISPACE",
     website: "https://www.cognispace.co.in/",
-    featured: true,
   },
-  {
-    id: "health",
-    name: "Health Prediction",
-    tagline: "96.6% Accuracy Heart Disease Detection — EU AI Act Compliant",
-    domain: "enterprise",
-    year: "2025",
-    description:
-      "Production-grade ML system for early heart disease detection achieving 96.6% accuracy with Gradient Boosting. Features a zero-bias architecture with 98.4% fairness across demographics via SMOTE resampling, full EU AI Act high-risk system compliance with transparent risk management documentation, and a premium fintech-style dashboard with Framer Motion animations.",
-    problem: "Heart disease is the leading cause of death globally, yet early screening tools are inaccessible to primary care and often carry demographic bias that disproportionately misdiagnoses underrepresented groups.",
-    impact: "96.6% accuracy enables reliable early screening at the primary care level. 98.4% fairness score ensures equitable predictions across demographics. Full EU AI Act compliance makes this deployment-ready for regulated healthcare markets.",
-    architecture: "Patient Data Input → Feature Engineering → SMOTE Resampling (Bias Elimination) → Gradient Boosting Classifier (96.6%) → Fairness Auditor (98.4% Demographic Parity) → EU AI Act Risk Management Module → React Dashboard (Framer Motion)",
-    metrics: [
-      { label: "Accuracy", value: "96.6%" },
-      { label: "Fairness", value: "98.4%" },
-      { label: "Compliance", value: "EU AI Act" },
-      { label: "Bias", value: "Zero-bias" },
-    ],
-    techStack: [
-      { category: "Frontend", items: ["React", "Framer Motion", "TailwindCSS"] },
-      { category: "AI", items: ["Gradient Boosting", "SMOTE Resampling", "scikit-learn", "Feature Engineering"] },
-      { category: "Compliance", items: ["EU AI Act Risk Framework", "Fairness Auditor", "Transparent Model Explanations"] },
-    ],
-    features: [
-      "96.6% heart disease prediction accuracy",
-      "Zero-bias architecture (98.4% fairness across demographics)",
-      "EU AI Act high-risk system compliance",
-      "Transparent model decision explanations",
-      "Premium fintech-style interactive dashboard",
-    ],
-    role: "Built end-to-end: ML pipeline, fairness framework, compliance documentation, dashboard",
-    github: "https://github.com/sumith1309/Predicting-Health-with-Precision",
-    featured: true,
-  },
-];
-
-export const ADDITIONAL_PRODUCTS: Product[] = [
   {
     id: "bsa",
     name: "Bank Statement Analyzer",
-    tagline: "AI FinTech Tool — Statement to Voucher Converter",
+    tagline: "AI FinTech tool — statement to auditor-ready vouchers",
     domain: "fintech",
     year: "2026",
-    description: "Full-stack TypeScript application that converts raw bank statements (Excel) into auditor-ready voucher files. Features intelligent column detection, hybrid AI + deterministic regex classification, RAG-powered chatbot for transaction querying, interactive Apache ECharts analytics, and 8 professional Excel export modes with monthly consolidation and ZIP bundling.",
-    problem: "Accountants and auditors spend hours manually classifying bank transactions and reformatting statements into voucher entries, leading to costly errors and audit delays.",
-    impact: "Estimated 80% reduction in manual transaction classification time. 8 export modes eliminate repetitive reformatting, enabling same-day audit preparation that previously took 2-3 days.",
-    architecture: "React 19 → Express 5 → GPT-4o-mini (Hybrid AI + Regex) → RAG Chatbot → Apache ECharts → SheetJS Excel Engine → ZIP Bundler",
+    tier: "systems",
+    ownership: "solo",
+    status: "repo",
+    description:
+      "Full-stack TypeScript application that converts raw bank statements (Excel) into auditor-ready voucher files. Intelligent column detection, hybrid AI + deterministic regex classification, RAG-powered chatbot for transaction querying, interactive Apache ECharts analytics, and 8 Excel export modes with monthly consolidation and ZIP bundling.",
+    problem:
+      "Accountants and auditors spend hours manually classifying bank transactions and reformatting statements into voucher entries, leading to costly errors and audit delays.",
+    impact:
+      "Estimated 80% reduction in manual classification time; 8 export modes eliminate repetitive reformatting for audit preparation.",
+    architecture:
+      "React 19 → Express 5 → GPT-4o-mini (Hybrid AI + Regex) → RAG Chatbot → Apache ECharts → SheetJS Excel Engine → ZIP Bundler",
     metrics: [
       { label: "AI Engine", value: "GPT-4o-mini" },
       { label: "Export Modes", value: "8" },
@@ -277,355 +480,27 @@ export const ADDITIONAL_PRODUCTS: Product[] = [
       { category: "AI", items: ["OpenAI GPT-4o-mini", "RAG Pipeline", "Deterministic Regex Classifier"] },
     ],
     features: ["Hybrid AI + deterministic classification", "RAG-powered chatbot", "8 export functions with month consolidation"],
-    role: "Built end-to-end",
+    role: "Built end-to-end.",
+    featured: false,
     github: "https://github.com/sumith1309/Bank-Statement-Analyzer",
-    featured: false,
-  },
-  {
-    id: "nlp-classifier",
-    name: "NLP Ticket Classifier",
-    tagline: "Zero-shot Classification with SLA Tracking",
-    domain: "enterprise",
-    year: "2025",
-    description: "Zero-shot ticket classification using BART-large-mnli with SLA tracking.",
-    problem: "Support teams manually triage and route incoming tickets, causing inconsistent categorization, missed SLAs, and delayed resolutions for high-priority issues.",
-    impact: "Projected 60% reduction in ticket misrouting. Zero-shot approach eliminates the need for labeled training data, enabling instant deployment without months of data collection.",
-    architecture: "Python Backend → BART-large-mnli (Zero-shot) → SLA Tracker → Priority Router → Dashboard",
-    metrics: [
-      { label: "Model", value: "BART-large-mnli" },
-      { label: "Approach", value: "Zero-shot" },
-      { label: "Training Data", value: "None Required" },
-    ],
-    techStack: [
-      { category: "Backend", items: ["Python", "Flask"] },
-      { category: "AI", items: ["BART-large-mnli", "Hugging Face Transformers", "Zero-shot Classification"] },
-      { category: "Infrastructure", items: ["SLA Engine", "Priority Routing"] },
-    ],
-    features: ["Zero-shot classification", "SLA tracking", "Automated routing"],
-    role: "Built end-to-end",
-    github: "https://github.com/sumith1309/NLP_Ticket_Classifier",
-    featured: false,
-  },
-  {
-    id: "trails-miles",
-    name: "Trails & Miles",
-    tagline: "AI Travel Planner with RAG Chatbot",
-    domain: "enterprise",
-    year: "2025",
-    description: "AI-powered travel planning platform for Indian travellers featuring GPT-4o itinerary generation (day-wise morning/afternoon/evening blocks), RAG-powered chatbot with SSE streaming, destination intelligence for 6 countries and 36+ cities, India-specific visa hub, and 25 domestic city guides.",
-    problem: "Indian travellers waste hours across fragmented travel blogs, visa portals, and booking sites to plan trips, with no single platform offering AI-personalized itineraries with India-specific visa and budget context.",
-    impact: "Estimated 70% reduction in trip planning time. Covers 6 countries and 36+ cities with structured day-wise itineraries, eliminating the need for manual research across multiple sources.",
-    architecture: "Next.js Frontend → Express Backend → GPT-4o Itinerary Engine → RAG Chatbot (SSE Streaming) → Destination Intelligence DB → Visa Hub API",
-    metrics: [
-      { label: "AI Engine", value: "GPT-4o" },
-      { label: "Countries", value: "6" },
-      { label: "Cities", value: "36+" },
-      { label: "Domestic Guides", value: "25" },
-    ],
-    techStack: [
-      { category: "Frontend", items: ["Next.js", "React", "TailwindCSS"] },
-      { category: "Backend", items: ["Express", "Node.js"] },
-      { category: "AI", items: ["OpenAI GPT-4o", "RAG Pipeline", "SSE Streaming"] },
-    ],
-    features: ["AI-powered itinerary generation", "RAG chatbot", "Personalized recommendations"],
-    role: "Built end-to-end",
-    github: "https://github.com/sumith1309/Travel-Itinerary",
-    featured: false,
-  },
-  {
-    id: "stationeryhub",
-    name: "StationeryHub",
-    tagline: "B2B/B2C E-commerce with AI Search",
-    domain: "enterprise",
-    year: "2025",
-    description: "Full-featured e-commerce platform with AI-powered search and Razorpay payment integration.",
-    problem: "Small stationery businesses lack affordable digital storefronts, while bulk buyers (schools, offices) have no efficient way to discover and order supplies with intelligent product search.",
-    impact: "AI-powered search improves product discovery by an estimated 40% over keyword-only search. Razorpay integration enables instant B2B and B2C transactions for the Indian market.",
-    architecture: "React Frontend → Node.js/Express Backend → AI Search Engine → MongoDB Product Catalog → Razorpay Payment Gateway",
-    metrics: [
-      { label: "Payment", value: "Razorpay" },
-      { label: "Search", value: "AI-Powered" },
-      { label: "Segments", value: "B2B + B2C" },
-    ],
-    techStack: [
-      { category: "Frontend", items: ["React", "TailwindCSS"] },
-      { category: "Backend", items: ["Node.js", "Express", "MongoDB"] },
-      { category: "Infrastructure", items: ["Razorpay", "AI Search Engine"] },
-    ],
-    features: ["AI-powered search", "B2B/B2C marketplace", "Razorpay integration"],
-    role: "Built end-to-end",
-    github: "https://github.com/sumith1309/Stationary_Hub",
-    featured: false,
-  },
-  {
-    id: "forecasting",
-    name: "Enterprise Forecasting",
-    tagline: "ARIMA + XGBoost + Gemini AI",
-    domain: "fintech",
-    year: "2025",
-    description: "Comprehensive production-ready sales forecasting platform combining 4 ML models (Naïve, ARIMA, Random Forest, XGBoost) with Google Gemini AI-powered insights. Features a corporate interactive dashboard, seasonality detection, feature importance analysis, synthetic data generator, and CSV import/export.",
-    problem: "Finance teams rely on spreadsheet-based forecasting with single models, missing seasonal patterns and producing inaccurate projections that lead to inventory overstock or stockouts.",
-    impact: "4-model ensemble reduces forecast error by an estimated 25-35% over single-model approaches. Gemini AI provides plain-English explanations of trends, making forecasts accessible to non-technical stakeholders.",
-    architecture: "Streamlit Dashboard → Python ML Pipeline (Naïve + ARIMA + Random Forest + XGBoost) → Google Gemini AI Insights → Seasonality Detector → CSV Import/Export",
-    metrics: [
-      { label: "ML Models", value: "4" },
-      { label: "AI Insights", value: "Gemini" },
-      { label: "Seasonality", value: "Auto-detect" },
-      { label: "Data", value: "CSV + Synthetic" },
-    ],
-    techStack: [
-      { category: "Frontend", items: ["Streamlit", "Plotly"] },
-      { category: "AI", items: ["ARIMA", "XGBoost", "Random Forest", "Google Gemini"] },
-      { category: "Backend", items: ["Python", "Pandas", "scikit-learn", "statsmodels"] },
-    ],
-    features: ["Multi-model ensemble", "Gemini AI integration", "Enterprise-grade forecasting"],
-    role: "Built end-to-end",
-    github: "https://github.com/sumith1309/Enterprise-Forecasting",
-    featured: false,
-  },
-  {
-    id: "ai-email",
-    name: "AI Email Automation",
-    tagline: "Intelligent Email Processing & Automation",
-    domain: "enterprise",
-    year: "2025",
-    description: "AI-powered email automation system for intelligent processing and workflow automation.",
-    problem: "Knowledge workers spend 2-3 hours daily reading, classifying, and responding to routine emails, diverting attention from high-value strategic work.",
-    impact: "Estimated 50% reduction in email handling time through automated classification and response drafting. Priority-based routing ensures critical emails are addressed within minutes instead of hours.",
-    architecture: "Email Ingestion Layer → NLP Classification Engine → Priority Router → Auto-Response Generator → Workflow Trigger Engine",
-    metrics: [
-      { label: "Automation", value: "End-to-end" },
-      { label: "Classification", value: "NLP-based" },
-      { label: "Response", value: "Auto-draft" },
-    ],
-    techStack: [
-      { category: "Backend", items: ["Python", "FastAPI"] },
-      { category: "AI", items: ["NLP Classification", "Auto-Response Generation"] },
-      { category: "Infrastructure", items: ["Email APIs", "Workflow Engine"] },
-    ],
-    features: ["Intelligent email classification", "Automated responses", "Workflow automation"],
-    role: "Built end-to-end",
-    featured: false,
-  },
-  {
-    id: "churn",
-    name: "Customer Churn Dashboard",
-    tagline: "Random Forest + XGBoost Prediction",
-    domain: "fintech",
-    year: "2025",
-    description: "Professional-grade customer churn prediction dashboard with real-time risk assessment, interactive Chart.js/Plotly visualizations, model performance comparison (Random Forest, XGBoost), three-tier risk classification, and actionable retention recommendations with ROI analysis.",
-    problem: "Subscription businesses lose 5-7% of customers monthly without early warning, and retention teams lack data-driven prioritization to focus on the highest-risk accounts.",
-    impact: "Three-tier risk classification enables targeted retention campaigns. Estimated 15-20% improvement in retention rates by intervening before at-risk customers churn, with ROI analysis quantifying the value of each saved account.",
-    architecture: "Python ML Pipeline (Random Forest + XGBoost) → Three-tier Risk Classifier → Chart.js/Plotly Dashboard → ROI Analyzer → Retention Recommender",
-    metrics: [
-      { label: "Models", value: "RF + XGBoost" },
-      { label: "Risk Tiers", value: "3" },
-      { label: "Visualizations", value: "Chart.js + Plotly" },
-      { label: "Output", value: "ROI Analysis" },
-    ],
-    techStack: [
-      { category: "Frontend", items: ["HTML/CSS", "Chart.js", "Plotly"] },
-      { category: "AI", items: ["Random Forest", "XGBoost", "scikit-learn"] },
-      { category: "Backend", items: ["Python", "Pandas", "NumPy"] },
-    ],
-    features: ["Churn prediction", "Feature importance analysis", "Interactive dashboard"],
-    role: "Built end-to-end",
-    github: "https://github.com/sumith1309/customer-churn-dashboard",
-    featured: false,
-  },
-  {
-    id: "predictive-maintenance",
-    name: "Predictive Maintenance",
-    tagline: "CNN-LSTM + Computer Vision",
-    domain: "enterprise",
-    year: "2025",
-    description: "End-to-end predictive maintenance system combining 4 approaches: Logistic Regression sensor analysis, CNN-LSTM hybrid time-series detection, Statistical Process Control charting, and 2D CNN visual defect detection. Features an interactive HTML dashboard with Apache ECharts and in-browser TF.js inference.",
-    problem: "Manufacturing plants lose an estimated 5-20% of production capacity to unplanned equipment failures, with reactive maintenance costing 3-9x more than planned interventions.",
-    impact: "Projected 30-40% reduction in unplanned downtime by combining sensor anomaly detection with visual defect identification. In-browser TF.js inference enables real-time monitoring without cloud dependency.",
-    architecture: "Sensor Data Pipeline → Logistic Regression + CNN-LSTM Hybrid → SPC Control Charts → 2D CNN Visual Inspector → TensorFlow.js In-Browser Inference → Apache ECharts Dashboard",
-    metrics: [
-      { label: "ML Approaches", value: "4" },
-      { label: "Inference", value: "In-browser TF.js" },
-      { label: "Detection", value: "Sensor + Visual" },
-      { label: "Dashboard", value: "Apache ECharts" },
-    ],
-    techStack: [
-      { category: "Frontend", items: ["HTML/CSS", "Apache ECharts", "TensorFlow.js"] },
-      { category: "AI", items: ["CNN-LSTM Hybrid", "Logistic Regression", "2D CNN", "Statistical Process Control"] },
-      { category: "Backend", items: ["Python", "TensorFlow", "Keras"] },
-    ],
-    features: ["CNN-LSTM prediction", "Computer vision inspection", "Statistical process control"],
-    role: "Built end-to-end",
-    github: "https://github.com/sumith1309/Predictive-Maintenance",
-    featured: false,
-  },
-  {
-    id: "inventory",
-    name: "AI Inventory Management",
-    tagline: "Monte Carlo Simulation",
-    domain: "fintech",
-    year: "2025",
-    description: "Intelligent inventory management platform with predictive analytics, Monte Carlo simulations (100-10,000 iterations), Bayesian sensitivity analysis, ML demand forecasting (hybrid linear regression + moving average), and multi-SKU dashboard with real-time reorder point optimization.",
-    problem: "Supply chain managers set reorder points using static rules-of-thumb, leading to either costly overstocking (tying up capital) or dangerous stockouts (losing revenue and customers).",
-    impact: "Monte Carlo simulations (up to 10,000 iterations) quantify demand uncertainty with confidence intervals. Estimated 20-30% reduction in carrying costs while maintaining 95%+ service levels through optimized reorder points.",
-    architecture: "Demand Data → ML Forecasting (Linear Regression + Moving Average) → Monte Carlo Simulator (100-10K iterations) → Bayesian Sensitivity Analysis → Reorder Point Optimizer → Multi-SKU Dashboard",
-    metrics: [
-      { label: "Simulations", value: "Up to 10K" },
-      { label: "Analysis", value: "Bayesian + Monte Carlo" },
-      { label: "Forecasting", value: "Hybrid ML" },
-      { label: "Scope", value: "Multi-SKU" },
-    ],
-    techStack: [
-      { category: "Frontend", items: ["Streamlit", "Plotly", "Matplotlib"] },
-      { category: "AI", items: ["Monte Carlo Simulation", "Bayesian Analysis", "Linear Regression", "Moving Average"] },
-      { category: "Backend", items: ["Python", "NumPy", "SciPy", "Pandas"] },
-    ],
-    features: ["Monte Carlo demand simulation", "Inventory optimization", "Reorder point calculation"],
-    role: "Built end-to-end",
-    github: "https://github.com/sumith1309/AI_Applications_in_Reorder_Point_Inventory_Management",
-    featured: false,
-  },
-  {
-    id: "taskflow",
-    name: "TaskFlow",
-    tagline: "Socket.IO Real-time Task Management",
-    domain: "enterprise",
-    year: "2025",
-    description: "Lightweight real-time task management web application for small teams (1 Manager + 3 Employees). Features role-based dashboards with Kanban board and analytics for managers, JWT authentication, Socket.IO real-time updates, file attachments via MongoDB GridFS, online presence indicators, and a glassmorphism Ocean Glass UI design system.",
-    problem: "Small teams (3-5 people) are underserved by enterprise project management tools that are overpriced and complex, yet need real-time collaboration beyond shared spreadsheets.",
-    impact: "Socket.IO real-time updates eliminate manual refresh cycles and status meetings. Role-based dashboards give managers instant visibility into team progress without micromanaging.",
-    architecture: "React Frontend (Ocean Glass UI) → Express + Socket.IO Backend → JWT Auth Middleware → MongoDB + GridFS → Chart.js Analytics → Online Presence Engine",
-    metrics: [
-      { label: "Real-time", value: "Socket.IO" },
-      { label: "Auth", value: "JWT" },
-      { label: "Storage", value: "MongoDB GridFS" },
-      { label: "UI System", value: "Ocean Glass" },
-    ],
-    techStack: [
-      { category: "Frontend", items: ["React", "Chart.js", "Glassmorphism CSS"] },
-      { category: "Backend", items: ["Node.js", "Express", "Socket.IO", "MongoDB", "GridFS"] },
-      { category: "Infrastructure", items: ["JWT Authentication", "Online Presence Engine"] },
-    ],
-    features: ["Real-time task updates via Socket.IO", "Role-based Kanban + analytics dashboards", "File attachments with GridFS", "Online presence tracking"],
-    role: "Built end-to-end",
-    github: "https://github.com/sumith1309/LUC_Progress_Tracker",
-    featured: false,
-  },
-  {
-    id: "housing",
-    name: "Housing Price Service",
-    tagline: "Docker + Kubernetes Deployment",
-    domain: "fintech",
-    year: "2025",
-    description: "Housing price prediction service deployed with Docker and Kubernetes.",
-    problem: "ML models for real estate pricing often remain in notebooks and never reach production, lacking the containerized infrastructure needed for reliable, scalable API serving.",
-    impact: "Kubernetes orchestration enables auto-scaling to handle traffic spikes during peak listing seasons. Containerized deployment ensures reproducible predictions across environments with zero configuration drift.",
-    architecture: "Feature Input → scikit-learn ML Model → Flask REST API → Docker Container → Kubernetes Orchestration → Load Balancer → Prediction Response",
-    metrics: [
-      { label: "Deployment", value: "Kubernetes" },
-      { label: "Containers", value: "Docker" },
-      { label: "API", value: "REST" },
-      { label: "Scaling", value: "Auto-scale" },
-    ],
-    techStack: [
-      { category: "Backend", items: ["Python", "Flask", "scikit-learn"] },
-      { category: "Infrastructure", items: ["Docker", "Kubernetes", "kubectl"] },
-      { category: "AI", items: ["ML Regression Model", "Feature Engineering"] },
-    ],
-    features: ["Containerized deployment", "Kubernetes orchestration", "ML prediction"],
-    role: "Built end-to-end",
-    github: "https://github.com/sumith1309/Housing-Price-Service",
-    featured: false,
-  },
-  {
-    id: "cost-estimator",
-    name: "Construction Cost Estimator",
-    tagline: "SaaS Tool with Payment Integration",
-    domain: "construction",
-    year: "2024",
-    description: "Production SaaS construction cost estimation tool with Gumroad payment integration (₹499), JWT-secured server-side calculations, itemized 6-component cost breakdowns, construction timeline estimates, and downloadable PDF reports. Built with zero client-side secrets architecture to prevent bypass.",
-    problem: "Homeowners and small builders in India get wildly inconsistent cost estimates from contractors, with no transparent, standardized tool to validate pricing before committing to a project.",
-    impact: "Instant cost reports replace weeks of back-and-forth with contractors. 6-component itemized breakdown gives homeowners transparency into where every rupee goes, reducing disputes and budget overruns.",
-    architecture: "React Frontend → JWT Auth Gate → Gumroad Payment (₹499) → Express Server-side Calculator → 6-Component Cost Engine → PDF Report Generator → Download",
-    metrics: [
-      { label: "Type", value: "Production SaaS" },
-      { label: "Payment", value: "Gumroad ₹499" },
-      { label: "Cost Components", value: "6" },
-      { label: "Security", value: "Zero Client Secrets" },
-    ],
-    techStack: [
-      { category: "Frontend", items: ["React", "TailwindCSS"] },
-      { category: "Backend", items: ["Express", "Node.js", "JWT", "PDF Generator"] },
-      { category: "Infrastructure", items: ["Gumroad Payment Gateway", "Server-side Calculation Engine"] },
-    ],
-    features: ["Instant cost estimation", "Payment integration", "Automated quoting"],
-    role: "Built to solve real problems experienced during 5 years of construction operations",
-    github: "https://github.com/sumith1309/instant-house-construction-cost-report",
-    featured: false,
-  },
-  {
-    id: "healthcare-analytics",
-    name: "Healthcare Analytics Platform",
-    tagline: "AI Model Comparison for Healthcare KPIs",
-    domain: "enterprise",
-    year: "2026",
-    description: "Comprehensive analytics platform for evaluating and comparing AI model performance across healthcare departments (Radiology, Pathology, Cardiology, Operations). Features Python analysis engine with statistical comparison, interactive ECharts web dashboard with real-time visualizations, 6-month accuracy forecasts using linear regression, and an executive one-pager report for stakeholders.",
-    problem: "Hospital IT teams deploy multiple AI models across departments but lack a unified platform to compare performance, track KPI trends, and justify AI investment to non-technical executives.",
-    impact: "Unified dashboard across 4 departments eliminates siloed model evaluation. 6-month accuracy forecasts enable proactive model retraining before performance degrades below clinical thresholds.",
-    architecture: "Python Analysis Engine (Pandas + statsmodels) → Statistical Model Comparator → Linear Regression Forecaster → ECharts Interactive Dashboard → Matplotlib/Seaborn Reports → Executive One-Pager PDF",
-    metrics: [
-      { label: "Departments", value: "4" },
-      { label: "KPIs", value: "4" },
-      { label: "Forecast Horizon", value: "6 months" },
-      { label: "Models Compared", value: "3 (Baseline + v1 + v2)" },
-    ],
-    techStack: [
-      { category: "Frontend", items: ["HTML/CSS", "Apache ECharts"] },
-      { category: "Backend", items: ["Python", "Pandas", "statsmodels"] },
-      { category: "AI", items: ["Linear Regression Forecasting", "Statistical Model Comparison"] },
-      { category: "Visualization", items: ["Matplotlib", "Seaborn", "ECharts"] },
-    ],
-    features: ["AI model comparison (Baseline vs AI_v1 vs AI_v2)", "Interactive ECharts dashboard", "6-month accuracy forecasting", "Executive one-pager report"],
-    role: "Built end-to-end",
-    github: "https://github.com/sumith1309/AI-Powered-Healthcare-Analytics",
-    featured: false,
-  },
-  {
-    id: "hubspot-integration",
-    name: "HubSpot Contact Manager",
-    tagline: "CRM Data Cleaning & Standardization",
-    domain: "enterprise",
-    year: "2026",
-    description: "Modern web application for managing, cleaning, and standardizing HubSpot CRM contacts. Features CSV drag-and-drop upload with auto-column mapping, Clean Bot for auto-filling missing fields, Standardize Bot for name/phone/email normalization, Audit Agent with visual data quality reports, and one-click batch push to HubSpot via API.",
-    problem: "Sales teams operate on dirty CRM data — duplicate contacts, inconsistent phone formats, missing emails — leading to failed outreach campaigns and inaccurate pipeline reporting.",
-    impact: "3 automated bots (Clean, Standardize, Audit) fix data quality issues that would take a sales ops team days to resolve manually. One-click batch push ensures clean data flows directly into HubSpot without re-entry.",
-    architecture: "React + Vite Frontend → CSV Parser (Auto-Column Mapping) → Clean Bot → Standardize Bot → Audit Agent (Visual Reports) → Netlify Functions → HubSpot API (Batch Push)",
-    metrics: [
-      { label: "Bots", value: "3" },
-      { label: "CRM", value: "HubSpot" },
-      { label: "Upload", value: "Drag-and-drop CSV" },
-      { label: "Push", value: "One-click Batch" },
-    ],
-    techStack: [
-      { category: "Frontend", items: ["React", "Vite", "TailwindCSS"] },
-      { category: "Backend", items: ["Netlify Functions", "HubSpot API"] },
-      { category: "AI", items: ["Clean Bot", "Standardize Bot", "Audit Agent"] },
-    ],
-    features: ["CSV upload with auto-column mapping", "Clean Bot for missing fields", "Standardize Bot for data normalization", "Audit Agent with visual reports", "One-click batch push to HubSpot"],
-    role: "Built end-to-end",
-    github: "https://github.com/sumith1309/-HubSpot-Integration",
-    featured: false,
   },
   {
     id: "code-archaeologist",
     name: "Code Archaeologist",
-    tagline: "AI Legacy Code Analysis Platform",
+    tagline: "AI legacy-code analysis platform",
     domain: "enterprise",
     year: "2025",
-    description: "Enterprise-grade AI-powered platform for understanding, documenting, and modernizing legacy codebases. Supports 10+ programming languages with advanced static analysis, intelligent documentation generation, interactive visualizations, and a REST API. Built with FastAPI backend, Next.js 14 frontend, and PostgreSQL storage.",
-    problem: "Engineering teams inherit legacy codebases with zero documentation, spending weeks reverse-engineering business logic before they can safely make changes or plan migrations.",
-    impact: "Automated analysis of 10+ languages reduces codebase onboarding from weeks to hours. AI-generated documentation captures tribal knowledge that would otherwise be lost when original developers leave.",
-    architecture: "Next.js 14 Frontend → FastAPI Backend → Static Analysis Engine (10+ Languages) → AI Documentation Generator → Interactive Visualization Layer → PostgreSQL Storage → Docker Deployment",
+    tier: "systems",
+    ownership: "solo",
+    status: "repo",
+    description:
+      "AI-powered platform for understanding, documenting, and modernizing legacy codebases. Supports 10+ programming languages with static analysis, intelligent documentation generation, interactive visualizations, and a REST API. FastAPI backend, Next.js 14 frontend, PostgreSQL storage.",
+    problem:
+      "Engineering teams inherit legacy codebases with zero documentation, spending weeks reverse-engineering business logic before they can safely make changes.",
+    impact:
+      "Automated analysis across 10+ languages is designed to cut codebase onboarding from weeks to hours and capture tribal knowledge before it walks out the door.",
+    architecture:
+      "Next.js 14 Frontend → FastAPI Backend → Static Analysis Engine (10+ Languages) → AI Documentation Generator → Interactive Visualization Layer → PostgreSQL Storage → Docker Deployment",
     metrics: [
       { label: "Languages", value: "10+" },
       { label: "Analysis", value: "Static + AI" },
@@ -638,17 +513,564 @@ export const ADDITIONAL_PRODUCTS: Product[] = [
       { category: "AI", items: ["Static Analysis Engine", "AI Documentation Generator"] },
       { category: "Infrastructure", items: ["Docker", "Multi-language Parser"] },
     ],
-    features: ["AI-powered legacy code analysis", "10+ language support", "Interactive codebase visualizations", "Automated documentation generation", "REST API"],
-    role: "Built end-to-end",
-    github: "https://github.com/sumith1309/AI-Code-Archaeologist",
+    features: [
+      "AI-powered legacy code analysis",
+      "10+ language support",
+      "Interactive codebase visualizations",
+      "Automated documentation generation",
+    ],
+    role: "Built end-to-end.",
     featured: false,
+    github: "https://github.com/sumith1309/AI-Code-Archaeologist",
+  },
+  {
+    id: "urban-illusion",
+    name: "Urban Illusion",
+    tagline: "Graphics-craft showcase — Next.js + TypeScript + GLSL shaders",
+    domain: "enterprise",
+    year: "2026",
+    tier: "systems",
+    ownership: "solo",
+    status: "live",
+    description:
+      "A graphics-intensive web experience built to push browser rendering: custom GLSL shaders inside a Next.js + TypeScript app. A craft piece — live on Vercel.",
+    metrics: [
+      { label: "Stack", value: "Next.js + GLSL" },
+      { label: "Focus", value: "Shader craft" },
+      { label: "Status", value: "Live" },
+    ],
+    techStack: [
+      { category: "Frontend", items: ["Next.js", "TypeScript", "GLSL Shaders"] },
+      { category: "Infrastructure", items: ["Vercel"] },
+    ],
+    features: ["Custom GLSL shader work in the browser", "Live deployment on Vercel"],
+    role: "Built end-to-end.",
+    featured: false,
+    github: "https://github.com/sumith1309/Urban_Illusion",
+    website: "https://urban-illusion.vercel.app",
   },
 ];
 
-export const ALL_PRODUCTS = [...FEATURED_PRODUCTS, ...ADDITIONAL_PRODUCTS];
+/* ────────────────────────────────────────────────────────────────────────────
+   TIER 3 — ML / NOTEBOOK / EXPERIMENTAL LAB
+──────────────────────────────────────────────────────────────────────────── */
+
+const TIER_LAB: Product[] = [
+  {
+    id: "health",
+    name: "Health Prediction",
+    tagline: "Heart disease detection — fairness-aware ML, designed around EU AI Act principles",
+    domain: "enterprise",
+    year: "2025",
+    tier: "lab",
+    ownership: "solo",
+    status: "repo",
+    description:
+      "ML system for early heart disease detection using Gradient Boosting, reporting 96.6% accuracy on its validation set (self-reported). Uses SMOTE resampling as a bias control across demographics, is designed around EU AI Act principles with risk-management documentation, and ships with an interactive dashboard.",
+    problem:
+      "Heart disease is the leading cause of death globally, yet early screening tools are inaccessible to primary care and often carry demographic bias.",
+    impact:
+      "Demonstrates a fairness-aware ML workflow: bias controls via SMOTE, transparent model explanations, and risk documentation modeled on EU AI Act principles.",
+    architecture:
+      "Patient Data Input → Feature Engineering → SMOTE Resampling (Bias Control) → Gradient Boosting Classifier → Fairness Audit → Risk Management Documentation → React Dashboard",
+    metrics: [
+      { label: "Accuracy", value: "96.6%", kind: "self-reported", note: "validation set, per README" },
+      { label: "Bias Controls", value: "SMOTE resampling" },
+      { label: "Compliance", value: "EU AI Act principles" },
+    ],
+    techStack: [
+      { category: "Frontend", items: ["React", "Framer Motion", "TailwindCSS"] },
+      { category: "AI", items: ["Gradient Boosting", "SMOTE Resampling", "scikit-learn", "Feature Engineering"] },
+      { category: "Compliance", items: ["Risk Documentation", "Fairness Audit", "Model Explanations"] },
+    ],
+    features: [
+      "96.6% validation-set accuracy (self-reported)",
+      "SMOTE resampling as a demographic bias control",
+      "Designed around EU AI Act principles with risk documentation",
+      "Transparent model decision explanations",
+    ],
+    role: "Built end-to-end: ML pipeline, fairness workflow, documentation, dashboard.",
+    featured: false,
+    github: "https://github.com/sumith1309/Predicting-Health-with-Precision",
+  },
+  {
+    id: "garmi-mitra",
+    name: "Garmi Mitra",
+    tagline: "AI heatwave early-warning system — designed for India's outdoor workers",
+    domain: "climate",
+    year: "2025",
+    tier: "lab",
+    ownership: "solo",
+    status: "private",
+    description:
+      "AI-driven heatwave warning system designed for India's 380 million outdoor workers, with personalized risk assessment using a composite Heat Risk Index (UTCI + WBGT + Heat Index). Voice-first multilingual alerts in 7 Indian languages via Telegram bot with Google TTS, coverage designs for 18 Indian cities, crowdsourced shelter mapping, and 4 UN SDG-aligned modules.",
+    problem:
+      "India's outdoor workers — construction, agriculture, delivery — face lethal heatwave risk with no accessible, personalized warning system in their own language.",
+    impact:
+      "Designed so that voice-first alerts reach workers regardless of literacy, and crowdsourced shelter mapping gives actionable escape routes during heat emergencies.",
+    architecture:
+      "Next.js 14 → FastAPI → Heat Risk Index (UTCI + WBGT + Heat Index) → Mapbox GL JS → Telegram Bot API → Google TTS (7 languages) → Crowdsourced Shelter DB",
+    metrics: [
+      { label: "Designed For", value: "380M outdoor workers", kind: "designed-for" },
+      { label: "Languages", value: "7" },
+      { label: "Cities", value: "18" },
+      { label: "UN SDG Modules", value: "4" },
+    ],
+    techStack: [
+      { category: "Frontend", items: ["Next.js 14", "Mapbox GL JS"] },
+      { category: "Backend", items: ["FastAPI", "Google TTS"] },
+      { category: "Distribution", items: ["Telegram Bot API"] },
+    ],
+    features: [
+      "Composite Heat Risk Index (UTCI + WBGT + Heat Index)",
+      "Voice-first multilingual alerts via Telegram bot",
+      "7 Indian languages via Google TTS",
+      "Crowdsourced shelter mapping",
+    ],
+    role: "Designed and built end-to-end: risk index, multilingual alerts, Telegram distribution, shelter mapping.",
+    featured: false,
+  },
+  {
+    id: "forecasting",
+    name: "Enterprise Forecasting",
+    tagline: "ARIMA + XGBoost + Gemini AI",
+    domain: "fintech",
+    year: "2025",
+    tier: "lab",
+    ownership: "solo",
+    status: "repo",
+    description:
+      "Sales forecasting platform combining 4 ML models (Naïve, ARIMA, Random Forest, XGBoost) with Google Gemini AI-powered insights. Interactive dashboard, seasonality detection, feature importance analysis, synthetic data generator, and CSV import/export.",
+    problem:
+      "Finance teams rely on spreadsheet-based forecasting with single models, missing seasonal patterns and producing inaccurate projections.",
+    impact:
+      "4-model ensemble is designed to reduce forecast error versus single-model approaches (estimated 25-35%). Gemini explains trends in plain English for non-technical stakeholders.",
+    architecture:
+      "Streamlit Dashboard → Python ML Pipeline (Naïve + ARIMA + Random Forest + XGBoost) → Google Gemini AI Insights → Seasonality Detector → CSV Import/Export",
+    metrics: [
+      { label: "ML Models", value: "4" },
+      { label: "AI Insights", value: "Gemini" },
+      { label: "Seasonality", value: "Auto-detect" },
+      { label: "Data", value: "CSV + Synthetic" },
+    ],
+    techStack: [
+      { category: "Frontend", items: ["Streamlit", "Plotly"] },
+      { category: "AI", items: ["ARIMA", "XGBoost", "Random Forest", "Google Gemini"] },
+      { category: "Backend", items: ["Python", "Pandas", "scikit-learn", "statsmodels"] },
+    ],
+    features: ["Multi-model ensemble", "Gemini AI integration", "Seasonality detection"],
+    role: "Built end-to-end.",
+    featured: false,
+    github: "https://github.com/sumith1309/Enterprise-Forecasting",
+  },
+  {
+    id: "churn",
+    name: "Customer Churn Dashboard",
+    tagline: "Random Forest + XGBoost prediction",
+    domain: "fintech",
+    year: "2025",
+    tier: "lab",
+    ownership: "solo",
+    status: "repo",
+    description:
+      "Customer churn prediction dashboard with real-time risk assessment, interactive Chart.js/Plotly visualizations, model performance comparison (Random Forest, XGBoost), three-tier risk classification, and retention recommendations with ROI analysis.",
+    problem:
+      "Subscription businesses lose 5-7% of customers monthly without early warning, and retention teams lack data-driven prioritization.",
+    impact:
+      "Three-tier risk classification enables targeted retention campaigns, with ROI analysis quantifying the value of each saved account (improvement figures are estimates).",
+    architecture:
+      "Python ML Pipeline (Random Forest + XGBoost) → Three-tier Risk Classifier → Chart.js/Plotly Dashboard → ROI Analyzer → Retention Recommender",
+    metrics: [
+      { label: "Models", value: "RF + XGBoost" },
+      { label: "Risk Tiers", value: "3" },
+      { label: "Visualizations", value: "Chart.js + Plotly" },
+      { label: "Output", value: "ROI Analysis" },
+    ],
+    techStack: [
+      { category: "Frontend", items: ["HTML/CSS", "Chart.js", "Plotly"] },
+      { category: "AI", items: ["Random Forest", "XGBoost", "scikit-learn"] },
+      { category: "Backend", items: ["Python", "Pandas", "NumPy"] },
+    ],
+    features: ["Churn prediction", "Feature importance analysis", "Interactive dashboard"],
+    role: "Built end-to-end.",
+    featured: false,
+    github: "https://github.com/sumith1309/customer-churn-dashboard",
+  },
+  {
+    id: "predictive-maintenance",
+    name: "Predictive Maintenance",
+    tagline: "CNN-LSTM + computer vision",
+    domain: "enterprise",
+    year: "2025",
+    tier: "lab",
+    ownership: "solo",
+    status: "repo",
+    description:
+      "End-to-end predictive maintenance system combining 4 approaches: Logistic Regression sensor analysis, CNN-LSTM hybrid time-series detection, Statistical Process Control charting, and 2D CNN visual defect detection. Interactive dashboard with Apache ECharts and in-browser TF.js inference.",
+    problem:
+      "Manufacturing plants lose significant production capacity to unplanned equipment failures, with reactive maintenance costing far more than planned interventions.",
+    impact:
+      "Combines sensor anomaly detection with visual defect identification (downtime-reduction figures are projections). In-browser TF.js inference enables monitoring without cloud dependency.",
+    architecture:
+      "Sensor Data Pipeline → Logistic Regression + CNN-LSTM Hybrid → SPC Control Charts → 2D CNN Visual Inspector → TensorFlow.js In-Browser Inference → Apache ECharts Dashboard",
+    metrics: [
+      { label: "ML Approaches", value: "4" },
+      { label: "Inference", value: "In-browser TF.js" },
+      { label: "Detection", value: "Sensor + Visual" },
+      { label: "Dashboard", value: "Apache ECharts" },
+    ],
+    techStack: [
+      { category: "Frontend", items: ["HTML/CSS", "Apache ECharts", "TensorFlow.js"] },
+      { category: "AI", items: ["CNN-LSTM Hybrid", "Logistic Regression", "2D CNN", "Statistical Process Control"] },
+      { category: "Backend", items: ["Python", "TensorFlow", "Keras"] },
+    ],
+    features: ["CNN-LSTM prediction", "Computer vision inspection", "Statistical process control"],
+    role: "Built end-to-end.",
+    featured: false,
+    github: "https://github.com/sumith1309/Predictive-Maintenance",
+  },
+  {
+    id: "inventory",
+    name: "AI Inventory Management",
+    tagline: "Monte Carlo simulation",
+    domain: "fintech",
+    year: "2025",
+    tier: "lab",
+    ownership: "solo",
+    status: "repo",
+    description:
+      "Inventory management platform with predictive analytics, Monte Carlo simulations (100-10,000 iterations), Bayesian sensitivity analysis, ML demand forecasting (hybrid linear regression + moving average), and a multi-SKU dashboard with reorder point optimization.",
+    problem:
+      "Supply chain managers set reorder points using static rules-of-thumb, leading to costly overstocking or dangerous stockouts.",
+    impact:
+      "Monte Carlo simulations quantify demand uncertainty with confidence intervals; carrying-cost reduction figures are estimates.",
+    architecture:
+      "Demand Data → ML Forecasting (Linear Regression + Moving Average) → Monte Carlo Simulator (100-10K iterations) → Bayesian Sensitivity Analysis → Reorder Point Optimizer → Multi-SKU Dashboard",
+    metrics: [
+      { label: "Simulations", value: "Up to 10K" },
+      { label: "Analysis", value: "Bayesian + Monte Carlo" },
+      { label: "Forecasting", value: "Hybrid ML" },
+      { label: "Scope", value: "Multi-SKU" },
+    ],
+    techStack: [
+      { category: "Frontend", items: ["Streamlit", "Plotly", "Matplotlib"] },
+      { category: "AI", items: ["Monte Carlo Simulation", "Bayesian Analysis", "Linear Regression", "Moving Average"] },
+      { category: "Backend", items: ["Python", "NumPy", "SciPy", "Pandas"] },
+    ],
+    features: ["Monte Carlo demand simulation", "Inventory optimization", "Reorder point calculation"],
+    role: "Built end-to-end.",
+    featured: false,
+    github: "https://github.com/sumith1309/AI_Applications_in_Reorder_Point_Inventory_Management",
+  },
+  {
+    id: "nlp-classifier",
+    name: "NLP Ticket Classifier",
+    tagline: "Zero-shot classification with SLA tracking",
+    domain: "enterprise",
+    year: "2025",
+    tier: "lab",
+    ownership: "solo",
+    status: "repo",
+    description: "Zero-shot ticket classification using BART-large-mnli with SLA tracking and automated routing.",
+    problem:
+      "Support teams manually triage and route incoming tickets, causing inconsistent categorization and missed SLAs.",
+    impact:
+      "Zero-shot approach eliminates the need for labeled training data, enabling deployment without months of data collection (misrouting-reduction figures are projections).",
+    architecture: "Python Backend → BART-large-mnli (Zero-shot) → SLA Tracker → Priority Router → Dashboard",
+    metrics: [
+      { label: "Model", value: "BART-large-mnli" },
+      { label: "Approach", value: "Zero-shot" },
+      { label: "Training Data", value: "None Required" },
+    ],
+    techStack: [
+      { category: "Backend", items: ["Python", "Flask"] },
+      { category: "AI", items: ["BART-large-mnli", "Hugging Face Transformers", "Zero-shot Classification"] },
+      { category: "Infrastructure", items: ["SLA Engine", "Priority Routing"] },
+    ],
+    features: ["Zero-shot classification", "SLA tracking", "Automated routing"],
+    role: "Built end-to-end.",
+    featured: false,
+    github: "https://github.com/sumith1309/NLP_Ticket_Classifier",
+  },
+  {
+    id: "trails-miles",
+    name: "Trails & Miles",
+    tagline: "AI travel planner with RAG chatbot",
+    domain: "enterprise",
+    year: "2025",
+    tier: "lab",
+    ownership: "solo",
+    status: "repo",
+    description:
+      "AI-powered travel planning platform for Indian travellers featuring GPT-4o itinerary generation (day-wise blocks), RAG-powered chatbot with SSE streaming, destination intelligence for 6 countries and 36+ cities, an India-specific visa hub, and 25 domestic city guides.",
+    problem:
+      "Indian travellers waste hours across fragmented travel blogs, visa portals, and booking sites, with no single platform offering AI-personalized itineraries with India-specific context.",
+    impact:
+      "Covers 6 countries and 36+ cities with structured day-wise itineraries (time-saving figures are estimates).",
+    architecture:
+      "Next.js Frontend → Express Backend → GPT-4o Itinerary Engine → RAG Chatbot (SSE Streaming) → Destination Intelligence DB → Visa Hub API",
+    metrics: [
+      { label: "AI Engine", value: "GPT-4o" },
+      { label: "Countries", value: "6" },
+      { label: "Cities", value: "36+" },
+      { label: "Domestic Guides", value: "25" },
+    ],
+    techStack: [
+      { category: "Frontend", items: ["Next.js", "React", "TailwindCSS"] },
+      { category: "Backend", items: ["Express", "Node.js"] },
+      { category: "AI", items: ["OpenAI GPT-4o", "RAG Pipeline", "SSE Streaming"] },
+    ],
+    features: ["AI-powered itinerary generation", "RAG chatbot", "Personalized recommendations"],
+    role: "Built end-to-end.",
+    featured: false,
+    github: "https://github.com/sumith1309/Travel-Itinerary",
+  },
+  {
+    id: "stationeryhub",
+    name: "StationeryHub",
+    tagline: "B2B/B2C e-commerce with AI search",
+    domain: "enterprise",
+    year: "2025",
+    tier: "lab",
+    ownership: "solo",
+    status: "repo",
+    description: "E-commerce platform with AI-powered search and Razorpay payment integration for B2B and B2C segments.",
+    problem:
+      "Small stationery businesses lack affordable digital storefronts, while bulk buyers have no efficient way to discover and order supplies.",
+    impact:
+      "AI-powered search improves product discovery over keyword-only search (estimated); Razorpay enables instant transactions for the Indian market.",
+    architecture:
+      "React Frontend → Node.js/Express Backend → AI Search Engine → MongoDB Product Catalog → Razorpay Payment Gateway",
+    metrics: [
+      { label: "Payment", value: "Razorpay" },
+      { label: "Search", value: "AI-Powered" },
+      { label: "Segments", value: "B2B + B2C" },
+    ],
+    techStack: [
+      { category: "Frontend", items: ["React", "TailwindCSS"] },
+      { category: "Backend", items: ["Node.js", "Express", "MongoDB"] },
+      { category: "Infrastructure", items: ["Razorpay", "AI Search Engine"] },
+    ],
+    features: ["AI-powered search", "B2B/B2C marketplace", "Razorpay integration"],
+    role: "Built end-to-end.",
+    featured: false,
+    github: "https://github.com/sumith1309/Stationary_Hub",
+  },
+  {
+    id: "ai-email",
+    name: "AI Email Automation",
+    tagline: "Intelligent email processing & automation",
+    domain: "enterprise",
+    year: "2025",
+    tier: "lab",
+    ownership: "solo",
+    status: "private",
+    description: "AI-powered email automation system for intelligent processing and workflow automation.",
+    problem:
+      "Knowledge workers spend hours daily reading, classifying, and responding to routine emails.",
+    impact:
+      "Automated classification and response drafting with priority-based routing (time-saving figures are estimates).",
+    architecture:
+      "Email Ingestion Layer → NLP Classification Engine → Priority Router → Auto-Response Generator → Workflow Trigger Engine",
+    metrics: [
+      { label: "Automation", value: "End-to-end" },
+      { label: "Classification", value: "NLP-based" },
+      { label: "Response", value: "Auto-draft" },
+    ],
+    techStack: [
+      { category: "Backend", items: ["Python", "FastAPI"] },
+      { category: "AI", items: ["NLP Classification", "Auto-Response Generation"] },
+      { category: "Infrastructure", items: ["Email APIs", "Workflow Engine"] },
+    ],
+    features: ["Intelligent email classification", "Automated responses", "Workflow automation"],
+    role: "Built end-to-end.",
+    featured: false,
+  },
+  {
+    id: "taskflow",
+    name: "TaskFlow",
+    tagline: "Socket.IO real-time task management",
+    domain: "enterprise",
+    year: "2025",
+    tier: "lab",
+    ownership: "solo",
+    status: "repo",
+    description:
+      "Real-time task management web application for small teams. Role-based dashboards with Kanban board and analytics, JWT authentication, Socket.IO real-time updates, file attachments via MongoDB GridFS, and online presence indicators.",
+    problem:
+      "Small teams are underserved by enterprise project management tools that are overpriced and complex, yet need real-time collaboration beyond spreadsheets.",
+    impact:
+      "Socket.IO real-time updates eliminate manual refresh cycles; role-based dashboards give managers instant visibility.",
+    architecture:
+      "React Frontend → Express + Socket.IO Backend → JWT Auth Middleware → MongoDB + GridFS → Chart.js Analytics → Online Presence Engine",
+    metrics: [
+      { label: "Real-time", value: "Socket.IO" },
+      { label: "Auth", value: "JWT" },
+      { label: "Storage", value: "MongoDB GridFS" },
+    ],
+    techStack: [
+      { category: "Frontend", items: ["React", "Chart.js"] },
+      { category: "Backend", items: ["Node.js", "Express", "Socket.IO", "MongoDB", "GridFS"] },
+      { category: "Infrastructure", items: ["JWT Authentication", "Online Presence Engine"] },
+    ],
+    features: ["Real-time task updates via Socket.IO", "Role-based Kanban + analytics dashboards", "File attachments with GridFS"],
+    role: "Built end-to-end.",
+    featured: false,
+    github: "https://github.com/sumith1309/LUC_Progress_Tracker",
+  },
+  {
+    id: "housing",
+    name: "Housing Price Service",
+    tagline: "Docker + Kubernetes deployment",
+    domain: "fintech",
+    year: "2025",
+    tier: "lab",
+    ownership: "solo",
+    status: "repo",
+    description: "Housing price prediction service deployed with Docker and Kubernetes.",
+    problem:
+      "ML models for real estate pricing often remain in notebooks and never reach a served API, lacking containerized infrastructure.",
+    impact:
+      "Containerized deployment demonstrates reproducible ML serving with Kubernetes orchestration.",
+    architecture:
+      "Feature Input → scikit-learn ML Model → Flask REST API → Docker Container → Kubernetes Orchestration → Load Balancer → Prediction Response",
+    metrics: [
+      { label: "Deployment", value: "Kubernetes" },
+      { label: "Containers", value: "Docker" },
+      { label: "API", value: "REST" },
+    ],
+    techStack: [
+      { category: "Backend", items: ["Python", "Flask", "scikit-learn"] },
+      { category: "Infrastructure", items: ["Docker", "Kubernetes", "kubectl"] },
+      { category: "AI", items: ["ML Regression Model", "Feature Engineering"] },
+    ],
+    features: ["Containerized deployment", "Kubernetes orchestration", "ML prediction"],
+    role: "Built end-to-end.",
+    featured: false,
+    github: "https://github.com/sumith1309/Housing-Price-Service",
+  },
+  {
+    id: "cost-estimator",
+    name: "Construction Cost Estimator",
+    tagline: "SaaS tool with payment integration",
+    domain: "construction",
+    year: "2024",
+    tier: "lab",
+    ownership: "solo",
+    status: "repo",
+    description:
+      "SaaS construction cost estimation tool with Gumroad payment integration (₹499), JWT-secured server-side calculations, itemized 6-component cost breakdowns, construction timeline estimates, and downloadable PDF reports. Zero client-side secrets architecture to prevent bypass.",
+    problem:
+      "Homeowners and small builders in India get wildly inconsistent cost estimates from contractors, with no transparent tool to validate pricing.",
+    impact:
+      "Instant cost reports with a 6-component itemized breakdown give homeowners transparency into where every rupee goes.",
+    architecture:
+      "React Frontend → JWT Auth Gate → Gumroad Payment (₹499) → Express Server-side Calculator → 6-Component Cost Engine → PDF Report Generator → Download",
+    metrics: [
+      { label: "Payment", value: "Gumroad ₹499" },
+      { label: "Cost Components", value: "6" },
+      { label: "Security", value: "Zero Client Secrets" },
+    ],
+    techStack: [
+      { category: "Frontend", items: ["React", "TailwindCSS"] },
+      { category: "Backend", items: ["Express", "Node.js", "JWT", "PDF Generator"] },
+      { category: "Infrastructure", items: ["Gumroad Payment Gateway", "Server-side Calculation Engine"] },
+    ],
+    features: ["Instant cost estimation", "Payment integration", "Automated quoting"],
+    role: "Built to solve real problems experienced during 5 years of construction operations.",
+    featured: false,
+    github: "https://github.com/sumith1309/instant-house-construction-cost-report",
+  },
+  {
+    id: "healthcare-analytics",
+    name: "Healthcare Analytics Platform",
+    tagline: "AI model comparison for healthcare KPIs",
+    domain: "enterprise",
+    year: "2026",
+    tier: "lab",
+    ownership: "solo",
+    status: "repo",
+    description:
+      "Analytics platform for evaluating and comparing AI model performance across healthcare departments (Radiology, Pathology, Cardiology, Operations). Python analysis engine with statistical comparison, interactive ECharts dashboard, 6-month accuracy forecasts using linear regression, and an executive one-pager report.",
+    problem:
+      "Hospital IT teams deploy multiple AI models across departments but lack a unified platform to compare performance and justify AI investment.",
+    impact:
+      "Unified dashboard across 4 departments eliminates siloed model evaluation; forecasting enables proactive retraining decisions.",
+    architecture:
+      "Python Analysis Engine (Pandas + statsmodels) → Statistical Model Comparator → Linear Regression Forecaster → ECharts Interactive Dashboard → Matplotlib/Seaborn Reports → Executive One-Pager PDF",
+    metrics: [
+      { label: "Departments", value: "4" },
+      { label: "KPIs", value: "4" },
+      { label: "Forecast Horizon", value: "6 months" },
+      { label: "Models Compared", value: "3" },
+    ],
+    techStack: [
+      { category: "Frontend", items: ["HTML/CSS", "Apache ECharts"] },
+      { category: "Backend", items: ["Python", "Pandas", "statsmodels"] },
+      { category: "AI", items: ["Linear Regression Forecasting", "Statistical Model Comparison"] },
+    ],
+    features: ["AI model comparison", "Interactive ECharts dashboard", "6-month accuracy forecasting", "Executive one-pager report"],
+    role: "Built end-to-end.",
+    featured: false,
+    github: "https://github.com/sumith1309/AI-Powered-Healthcare-Analytics",
+  },
+  {
+    id: "hubspot-integration",
+    name: "HubSpot Contact Manager",
+    tagline: "CRM data cleaning & standardization",
+    domain: "enterprise",
+    year: "2026",
+    tier: "lab",
+    ownership: "solo",
+    status: "repo",
+    description:
+      "Web application for managing, cleaning, and standardizing HubSpot CRM contacts. CSV drag-and-drop upload with auto-column mapping, Clean Bot for missing fields, Standardize Bot for name/phone/email normalization, Audit Agent with visual data quality reports, and one-click batch push to HubSpot.",
+    problem:
+      "Sales teams operate on dirty CRM data — duplicates, inconsistent formats, missing emails — leading to failed outreach and inaccurate reporting.",
+    impact:
+      "Three automated bots fix data quality issues that would take a sales ops team days to resolve manually.",
+    architecture:
+      "React + Vite Frontend → CSV Parser (Auto-Column Mapping) → Clean Bot → Standardize Bot → Audit Agent (Visual Reports) → Netlify Functions → HubSpot API (Batch Push)",
+    metrics: [
+      { label: "Bots", value: "3" },
+      { label: "CRM", value: "HubSpot" },
+      { label: "Push", value: "One-click Batch" },
+    ],
+    techStack: [
+      { category: "Frontend", items: ["React", "Vite", "TailwindCSS"] },
+      { category: "Backend", items: ["Netlify Functions", "HubSpot API"] },
+      { category: "AI", items: ["Clean Bot", "Standardize Bot", "Audit Agent"] },
+    ],
+    features: ["CSV upload with auto-column mapping", "Clean/Standardize/Audit bots", "One-click batch push to HubSpot"],
+    role: "Built end-to-end.",
+    featured: false,
+    github: "https://github.com/sumith1309/-HubSpot-Integration",
+  },
+];
+
+/* ────────────────────────────────────────────────────────────────────────────
+   EXPORTS — production-first ordering everywhere
+──────────────────────────────────────────────────────────────────────────── */
+
+export const ALL_PRODUCTS: Product[] = [...TIER_PRODUCTION, ...TIER_SYSTEMS, ...TIER_LAB];
+
+/** Tier 1 — shipped & live / flagship systems. */
+export const FEATURED_PRODUCTS: Product[] = TIER_PRODUCTION;
+/** Tiers 2 + 3. */
+export const ADDITIONAL_PRODUCTS: Product[] = [...TIER_SYSTEMS, ...TIER_LAB];
+
+export const PRODUCTION_PRODUCTS = TIER_PRODUCTION;
+export const SYSTEMS_PRODUCTS = TIER_SYSTEMS;
+export const LAB_PRODUCTS = TIER_LAB;
+
+export const LIVE_PRODUCTS = ALL_PRODUCTS.filter((p) => p.status === "live");
 
 export function getProductsByDomain(domain: Domain): Product[] {
   return ALL_PRODUCTS.filter((p) => p.domain === domain);
+}
+
+export function getProductsByTier(tier: Tier): Product[] {
+  return ALL_PRODUCTS.filter((p) => p.tier === tier);
 }
 
 export const CAREER: CareerEntry[] = [
@@ -680,8 +1102,9 @@ export const CAREER: CareerEntry[] = [
       "Engineered 6-phase delivery lifecycle from policy engine through biometric integration, payroll settlement, and production go-live",
       "Integrated BioTime biometric system (ZKTeco devices) with timezone handling and employee mapping for 64+ field employees",
       "Achieved zero-defect production deployments (10/10 + 14/14 acceptance criteria across all phases)",
+      "One of several developers on the company's LMS — personally built and own the ALIA AI teaching assistant (RAG, self-hosted on AWS EC2), the support-ticket system (department routing, SLA, escalation), and SSO via Microsoft Entra ID + Google OAuth/OIDC",
     ],
-    stack: ["Django 5.2", "Next.js 15", "PostgreSQL", "Redis", "Celery"],
+    stack: ["Django 5.2", "Next.js 15", "PostgreSQL", "Redis", "Celery", "FastAPI", "AWS EC2"],
   },
   {
     version: "v1.2",
@@ -707,7 +1130,7 @@ export const CAREER: CareerEntry[] = [
     active: false,
     highlights: [
       "Co-managed construction operations for residential and commercial projects",
-      "Reduced operational delays by 30% with data-driven decisions",
+      "Reduced operational delays by an estimated 30% with data-driven decisions",
       "Budget forecasting and quality assurance for concurrent deliveries",
       "Built SaaS construction cost estimation tool",
     ],
@@ -719,7 +1142,7 @@ export const EDUCATION = [
   {
     institution: "SP Jain School of Global Management",
     degree: "Master of AI in Business (MAIB)",
-    period: "Sep 2024 – Aug 2026 (Expected)",
+    period: "Sep 2024 – Sep 2026 (Expected)",
     campuses: "Singapore · Sydney · Dubai",
     coursework: ["AI Strategy & Implementation", "MLOps & Model Deployment", "Data-Driven Decision Making", "AI Ethics & Governance"],
   },
@@ -732,33 +1155,13 @@ export const EDUCATION = [
 ];
 
 export const SKILLS = {
-  "Product Management": [
-    "Product Strategy & Roadmapping",
-    "PRD/TRD Documentation",
-    "Sprint Planning & Agile (JIRA)",
-    "Stakeholder Management",
-    "User Story Writing",
-    "Acceptance Criteria",
-    "Feature Prioritization",
-    "Go-to-Market Planning",
-  ],
-  "AI & Data": [
-    "NLP",
-    "Computer Vision",
-    "Ensemble Methods",
-    "Prompt Engineering",
-    "RAG Pipelines",
-    "LLM Integration (OpenAI, Gemini, Claude, Ollama)",
-    "Data Visualization",
-    "ETL Processes",
-  ],
-  Technical: [
+  Engineering: [
     "Python",
     "TypeScript",
     "SQL (PostgreSQL, MySQL)",
     "React/Next.js",
-    "FastAPI",
     "Django",
+    "FastAPI",
     "Express",
     "tRPC",
     "REST APIs",
@@ -766,11 +1169,30 @@ export const SKILLS = {
     "Git",
     "Docker",
     "CI/CD",
-    "AWS",
+    "AWS (EC2, S3)",
     "Vercel",
     "Render",
-    "Vibe Coding",
-    "Revit",
+  ],
+  "AI Engineering": [
+    "RAG Pipelines",
+    "Agent Systems & Tool Calling",
+    "LLM Integration (OpenAI, Gemini, Claude, Ollama)",
+    "AI-Assisted Development (Claude Code)",
+    "Prompt Engineering",
+    "NLP",
+    "Computer Vision",
+    "Ensemble Methods",
+    "Data Visualization",
+    "ETL Processes",
+  ],
+  "Product & Delivery": [
+    "Product Strategy & Roadmapping",
+    "PRD/TRD Documentation",
+    "Sprint Planning & Agile (JIRA)",
+    "Stakeholder Management",
+    "Acceptance Criteria",
+    "Feature Prioritization",
+    "Go-to-Market Planning",
   ],
   "Business & Operations": [
     "Business Process Automation",
@@ -779,6 +1201,7 @@ export const SKILLS = {
     "Budget Forecasting",
     "Cross-functional Coordination",
     "Client Communication",
+    "Revit (Construction Design)",
   ],
 };
 
@@ -801,24 +1224,31 @@ export const CONTACT = {
   phone: "+91 9490064789",
   linkedin: "https://linkedin.com/in/jyothi-swaroop-753116295",
   github: "https://github.com/sumith1309",
+  website: "https://swaroopos.vercel.app",
   location: "Dubai, UAE",
   openTo: "Open to Hyderabad",
 };
 
+/** Hero headline + subline (Gate B approved: verb-first). */
+export const HEADLINE = "I build production systems that businesses run on.";
+export const SUBLINE =
+  "Forward Deployed Engineer & AI-transformation consultant in Dubai. Solo-shipped a multi-tenant HRMS serving 80+ employees daily. Human-led, AI-accelerated delivery.";
+
 export const PROFESSIONAL_SUMMARY =
-  "97% prediction accuracy. 380M lives targeted. 20+ AI products built across 5 industries. I architect AI systems that predict dust storms, protect outdoor workers from heatwaves, and automate enterprise operations. Single-handedly built and deployed a production HRMS platform serving 80+ employees daily. COO & Co-Founder at CogniSpace. Master's in AI in Business (SP Jain, Dubai).";
+  "I build production systems that businesses run on. Solo-built and deployed a multi-tenant HRMS now serving 3 organizations and 80+ employees daily; shipped a live client retail site end-to-end; built the RAG-powered ALIA teaching assistant, support ticketing, and SSO inside a team LMS. I work Forward-Deployed-Engineer style — embedded in the business problem, shipping working software — and use AI-assisted development (Claude Code) to compress build cycles while staying accountable for architecture, verification, and delivery. COO & Co-Founder at CogniSpace. Master of AI in Business, SP Jain (Dubai), expected September 2026.";
 
 export const BOOT_LINES = [
-  "[SwaroopOS v2.0]",
+  "[SwaroopOS v3.0]",
   "> Initializing system...",
-  "> Loading origin_module: Hyderabad, India",
-  "> Construction operations loaded — 5 years experience",
-  "> Transferring skills: operations → product_management",
-  "> Location updated: Dubai, UAE",
-  "> Academic module: SP Jain MAIB [2024-2026]",
-  "> Compiling products...",
-  "> ████████████████████████████ 20+ AI products compiled",
-  "> Domains registered: Education, Climate, Enterprise, FinTech, Construction",
+  "> origin: Hyderabad, India — 5 years construction operations",
+  "> location: Dubai, UAE",
+  "> academic module: SP Jain MAIB [expected Sep 2026]",
+  "> mounting production systems...",
+  ">   hrms.live — 3 orgs · 80+ daily users ............ [OK]",
+  ">   samba-retail.live — client site ................. [OK]",
+  ">   alia.lms — RAG @ AWS EC2 ........................ [OK]",
+  "> loading agent systems: ADVAIT.io (35) · WebQ Team (34)",
+  "> AI-assisted toolchain: Claude Code ................ [ACTIVE]",
   "> System ready.",
   ">",
   "> Welcome, visitor. Press any key or wait to continue...",
@@ -827,12 +1257,12 @@ export const BOOT_LINES = [
 export const NEOFETCH = `       ╔═══╗
        ║ S ║         S. Jyothi Swaroop
        ╚═══╝         ─────────────────
-                      OS: SwaroopOS v2.0
-  ███████████         Role: AI Product Manager
-  █ SWAROOP █         Location: Dubai, UAE
-  ███████████         Products: 20+
-                      Domains: 5
-                      Accuracy: 97% (best)
-                      Impact: 380M targeted
+                      OS: SwaroopOS v3.0
+  ███████████         Role: Builder — production systems
+  █ SWAROOP █         Focus: Forward Deployed Engineer
+  ███████████         Location: Dubai, UAE (open to Hyderabad)
+                      Live: HRMS · Samba Retail · CogniSpace
+                      Systems: ${ALL_PRODUCTS.length} across 5 domains
+                      AI-assisted: Claude Code
                       Uptime: Since 2019
-                      Shell: Next.js 15 + React 19`;
+                      Shell: Next.js 16 + React 19`;

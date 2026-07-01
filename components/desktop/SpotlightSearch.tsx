@@ -98,16 +98,14 @@ export default function SpotlightSearch() {
   }, []);
 
   useEffect(() => {
-    if (open) {
+    if (!open) return;
+    const t = setTimeout(() => {
       setQuery("");
       setSelectedIndex(0);
-      setTimeout(() => inputRef.current?.focus(), 50);
-    }
+      inputRef.current?.focus();
+    }, 50);
+    return () => clearTimeout(t);
   }, [open]);
-
-  useEffect(() => {
-    setSelectedIndex(0);
-  }, [query]);
 
   const launch = (id: AppId) => {
     openWindow(id);
@@ -175,7 +173,10 @@ export default function SpotlightSearch() {
                 ref={inputRef}
                 type="text"
                 value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                onChange={(e) => {
+                  setQuery(e.target.value);
+                  setSelectedIndex(0);
+                }}
                 onKeyDown={handleKeyDown}
                 placeholder="Search apps, tools, games..."
                 className="flex-1 bg-transparent text-[16px] text-[#1C1C1E] placeholder-[#C7C7CC] outline-none font-medium"

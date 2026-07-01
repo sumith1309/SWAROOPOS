@@ -21,13 +21,13 @@ const RECOMMENDATIONS: Record<string, Recommendation> = {
   climate: {
     id: "rec-climate",
     title: "Explore Garmi Mitra",
-    body: "380M workers protected with AI heatwave warnings in 7 languages.",
+    body: "Heatwave warnings designed for India's outdoor workers, in 7 languages.",
     appId: "climate",
   },
   skills: {
     id: "rec-showcase",
     title: "See the full portfolio",
-    body: "20+ products across 5 domains. Open Showcase to explore them all.",
+    body: "26 systems across 5 domains, production work leading. Open Showcase to explore.",
     appId: "showcase",
   },
   about: {

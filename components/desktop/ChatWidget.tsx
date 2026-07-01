@@ -22,6 +22,7 @@ export default function ChatWidget({ isDark }: { isDark: boolean }) {
   const [loading, setLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const idRef = useRef(0);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
@@ -33,7 +34,7 @@ export default function ChatWidget({ isDark }: { isDark: boolean }) {
 
   const send = async (text: string) => {
     if (!text.trim() || loading) return;
-    const userMsg: Message = { id: `u-${Date.now()}`, role: "user", content: text.trim() };
+    const userMsg: Message = { id: `u-${++idRef.current}`, role: "user", content: text.trim() };
     setMessages((p) => [...p, userMsg]);
     setInput("");
     setLoading(true);
@@ -46,9 +47,9 @@ export default function ChatWidget({ isDark }: { isDark: boolean }) {
         body: JSON.stringify({ messages: history }),
       });
       const data = await res.json();
-      setMessages((p) => [...p, { id: `a-${Date.now()}`, role: "assistant", content: data.response || data.error || "Something went wrong." }]);
+      setMessages((p) => [...p, { id: `a-${++idRef.current}`, role: "assistant", content: data.response || data.error || "Something went wrong." }]);
     } catch {
-      setMessages((p) => [...p, { id: `e-${Date.now()}`, role: "assistant", content: "Connection error." }]);
+      setMessages((p) => [...p, { id: `e-${++idRef.current}`, role: "assistant", content: "Connection error." }]);
     }
     setLoading(false);
   };

@@ -1,9 +1,9 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useStore } from "@/lib/store";
-import { ALL_PRODUCTS, DOMAINS } from "@/lib/data";
-import { X, ExternalLink, ArrowRight } from "lucide-react";
+import { ALL_PRODUCTS, DOMAINS, OWNERSHIP_LABELS, METRIC_KIND_LABELS } from "@/lib/data";
+import { X, ExternalLink, ArrowRight, Globe } from "lucide-react";
 import ArchitectureDiagram from "./ArchitectureDiagram";
 
 export default function ProjectDetail() {
@@ -49,11 +49,26 @@ export default function ProjectDetail() {
             <X className="w-4 h-4" />
           </button>
 
-          {/* Domain badge */}
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold uppercase tracking-wider mb-4"
-            style={{ color: domain.color, background: `${domain.color}10`, border: `1px solid ${domain.color}15` }}>
-            <span className="w-1.5 h-1.5 rounded-full" style={{ background: domain.color }} />
-            {domain.label}
+          {/* Domain + ownership + status badges */}
+          <div className="flex flex-wrap items-center gap-2 mb-4">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold uppercase tracking-wider"
+              style={{ color: domain.color, background: `${domain.color}10`, border: `1px solid ${domain.color}15` }}>
+              <span className="w-1.5 h-1.5 rounded-full" style={{ background: domain.color }} />
+              {domain.label}
+            </div>
+            <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold uppercase tracking-wider ${
+              product.ownership === "solo"
+                ? "text-[#047857] bg-[rgba(16,185,129,0.08)] border border-[rgba(16,185,129,0.18)]"
+                : "text-[#6D28D9] bg-[rgba(139,92,246,0.08)] border border-[rgba(139,92,246,0.18)]"
+            }`}>
+              {OWNERSHIP_LABELS[product.ownership]}
+            </div>
+            {product.status === "live" && (
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold uppercase tracking-wider text-[#047857] bg-[rgba(16,185,129,0.08)] border border-[rgba(16,185,129,0.18)]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse" />
+                Live
+              </div>
+            )}
           </div>
 
           {/* Title */}
@@ -63,8 +78,15 @@ export default function ProjectDetail() {
           <p className="text-[14px] text-[#64748B] leading-relaxed">{product.tagline}</p>
 
           {/* Year + Links */}
-          <div className="flex items-center gap-3 mt-4">
+          <div className="flex flex-wrap items-center gap-3 mt-4">
             <span className="text-[12px] font-mono text-[#94A3B8]">{product.year}</span>
+            {product.website && (
+              <a href={product.website} target="_blank" rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-semibold transition-colors cursor-pointer bg-[#0F172A] text-white hover:bg-[#1E293B]">
+                <Globe className="w-3 h-3" />
+                Open Live Site
+              </a>
+            )}
             {product.github && (
               <a href={product.github} target="_blank" rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-medium transition-colors border cursor-pointer"
@@ -72,6 +94,11 @@ export default function ProjectDetail() {
                 <ExternalLink className="w-3 h-3" />
                 View Source
               </a>
+            )}
+            {!product.github && product.status !== "repo" && (
+              <span className="text-[11px] font-mono text-[#94A3B8]">
+                {product.status === "live" ? "Code private (client system)" : "Code private"}
+              </span>
             )}
           </div>
         </div>
@@ -83,6 +110,11 @@ export default function ProjectDetail() {
               <motion.div key={m.label} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 + i * 0.08 }}>
                 <div className="text-[32px] font-heading font-bold leading-none" style={{ color: domain.color }}>{m.value}</div>
                 <div className="text-[10px] text-[#94A3B8] uppercase tracking-[0.12em] mt-1 font-semibold">{m.label}</div>
+                {m.kind && (
+                  <div className="text-[9px] text-[#94A3B8] mt-0.5 font-mono" title={m.note}>
+                    {METRIC_KIND_LABELS[m.kind]}
+                  </div>
+                )}
               </motion.div>
             ))}
           </div>
@@ -170,10 +202,15 @@ export default function ProjectDetail() {
             </div>
           </motion.div>
 
-          {/* Role */}
+          {/* Role + ownership */}
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }}>
             <h3 className="text-[13px] font-heading font-bold text-[#0F172A] uppercase tracking-wider mb-2">My Role</h3>
             <p className="text-[14px] text-[#475569] leading-[1.7]">{product.role}</p>
+            {product.ownershipNote && (
+              <p className="text-[13px] text-[#64748B] leading-[1.7] mt-2 p-3 rounded-[10px] bg-[#F8FAFC] border border-[rgba(0,0,0,0.04)]">
+                {product.ownershipNote}
+              </p>
+            )}
           </motion.div>
         </div>
       </motion.div>

@@ -29,10 +29,10 @@ type SpeechRecognitionInstance = {
 };
 
 const SUGGESTIONS = [
-  "What projects have you built?",
-  "Tell me about Sahara Sense",
-  "What's your tech stack?",
-  "What makes you unique?",
+  "What have you shipped to production?",
+  "Show me something live",
+  "How do you use AI to build?",
+  "Which projects are solo vs team?",
 ];
 
 function getSpeechRecognitionConstructor(): (new () => SpeechRecognitionInstance) | null {
@@ -47,7 +47,7 @@ export default function AIChatApp() {
     {
       id: "welcome",
       role: "assistant",
-      content: "Hi! I'm Swaroop's AI assistant. Ask me anything about his projects, skills, experience, or background. I know everything about his 20+ products and career journey.",
+      content: "Hi! I'm Swaroop's AI assistant. Ask me anything about his work — what he's shipped to production, which projects are solo vs team, his tech stack, or how he uses AI to build.",
       timestamp: new Date(),
     },
   ]);
@@ -65,18 +65,11 @@ export default function AIChatApp() {
 
   // Check browser support on mount
   useEffect(() => {
-    setSpeechSupported(getSpeechRecognitionConstructor() !== null);
+    const t = setTimeout(() => {
+      setSpeechSupported(getSpeechRecognitionConstructor() !== null);
+    }, 0);
+    return () => clearTimeout(t);
   }, []);
-
-  // Handle pending AI query from Spotlight Search
-  useEffect(() => {
-    if (pendingAIQuery && !loading) {
-      const q = pendingAIQuery;
-      setPendingAIQuery(null);
-      // Slight delay to let the component render first
-      setTimeout(() => sendMessage(q), 200);
-    }
-  }, [pendingAIQuery]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
@@ -136,6 +129,17 @@ export default function AIChatApp() {
     setLoading(false);
     inputRef.current?.focus();
   }, [loading, messages]);
+
+  // Handle pending AI query from Spotlight Search
+  useEffect(() => {
+    if (pendingAIQuery && !loading) {
+      const q = pendingAIQuery;
+      setPendingAIQuery(null);
+      // Slight delay to let the component render first
+      const t = setTimeout(() => sendMessage(q), 200);
+      return () => clearTimeout(t);
+    }
+  }, [pendingAIQuery, loading, sendMessage, setPendingAIQuery]);
 
   // Start/stop voice recording
   const toggleRecording = useCallback(() => {

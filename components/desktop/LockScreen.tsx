@@ -25,6 +25,12 @@ export default function LockScreen({ onUnlock }: LockScreenProps) {
     }
   }, [scrollProgress, unlocked, onUnlock]);
 
+  const instantUnlock = useCallback(() => {
+    if (unlocked) return;
+    setUnlocked(true);
+    setTimeout(onUnlock, 300);
+  }, [unlocked, onUnlock]);
+
   useEffect(() => {
     if (unlocked) return;
     const handleWheel = (e: WheelEvent) => {
@@ -38,15 +44,27 @@ export default function LockScreen({ onUnlock }: LockScreenProps) {
       handleProgress(delta * 0.008);
       setTouchStartY(e.touches[0].clientY);
     };
+    // Never gate entry behind a gesture: click, Enter, or Space unlocks instantly.
+    const handleClick = () => instantUnlock();
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Enter" || e.key === " " || e.key === "Escape") {
+        e.preventDefault();
+        instantUnlock();
+      }
+    };
     window.addEventListener("wheel", handleWheel, { passive: false });
     window.addEventListener("touchstart", handleTouchStart, { passive: false });
     window.addEventListener("touchmove", handleTouchMove, { passive: false });
+    window.addEventListener("click", handleClick);
+    window.addEventListener("keydown", handleKey);
     return () => {
       window.removeEventListener("wheel", handleWheel);
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("click", handleClick);
+      window.removeEventListener("keydown", handleKey);
     };
-  }, [scrollProgress, unlocked, touchStartY, handleProgress]);
+  }, [scrollProgress, unlocked, touchStartY, handleProgress, instantUnlock]);
 
   const translateY = -scrollProgress * 100;
 
@@ -127,7 +145,7 @@ export default function LockScreen({ onUnlock }: LockScreenProps) {
             transition={{ delay: 0.9 }}
             className="text-[12px] text-white/35 tracking-[0.15em] uppercase font-light"
           >
-            AI Product Manager & Builder
+            Builder · Production Systems · Dubai
           </motion.p>
         </motion.div>
       </div>
@@ -148,7 +166,7 @@ export default function LockScreen({ onUnlock }: LockScreenProps) {
         >
           <polyline points="6 9 12 15 18 9" />
         </motion.svg>
-        <span className="text-[12px] text-white/40 font-medium">Scroll to enter</span>
+        <span className="text-[12px] text-white/40 font-medium">Click, press Enter, or scroll to enter</span>
       </motion.div>
     </motion.div>
   );

@@ -63,7 +63,7 @@ export default function TerminalApp() {
     }
 
     if (lower === "cat readme.md" || lower === "cat README.md") {
-      return `# SwaroopOS v2.0\n\nWelcome to S. Jyothi Swaroop's interactive portfolio.\n20+ AI products across 5 domains.\n97% prediction accuracy. 380M lives targeted.\n\nType 'help' for commands.`;
+      return `# SwaroopOS v3.0\n\nWelcome to S. Jyothi Swaroop's interactive portfolio.\nI build production systems that businesses run on.\nLive: HRMS (80+ daily users) · Samba Retail · CogniSpace.\nHuman-led, AI-accelerated delivery (Claude Code).\n\nType 'help' for commands.`;
     }
 
     if (lower === "cat .env") return "Nice try. 🔒 Environment variables are secured.";
@@ -156,7 +156,7 @@ PROFILE
   swaroop --timeline        ASCII career timeline
 
 PRODUCTS
-  swaroop --products        All 20+ products
+  swaroop --products        All systems, production first
   swaroop --products --domain <name>  Filter by domain
   swaroop --architecture <id>  Architecture of a product
   swaroop --compare         Compare flagship products
@@ -198,38 +198,36 @@ EASTER EGGS
 
     if (lower === "swaroop --impact") {
       return `╔═══════════════════════════════════════════╗
-║          BUSINESS IMPACT SUMMARY          ║
+║        PRODUCTION IMPACT SUMMARY          ║
 ╚═══════════════════════════════════════════╝
 
-  🎯 97%    Dust storm prediction accuracy (Sahara Sense)
-            → 7-model AI ensemble with Kalman filtering
-            → Real-time monitoring across 8 UAE emirates
+  ✅ 80+    Daily users on HRMS (solo-built, live)
+            → 3 organizations, 12 modules, 794-test suite
+            → Zero-defect go-lives (10/10 + 14/14 acceptance)
 
-  🛡️ 380M   Outdoor workers targeted (Garmi Mitra)
-            → Voice-first alerts in 7 Indian languages
-            → Crowdsourced shelter mapping in 18 cities
+  🛒 LIVE   Samba Retail — client site (solo-built)
+            → Next.js 15 + Sanity CMS, deployed on Vercel
 
-  💊 96.6%  Heart disease detection accuracy (Health Prediction)
-            → Zero-bias architecture (98.4% fairness)
-            → EU AI Act compliant
+  🎓 3      LMS systems I own (team LMS at LUC Learners)
+            → ALIA AI teaching assistant (RAG @ AWS EC2)
+            → Support tickets (routing/SLA) + Entra ID/Google SSO
 
-  ✅ 0      Defects in production (LUC Learners HRMS)
-            → 10/10 + 14/14 acceptance criteria passed
-            → 12 modules, 80+ employees, 3 organizations
+  🤖 35+34  Agents across ADVAIT.io & WebQ Team (verified in repos)
+            → Gated pipelines, human approval, 143 + 257 pytest
 
-  🚀 20+    AI products shipped across 5 industries
-            → Education, Climate, Enterprise, FinTech, Construction`;
+  🌪️ 0.97   R² on validation — Sahara Sense (self-reported)
+            → 7-model ensemble with Kalman filtering, 8 emirates`;
     }
 
     if (lower === "swaroop --stats") {
-      return `Products Built:    20+
-Domains:           5 (Education, Climate, Enterprise, FinTech, Construction)
-Best Accuracy:     97% (Sahara Sense)
-Health Accuracy:   96.6% (Heart Disease Detection)
-Social Impact:     380M outdoor workers targeted (Garmi Mitra)
-Prod Deployments:  Zero-defect (LUC Learners HRMS)
-GitHub Repos:      22+ public repositories
-Experience:        Since 2019 (5+ years operations + AI product management)
+      return `Systems Built:     ${ALL_PRODUCTS.length} across 5 domains
+Live Right Now:    ${ALL_PRODUCTS.filter((p) => p.status === "live").map((p) => p.name).join(", ")}
+Production:        HRMS — 3 orgs, 80+ daily users, 794 tests, zero-defect go-lives
+Agent Systems:     ADVAIT.io (35 agents) · WebQ Team (34 agents, 11 teams)
+Best Model Result: R² = 0.97 on validation, Sahara Sense (self-reported)
+GitHub:            25+ public repositories (live count on the widget)
+Experience:        Since 2019 (5 years operations → production engineering)
+AI-assisted:       Claude Code (human-led, AI-accelerated)
 Languages:         ${LANGUAGES.map((l) => `${l.name} (${l.level})`).join(", ")}`;
     }
 
@@ -252,7 +250,7 @@ Languages:         ${LANGUAGES.map((l) => `${l.name} (${l.level})`).join(", ")}`
                                                                                   └──────────────────┘
                                                                                                ┌─────────────┐
                                                                                                │ v1.3 LUC    │
-                                                                                               │ Biz Analyst  │
+                                                                                               │ Dev (HRMS)  │
                                                                                                └─────────────┘
                                                                                                ┌─────────────┐
                                                                                                │ v2.0 Cogni  │
@@ -341,21 +339,21 @@ Portfolio: https://swaroopos.vercel.app`;
 
     if (lower === "swaroop --github") {
       return `GitHub: https://github.com/sumith1309
-Public Repos: 22+
-Top Repositories:
-  SWAROOPOS              — This portfolio (SwaroopOS)
-  COGNISPACE             — Enterprise AI Platform
-  Project_Sahara_Sense   — Dust Storm Prediction (97% accuracy)
-  Bank-Statement-Analyzer — AI FinTech Tool
-  Travel-Itinerary       — AI Travel Planner (Trails & Miles)
-  Stationary_Hub         — B2B/B2C E-commerce
-  Enterprise-Forecasting — ARIMA + XGBoost + Gemini
-  customer-churn-dashboard — ML Churn Prediction
-  Predictive-Maintenance — CNN-LSTM + Computer Vision
-  NLP_Ticket_Classifier  — Zero-shot Classification
-  AI-Code-Archaeologist  — Legacy Code Analysis
-  AI-Powered-Healthcare-Analytics — Model Comparison
-  -HubSpot-Integration   — CRM Contact Manager
+Public Repos: 25+ (live count on the desktop widget)
+Note: production client work (HRMS, LMS, Samba Retail) lives in
+private repos — the live products are linked on their project cards.
+
+Highlight Repositories:
+  ADVAIT.io              — Autonomous AI software company (35 agents)
+  WEBQ-                  — Autonomous AI marketing agency (34 agents)
+  Prism-RAG              — RBAC-enforced RAG (vector-store level)
+  Urban_Illusion         — GLSL shader craft piece (live)
+  Project_Sahara_Sense   — Dust storm prediction (R²=0.97, self-reported)
+  COGNISPACE             — Enterprise AI platform (co-founded, live)
+  Bank-Statement-Analyzer — AI FinTech tool
+  AI-Code-Archaeologist  — Legacy code analysis
+  Predictive-Maintenance — CNN-LSTM + computer vision
+  customer-churn-dashboard — ML churn prediction
 
 Visit: https://github.com/sumith1309`;
     }
@@ -364,7 +362,7 @@ Visit: https://github.com/sumith1309`;
       return CERTIFICATIONS.map((c) => `  ✓ ${c}`).join("\n");
     }
 
-    if (lower === "whoami") return "S. Jyothi Swaroop — I architect AI systems that predict, protect, and automate";
+    if (lower === "whoami") return "S. Jyothi Swaroop — I build production systems that businesses run on";
     if (lower === "neofetch") return NEOFETCH;
 
     // ─── man swaroop ───
@@ -372,28 +370,31 @@ Visit: https://github.com/sumith1309`;
       return `SWAROOP(1)                   SwaroopOS Manual                   SWAROOP(1)
 
 NAME
-       swaroop - AI Product Manager & Systems Architect
+       swaroop - Forward Deployed Engineer, builder of production systems
 
 SYNOPSIS
-       A builder who ships. 20+ AI products, 5 industries, 97% accuracy.
+       I build production systems that businesses run on.
+       Human-led, AI-accelerated delivery (Claude Code).
 
 DESCRIPTION
-       S. Jyothi Swaroop is an AI Product Manager and startup co-founder
-       who builds production-grade AI systems across education, climate
-       safety, enterprise automation, fintech, and construction.
+       S. Jyothi Swaroop builds and ships production software close to
+       real business problems: a solo-built multi-tenant HRMS live with
+       80+ daily users, a live client retail site, and RAG/agent systems.
 
-       Started in construction operations (2019-2024), transitioned to
-       AI product management. Currently COO & Co-Founder at CogniSpace
-       and Business Analyst at LUC Learners, Dubai.
+       Started in construction operations (2019-2024), now an engineer
+       and AI-transformation consultant. COO & Co-Founder at CogniSpace;
+       AI Product Manager & Full-Stack Developer at Learners Education,
+       Dubai.
 
 NOTABLE WORKS
-       Sahara Sense      97% dust storm prediction for UAE (7-model ensemble)
-       Garmi Mitra       Heatwave warnings for 380M Indian workers
-       ALIA              AI teaching assistant with RAG pipeline
-       CogniSpace        Enterprise AI platform (co-founded)
+       HRMS              Solo-built multi-tenant HR platform (live, 80+ users)
+       Samba Retail      Solo-built client site (live)
+       ALIA + LMS        AI teaching assistant, tickets, SSO (team LMS; my systems)
+       ADVAIT.io         Autonomous AI software company (35 agents)
+       WebQ Team         Autonomous AI marketing agency (34 agents)
 
 EDUCATION
-       Master of AI in Business — SP Jain (Singapore · Sydney · Dubai)
+       Master of AI in Business — SP Jain (Singapore · Sydney · Dubai), exp. Sep 2026
        Bachelor of Commerce — Badruka College, Hyderabad
 
 CONTACT
@@ -405,7 +406,7 @@ CONTACT
 SEE ALSO
        swaroop --impact, swaroop --products, swaroop --architecture
 
-SwaroopOS v2.0                  March 2026                     SWAROOP(1)`;
+SwaroopOS v3.0                  July 2026                      SWAROOP(1)`;
     }
 
     // ─── Easter Eggs ───
@@ -416,9 +417,10 @@ SwaroopOS v2.0                  March 2026                     SWAROOP(1)`;
 
     if (lower === "sudo hire swaroop") {
       return `[sudo] verifying credentials...
-✓ Skills verified: AI/ML, Full-Stack, Product Management
-✓ Experience verified: 20+ products, 5 domains, 5+ years
-✓ Impact verified: 97% accuracy, 380M lives, zero-defect deploys
+✓ Production: HRMS live — 3 orgs, 80+ daily users (solo-built)
+✓ Client work: Samba Retail live (solo) · LMS systems owned (team)
+✓ AI systems: ADVAIT.io (35 agents) · WebQ Team (34 agents) · Prism-RAG
+✓ Delivery: human-led, AI-accelerated (Claude Code)
 ✓ Availability: OPEN TO WORK
 
 ══════════════════════════════════════════
@@ -450,7 +452,7 @@ SwaroopOS v2.0                  March 2026                     SWAROOP(1)`;
 
     if (lower === "sudo rm -rf /") return "Nice try. SwaroopOS is protected. 🛡️";
     if (lower === "vim" || lower === "nano" || lower === "vi") return `${lower}: read-only filesystem. But I appreciate the effort.`;
-    if (lower === "npm install" || lower === "yarn" || lower === "pnpm install") return "Already installed. This portfolio runs on 20+ products of pure experience.";
+    if (lower === "npm install" || lower === "yarn" || lower === "pnpm install") return "Already installed. This portfolio runs on shipped production systems, not just demos.";
     if (lower === "curl" || lower.startsWith("curl ")) return "Try 'swaroop --contact' instead.";
     if (lower === "top" || lower === "htop") return `PID  %CPU  %MEM  COMMAND\n  1  99.9  100   building-ai-products\n  2   0.1    0   sleeping (never)`;
 

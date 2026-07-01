@@ -1,7 +1,6 @@
-import { CAREER, EDUCATION, SKILLS, CERTIFICATIONS, LANGUAGES, CONTACT, PROFESSIONAL_SUMMARY, FEATURED_PRODUCTS, ADDITIONAL_PRODUCTS } from "@/lib/data";
+import { CAREER, EDUCATION, SKILLS, CERTIFICATIONS, LANGUAGES, CONTACT, PROFESSIONAL_SUMMARY, FEATURED_PRODUCTS, ADDITIONAL_PRODUCTS, OWNERSHIP_LABELS } from "@/lib/data";
 
 export async function GET() {
-  const allProducts = [...FEATURED_PRODUCTS, ...ADDITIONAL_PRODUCTS];
 
   const html = `<!DOCTYPE html>
 <html>
@@ -38,7 +37,7 @@ export async function GET() {
 <body>
 
 <h1>S. Jyothi Swaroop</h1>
-<div class="subtitle">AI Product Manager & Startup Co-Founder</div>
+<div class="subtitle">Forward Deployed Engineer & AI-Transformation Consultant — I build production systems that businesses run on</div>
 <div class="contact-row">
   ${CONTACT.location} · <a href="mailto:${CONTACT.email}">${CONTACT.email}</a> · ${CONTACT.phone} · <a href="${CONTACT.linkedin}">LinkedIn</a> · <a href="${CONTACT.github}">GitHub</a> · <a href="https://swaroopos.vercel.app">Portfolio</a>
 </div>
@@ -81,11 +80,27 @@ ${EDUCATION.map(e => `
   `).join("")}
 </div>
 
-<h2>Projects (${allProducts.length})</h2>
+<h2>Production & Flagship Systems</h2>
+${FEATURED_PRODUCTS.map(p => `
+<div class="entry">
+  <div class="entry-header">
+    <h3>${p.name} <span class="domain" style="font-weight:500">— ${OWNERSHIP_LABELS[p.ownership]}${p.status === "live" ? " · LIVE" : ""}</span></h3>
+    <span class="entry-meta">${p.year}</span>
+  </div>
+  <ul>
+    <li>${p.tagline}</li>
+    ${p.website ? `<li>Live: <a href="${p.website}">${p.website.replace("https://", "")}</a></li>` : ""}
+    ${p.github ? `<li>Code: <a href="${p.github}">${p.github.replace("https://", "")}</a></li>` : ""}
+    ${!p.website && !p.github ? `<li>Code private (client system)</li>` : ""}
+  </ul>
+</div>
+`).join("")}
+
+<h2>Selected Systems & Lab (${ADDITIONAL_PRODUCTS.length})</h2>
 <div class="projects-grid">
-  ${allProducts.map(p => `
+  ${ADDITIONAL_PRODUCTS.map(p => `
   <div class="project-item">
-    <strong>${p.name}</strong> <span class="domain">(${p.year})</span><br/>
+    <strong>${p.name}</strong> <span class="domain">(${p.year}${p.status === "live" ? " · live" : ""})</span><br/>
     ${p.tagline}
   </div>
   `).join("")}

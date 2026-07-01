@@ -14,13 +14,13 @@ export default function FlagshipSpotlight({ isDark }: { isDark: boolean }) {
   }, []);
 
   const springVal = useSpring(0, { stiffness: 40, damping: 20 });
-  const display = useTransform(springVal, (v) => `${Math.round(v)}%`);
+  const display = useTransform(springVal, (v) => `${Math.round(v)}+`);
 
   useEffect(() => {
-    if (mounted) springVal.set(97);
+    if (mounted) springVal.set(80);
   }, [mounted, springVal]);
 
-  const nodes = ["7 Models", "Kalman Filter", "97%"];
+  const nodes = ["Django", "Next.js", "BioTime"];
 
   return (
     <motion.div
@@ -28,26 +28,27 @@ export default function FlagshipSpotlight({ isDark }: { isDark: boolean }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.55 }}
       className={`p-3 cursor-pointer group ${isDark ? "liquid-glass-sm-dark" : "liquid-glass-sm"}`}
-      onClick={() => setActiveProjectId("sahara-sense")}
+      onClick={() => setActiveProjectId("hrms")}
     >
       <div className="flex items-center justify-between mb-2">
         <span className={`text-[9px] uppercase tracking-wider font-bold ${isDark ? "text-white/40" : "text-[#8E8E93]"}`}>
-          Flagship
+          In Production
         </span>
-        <span className="w-1.5 h-1.5 rounded-full bg-[#F59E0B]" />
+        <span className="flex items-center gap-1">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse-soft" />
+          <span className="text-[8px] font-bold uppercase tracking-wider text-[#10B981]">Live</span>
+        </span>
       </div>
 
-      {/* Animated accuracy counter */}
+      {/* Daily users — solo-built system, numbers owner-vouched */}
       <div className="flex items-baseline gap-1 mb-1">
-        <motion.span
-          className="text-[28px] font-heading font-bold leading-none text-[#F59E0B]"
-        >
+        <motion.span className="text-[28px] font-heading font-bold leading-none text-[#10B981]">
           {display}
         </motion.span>
-        <span className={`text-[9px] font-semibold ${isDark ? "text-white/30" : "text-[#94A3B8]"}`}>accuracy</span>
+        <span className={`text-[9px] font-semibold ${isDark ? "text-white/30" : "text-[#94A3B8]"}`}>daily users</span>
       </div>
       <p className={`text-[10px] font-semibold mb-3 ${isDark ? "text-white/60" : "text-[#475569]"}`}>
-        Sahara Sense — Dust Storm AI
+        HRMS — solo-built · 3 orgs · 794 tests
       </p>
 
       {/* Mini architecture flow */}
@@ -60,9 +61,9 @@ export default function FlagshipSpotlight({ isDark }: { isDark: boolean }) {
               transition={{ delay: 1 + i * 0.15 }}
               className="px-1.5 py-0.5 rounded text-[7px] font-bold whitespace-nowrap"
               style={{
-                background: isDark ? "rgba(245,158,11,0.15)" : "rgba(245,158,11,0.08)",
-                color: "#F59E0B",
-                border: "1px solid rgba(245,158,11,0.2)",
+                background: isDark ? "rgba(16,185,129,0.15)" : "rgba(16,185,129,0.08)",
+                color: "#10B981",
+                border: "1px solid rgba(16,185,129,0.2)",
               }}
             >
               {node}
@@ -82,7 +83,7 @@ export default function FlagshipSpotlight({ isDark }: { isDark: boolean }) {
       </div>
 
       {/* Deep dive link */}
-      <div className={`mt-2 text-[9px] font-semibold opacity-0 group-hover:opacity-100 transition-opacity ${isDark ? "text-[#F59E0B]" : "text-[#D97706]"}`}>
+      <div className={`mt-2 text-[9px] font-semibold opacity-0 group-hover:opacity-100 transition-opacity ${isDark ? "text-[#10B981]" : "text-[#047857]"}`}>
         Deep Dive →
       </div>
     </motion.div>

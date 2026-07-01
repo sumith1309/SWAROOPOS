@@ -19,8 +19,8 @@ const WELCOME_NOTIFICATIONS: Omit<Notification, "id" | "timestamp">[] = [
   },
   {
     title: "Portfolio",
-    body: "20+ products shipped across 5 industries. Open Showcase to explore.",
-    icon: "20+",
+    body: "Production work first: HRMS live with 80+ daily users. Open Showcase to explore.",
+    icon: "OS",
   },
 ];
 

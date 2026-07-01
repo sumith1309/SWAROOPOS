@@ -3,13 +3,13 @@
 import { useState, useEffect, Suspense, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { useGLTF, OrbitControls } from "@react-three/drei";
+import { useGLTF } from "@react-three/drei";
 import { useStore } from "@/lib/store";
 import * as THREE from "three";
 
 const PROMPTS = [
   "Want to know about Swaroop?",
-  "Ask me about his 20+ products!",
+  "Ask me what he's shipped to production!",
   "Curious about his tech stack?",
   "Let me tell you his story!",
   "Click me to chat!",

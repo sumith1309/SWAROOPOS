@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useStore, WALLPAPERS } from "@/lib/store";
 
-const ROLES = ["AI Product Manager", "Startup Co-Founder", "Builder of 20+ Products", "COO @ CogniSpace", "SP Jain MAIB '26"];
+const ROLES = ["Forward Deployed Engineer", "Ships production software", "COO @ CogniSpace", "Human-led, AI-accelerated", "SP Jain MAIB '26"];
 
 export default function Taskbar({ onLock }: { onLock?: () => void }) {
   const [time, setTime] = useState("");
@@ -15,17 +15,18 @@ export default function Taskbar({ onLock }: { onLock?: () => void }) {
   const wallpaper = WALLPAPERS.find((w) => w.id === wallpaperId) || WALLPAPERS[0];
   const isDark = wallpaper.dark ?? false;
 
-  // Detect location
+  // Detect location via timezone (e.g., "Asia/Dubai" -> "Dubai")
   useEffect(() => {
-    // Try to get user's location via timezone
-    try {
-      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      // Extract city from timezone (e.g., "Asia/Dubai" -> "Dubai")
-      const city = tz.split("/").pop()?.replace(/_/g, " ") || "Earth";
-      setLocation(city);
-    } catch {
-      setLocation("Earth");
-    }
+    const t = setTimeout(() => {
+      try {
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+        const city = tz.split("/").pop()?.replace(/_/g, " ") || "Earth";
+        setLocation(city);
+      } catch {
+        setLocation("Earth");
+      }
+    }, 0);
+    return () => clearTimeout(t);
   }, []);
 
   useEffect(() => {

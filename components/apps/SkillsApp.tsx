@@ -21,16 +21,16 @@ const FolderIcon = ({ children, color }: { children: React.ReactNode; color: str
 
 const SKILL_FOLDERS: SkillFolder[] = [
   {
-    name: "Product Management", color: "#3B82F6", items: SKILLS["Product Management"],
-    icon: <FolderIcon color="#3B82F6"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></FolderIcon>,
+    name: "Engineering", color: "#10B981", items: SKILLS["Engineering"],
+    icon: <FolderIcon color="#10B981"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></FolderIcon>,
   },
   {
-    name: "AI & Data", color: "#8B5CF6", items: SKILLS["AI & Data"],
+    name: "AI Engineering", color: "#8B5CF6", items: SKILLS["AI Engineering"],
     icon: <FolderIcon color="#8B5CF6"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></FolderIcon>,
   },
   {
-    name: "Technical", color: "#10B981", items: SKILLS["Technical"],
-    icon: <FolderIcon color="#10B981"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></FolderIcon>,
+    name: "Product & Delivery", color: "#3B82F6", items: SKILLS["Product & Delivery"],
+    icon: <FolderIcon color="#3B82F6"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></FolderIcon>,
   },
   {
     name: "Business & Operations", color: "#F59E0B", items: SKILLS["Business & Operations"],

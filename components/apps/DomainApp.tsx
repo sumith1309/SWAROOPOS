@@ -1,6 +1,6 @@
 "use client";
 
-import { type Domain, DOMAINS, getProductsByDomain } from "@/lib/data";
+import { type Domain, getProductsByDomain } from "@/lib/data";
 import { useStore } from "@/lib/store";
 import EducationTheme from "../domain-themes/EducationTheme";
 import ClimateTheme from "../domain-themes/ClimateTheme";
@@ -19,7 +19,6 @@ const THEME_HEADERS: Record<Domain, React.ComponentType> = {
 
 export default function DomainApp({ domain }: { domain: Domain }) {
   const setActiveProjectId = useStore((s) => s.setActiveProjectId);
-  const domainInfo = DOMAINS[domain];
   const products = getProductsByDomain(domain);
   const ThemeHeader = THEME_HEADERS[domain];
 
