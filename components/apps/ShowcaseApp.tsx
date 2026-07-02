@@ -84,10 +84,10 @@ function ProductionRow({ product, index }: { product: Product; index: number }) 
         className="group w-full text-left rounded-[13px] bg-white border border-[rgba(15,23,42,0.05)] p-4 cursor-pointer transition-shadow duration-300 hover:shadow-[0_2px_4px_rgba(15,23,42,0.05),0_12px_32px_rgba(15,23,42,0.08)]"
       >
         <div className="flex items-start gap-3.5">
-          {/* Monogram tile */}
+          {/* Project initials — matte tile, no gloss */}
           <div
-            className="w-11 h-11 rounded-[12px] flex items-center justify-center shrink-0 font-heading font-bold text-[14px] text-white"
-            style={{ background: "#0F172A", boxShadow: `inset 0 1px 1px rgba(255,255,255,0.18), 0 1px 3px rgba(15,23,42,0.2)` }}
+            className="w-11 h-11 rounded-[12px] flex items-center justify-center shrink-0 font-heading font-semibold text-[13px] tracking-[-0.02em] text-white/90"
+            style={{ background: "#0F172A" }}
           >
             {monogram(product.name)}
           </div>
