@@ -81,29 +81,24 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
                 <div className="absolute inset-0 m-auto w-8 h-8 bg-white rounded-full blur-md animate-pulse-core"
                   style={{ boxShadow: "0 0 40px rgba(255,255,255,0.8)" }} />
 
-                {/* Front */}
+                {/* Machined ink-on-paper faces — engineering lab, not neon */}
                 <div className="side-wrapper front">
-                  <div className="face border-2 border-cyan-400/60" style={{ background: "rgba(34,211,238,0.08)", boxShadow: "0 0 15px rgba(34,211,238,0.3)" }} />
+                  <div className="face" style={{ border: "1.5px solid rgba(15,23,42,0.22)", background: "rgba(15,23,42,0.03)", boxShadow: "0 2px 12px rgba(15,23,42,0.06)" }} />
                 </div>
-                {/* Back */}
                 <div className="side-wrapper back">
-                  <div className="face border-2 border-cyan-400/60" style={{ background: "rgba(34,211,238,0.08)", boxShadow: "0 0 15px rgba(34,211,238,0.3)" }} />
+                  <div className="face" style={{ border: "1.5px solid rgba(15,23,42,0.22)", background: "rgba(15,23,42,0.03)", boxShadow: "0 2px 12px rgba(15,23,42,0.06)" }} />
                 </div>
-                {/* Right */}
                 <div className="side-wrapper right">
-                  <div className="face border-2 border-purple-400/60" style={{ background: "rgba(168,85,247,0.08)", boxShadow: "0 0 15px rgba(168,85,247,0.3)" }} />
+                  <div className="face" style={{ border: "1.5px solid rgba(15,23,42,0.16)", background: "rgba(15,23,42,0.02)", boxShadow: "0 2px 12px rgba(15,23,42,0.05)" }} />
                 </div>
-                {/* Left */}
                 <div className="side-wrapper left">
-                  <div className="face border-2 border-purple-400/60" style={{ background: "rgba(168,85,247,0.08)", boxShadow: "0 0 15px rgba(168,85,247,0.3)" }} />
+                  <div className="face" style={{ border: "1.5px solid rgba(15,23,42,0.16)", background: "rgba(15,23,42,0.02)", boxShadow: "0 2px 12px rgba(15,23,42,0.05)" }} />
                 </div>
-                {/* Top */}
                 <div className="side-wrapper top">
-                  <div className="face border-2 border-indigo-400/60" style={{ background: "rgba(99,102,241,0.08)", boxShadow: "0 0 15px rgba(99,102,241,0.3)" }} />
+                  <div className="face" style={{ border: "1.5px solid rgba(30,64,175,0.3)", background: "rgba(30,64,175,0.04)", boxShadow: "0 2px 12px rgba(30,64,175,0.08)" }} />
                 </div>
-                {/* Bottom */}
                 <div className="side-wrapper bottom">
-                  <div className="face border-2 border-indigo-400/60" style={{ background: "rgba(99,102,241,0.08)", boxShadow: "0 0 15px rgba(99,102,241,0.3)" }} />
+                  <div className="face" style={{ border: "1.5px solid rgba(30,64,175,0.3)", background: "rgba(30,64,175,0.04)", boxShadow: "0 2px 12px rgba(30,64,175,0.08)" }} />
                 </div>
               </div>
 
@@ -122,10 +117,10 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
             <AnimatePresence mode="wait">
               {phase === "cube" ? (
                 <motion.div key="loading" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="text-center">
-                  <h3 className="text-[12px] font-semibold tracking-[0.3em] uppercase" style={{ color: "#67E8F9" }}>
+                  <h3 className="text-[12px] font-semibold tracking-[0.3em] uppercase" style={{ color: "#1e40af" }}>
                     Loading
                   </h3>
-                  <p className="text-[12px] text-[#94A3B8] mt-1">Preparing your experience, please wait...</p>
+                  <p className="text-[12px] text-[#94A3B8] mt-1">Click anywhere to skip</p>
                 </motion.div>
               ) : (
                 <motion.div key="brand" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-center">
@@ -136,10 +131,10 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
                     <div className="h-[3px] rounded-full bg-[#E2E8F0] overflow-hidden">
                       <motion.div
                         className="h-full rounded-full"
-                        style={{ background: "linear-gradient(90deg, #3B82F6, #8B5CF6, #6366F1)" }}
+                        style={{ background: "#1e40af" }}
                         initial={{ width: "0%" }}
                         animate={{ width: "100%" }}
-                        transition={{ duration: 2, ease: "easeInOut" }}
+                        transition={{ duration: 1.6, ease: [0.32, 0.72, 0, 1] }}
                       />
                     </div>
                   </div>

@@ -45,7 +45,7 @@ export default function Window({ id, title, accentColor, zIndex, position, child
           background: "rgba(255, 255, 255, 0.92)",
           backdropFilter: "blur(20px)",
           border: isMobile ? "none" : "1px solid rgba(0,0,0,0.06)",
-          boxShadow: isMobile ? "none" : "0 4px 24px rgba(0,0,0,0.08), 0 1px 4px rgba(0,0,0,0.04)",
+          boxShadow: isMobile ? "none" : "var(--elev-3)",
         }}>
         {/* Title bar */}
         <div className={`${isMobile ? "h-12" : "h-10"} flex items-center px-3 gap-2 shrink-0 select-none border-b border-[rgba(0,0,0,0.06)]`} style={{ background: "rgba(255,255,255,0.95)", backdropFilter: "blur(16px)" }}>

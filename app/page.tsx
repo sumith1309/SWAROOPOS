@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, MotionConfig } from "framer-motion";
 import { useStore } from "@/lib/store";
 import BootScreen from "@/components/boot/BootScreen";
 import LockScreen from "@/components/desktop/LockScreen";
@@ -17,22 +17,24 @@ export default function Home() {
   const handleLock = useCallback(() => setPhase("lock"), []);
 
   return (
-    <main className="w-screen h-screen overflow-hidden">
-      {/* Boot screen */}
-      {phase === "boot" && <BootScreen onComplete={handleBootComplete} />}
+    <MotionConfig reducedMotion="user">
+      <main className="w-screen h-screen overflow-hidden">
+        {/* Boot screen */}
+        {phase === "boot" && <BootScreen onComplete={handleBootComplete} />}
 
-      {/* Lock screen */}
-      <AnimatePresence>
-        {phase === "lock" && <LockScreen onUnlock={handleUnlock} />}
-      </AnimatePresence>
+        {/* Lock screen */}
+        <AnimatePresence>
+          {phase === "lock" && <LockScreen onUnlock={handleUnlock} />}
+        </AnimatePresence>
 
-      {/* Desktop (always mounted, revealed by lock screen exit) */}
-      {phase !== "boot" && <Desktop onLock={handleLock} />}
+        {/* Desktop (always mounted, revealed by lock screen exit) */}
+        {phase !== "boot" && <Desktop onLock={handleLock} />}
 
-      {/* Project detail modal */}
-      <AnimatePresence>
-        {activeProjectId && <ProjectDetail />}
-      </AnimatePresence>
-    </main>
+        {/* Project detail modal */}
+        <AnimatePresence>
+          {activeProjectId && <ProjectDetail />}
+        </AnimatePresence>
+      </main>
+    </MotionConfig>
   );
 }

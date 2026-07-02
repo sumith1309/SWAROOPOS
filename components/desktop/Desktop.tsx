@@ -112,7 +112,7 @@ function DesktopView({ openWindow, isDark }: { openWindow: (id: AppId) => void; 
           initial={{ opacity: 0, x: -30 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.2, duration: 0.6 }}
-          className={`p-10 holographic ${isDark ? "liquid-glass-dark" : "liquid-glass"}`}
+          className={`p-10 ${isDark ? "liquid-glass-dark" : "liquid-glass"}`}
         >
           <div className="flex items-center gap-2 mb-5">
             <div className="w-2.5 h-2.5 rounded-full bg-[#10B981] animate-pulse-soft" />
