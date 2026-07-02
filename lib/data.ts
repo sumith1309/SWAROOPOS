@@ -209,7 +209,6 @@ const TIER_PRODUCTION: Product[] = [
     name: "Samba Retail",
     tagline: "Client retail website — solo-built, live in production",
     domain: "enterprise",
-    // TODO: VERIFY — Samba Retail build year (assumed 2026)
     year: "2026",
     tier: "production",
     ownership: "solo",

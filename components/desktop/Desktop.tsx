@@ -13,14 +13,11 @@ import {
   SUBHERO,
   PROOF_POINTS,
   CONTACT,
-  ALL_PRODUCTS,
-  LIVE_PRODUCTS,
   getProduct,
 } from "@/lib/data";
 import Taskbar from "./Taskbar";
 import Dock from "./Dock";
 import WindowManager from "./WindowManager";
-import WeatherWidget from "./WeatherWidget";
 import GitHubWidget from "./GitHubWidget";
 import SpotlightSearch from "./SpotlightSearch";
 import ContextMenu from "./ContextMenu";
@@ -229,35 +226,6 @@ function HRMSStrip({ isDark }: { isDark: boolean }) {
   );
 }
 
-/* ─── Quick stats — computed from real data ─── */
-function QuickStats({ isDark }: { isDark: boolean }) {
-  const stats = [
-    { value: `${LIVE_PRODUCTS.length}`, label: "Live", color: "#10B981" },
-    { value: `${ALL_PRODUCTS.length}`, label: "Systems", color: "#3B82F6" },
-    { value: "2019", label: "Since", color: "#8B5CF6" },
-  ];
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.45, duration: 0.5, ease: EASE }}
-      className={`p-4 ${isDark ? "liquid-glass-sm-dark" : "liquid-glass-sm"}`}
-    >
-      <div className="flex items-center justify-around">
-        {stats.map((stat) => (
-          <div key={stat.label} className="text-center">
-            <div className="text-[20px] font-heading font-bold leading-none" style={{ color: stat.color }}>{stat.value}</div>
-            <div className={`text-[9px] uppercase tracking-wider font-semibold mt-1 ${isDark ? "text-white/40" : "text-[#8E8E93]"}`}>{stat.label}</div>
-          </div>
-        ))}
-      </div>
-      <p className={`text-[10px] text-center mt-2 leading-snug ${isDark ? "text-white/35" : "text-[#94A3B8]"}`}>
-        {ALL_PRODUCTS.length} systems across production, AI agents, ML experiments, and business tools
-      </p>
-    </motion.div>
-  );
-}
-
 /* ─── Hero panel — name, role, headline, proof, CTAs ─── */
 function HeroPanel({ openWindow, isDark }: { openWindow: (id: AppId) => void; isDark: boolean }) {
   return (
@@ -349,16 +317,11 @@ function DesktopView({ openWindow, isDark }: { openWindow: (id: AppId) => void; 
           <ChatLauncher openWindow={openWindow} isDark={isDark} />
         </div>
 
-        {/* Right: featured ALIA + HRMS anchor + live GitHub above the fold;
-            decorative stats/weather may dip below it */}
+        {/* Right: featured ALIA + HRMS anchor + live GitHub — all above the fold */}
         <aside className="col-span-5 flex flex-col gap-3" aria-label="Featured work and stats">
           <FeaturedALIA isDark={isDark} />
           <HRMSStrip isDark={isDark} />
           <GitHubWidget isDark={isDark} />
-          <div className="grid grid-cols-2 gap-3">
-            <QuickStats isDark={isDark} />
-            <WeatherWidget isDark={isDark} />
-          </div>
         </aside>
       </div>
     </div>
@@ -417,10 +380,6 @@ function MobileView({ openWindow, isDark }: { openWindow: (id: AppId) => void; i
 
       <div className="mb-3">
         <ChatLauncher openWindow={openWindow} isDark={isDark} />
-      </div>
-
-      <div className="mb-3">
-        <QuickStats isDark={isDark} />
       </div>
 
       {/* Quick launch grid — 44px+ targets */}

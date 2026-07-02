@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useStore, WALLPAPERS } from "@/lib/store";
 import Wordmark from "@/components/ui/Wordmark";
+import WeatherWidget from "./WeatherWidget";
 
 const ROLES = ["AI Engineer", "AI and Digital Transformation Consultant", "Ships production software", "Human-led, AI-accelerated", "SP Jain MAIB '26"];
 
@@ -86,6 +87,10 @@ export default function Taskbar() {
 
       {/* Right */}
       <div className={`flex items-center gap-3 text-[12px] ${isDark ? "text-white/60" : "text-[#64748B]"}`}>
+        <span className="hidden md:block">
+          <WeatherWidget isDark={isDark} />
+        </span>
+        <div className="w-[1px] h-3 hidden md:block" style={{ background: isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.06)" }} />
         <span className="hidden sm:inline">{location}</span>
         <div className="w-[1px] h-3 hidden sm:block" style={{ background: isDark ? "rgba(255,255,255,0.12)" : "rgba(0,0,0,0.06)" }} />
         <span className="hidden sm:inline text-[11px]">{date}</span>
