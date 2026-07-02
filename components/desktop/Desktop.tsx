@@ -129,8 +129,7 @@ function FastPath({ openWindow, isDark, compact }: { openWindow: (id: AppId) => 
 function FeaturedALIA({ isDark }: { isDark: boolean }) {
   const facts = [
     "Multi-turn tool-calling AI agent",
-    "Real RAG — grounded in actual course materials",
-    "LangChain · pgvector · PostgreSQL · Redis",
+    "Real RAG — LangChain + pgvector over actual course materials",
     "Self-hosted end-to-end on AWS EC2",
     "Solo-built inside a team LMS (my system)",
   ];
@@ -140,9 +139,9 @@ function FeaturedALIA({ isDark }: { isDark: boolean }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.15, duration: 0.5, ease: EASE }}
       aria-label="Featured case study: ALIA agentic AI"
-      className={`rounded-[20px] p-6 ${isDark ? "liquid-glass-dark" : "liquid-glass"}`}
+      className={`rounded-[20px] p-5 ${isDark ? "liquid-glass-dark" : "liquid-glass"}`}
     >
-      <div className="flex items-center justify-between mb-3">
+      <div className="flex items-center justify-between mb-2.5">
         <span className={`text-[10px] uppercase tracking-[0.18em] font-bold font-mono ${isDark ? "text-white/45" : "text-[#8E8E93]"}`}>
           Featured · Agentic AI
         </span>
@@ -155,11 +154,11 @@ function FeaturedALIA({ isDark }: { isDark: boolean }) {
       <h2 className={`text-[22px] font-heading font-bold tracking-[-0.02em] mb-1 ${isDark ? "text-white" : "text-[#0F172A]"}`}>
         ALIA — AI Teaching Assistant
       </h2>
-      <p className={`text-[13px] leading-relaxed mb-4 ${isDark ? "text-white/60" : "text-[#64748B]"}`}>
+      <p className={`text-[13px] leading-relaxed mb-3 ${isDark ? "text-white/60" : "text-[#64748B]"}`}>
         A complete agentic AI I built solo — agent, RAG pipeline, and hosting.
       </p>
 
-      <ul className="space-y-1.5 mb-5">
+      <ul className="space-y-1.5 mb-4">
         {facts.map((f) => (
           <li key={f} className={`flex items-start gap-2 text-[12.5px] ${isDark ? "text-white/75" : "text-[#334155]"}`}>
             <Check className="w-3.5 h-3.5 mt-0.5 shrink-0 text-[#10B981]" aria-hidden />
@@ -188,8 +187,8 @@ function FeaturedALIA({ isDark }: { isDark: boolean }) {
           <ArrowUpRight className="w-3.5 h-3.5" aria-hidden />
         </a>
       </div>
-      <p className={`text-[10.5px] mt-2.5 font-mono ${isDark ? "text-white/35" : "text-[#94A3B8]"}`}>
-        Live LMS is login-gated (real institution data). Platform is a team build.
+      <p className={`text-[10.5px] mt-2 font-mono ${isDark ? "text-white/35" : "text-[#94A3B8]"}`}>
+        Live LMS is login-gated (real institution data) · platform is a team build.
       </p>
     </motion.section>
   );
@@ -343,22 +342,23 @@ function ChatLauncher({ openWindow, isDark }: { openWindow: (id: AppId) => void;
 function DesktopView({ openWindow, isDark }: { openWindow: (id: AppId) => void; isDark: boolean }) {
   return (
     <div className="absolute inset-0 top-10 bottom-20 overflow-y-auto">
-      <div className="max-w-[1180px] mx-auto px-8 pt-[6vh] grid grid-cols-12 gap-6 items-start">
+      <div className="max-w-[1180px] mx-auto px-8 pt-[3.5vh] grid grid-cols-12 gap-6 items-start">
         {/* Left: hero + chat */}
         <div className="col-span-7 flex flex-col gap-4">
           <HeroPanel openWindow={openWindow} isDark={isDark} />
           <ChatLauncher openWindow={openWindow} isDark={isDark} />
         </div>
 
-        {/* Right: featured ALIA + HRMS anchor + honest stats + live GitHub */}
-        <aside className="col-span-5 flex flex-col gap-4" aria-label="Featured work and stats">
+        {/* Right: featured ALIA + HRMS anchor + live GitHub above the fold;
+            decorative stats/weather may dip below it */}
+        <aside className="col-span-5 flex flex-col gap-3" aria-label="Featured work and stats">
           <FeaturedALIA isDark={isDark} />
           <HRMSStrip isDark={isDark} />
-          <div className="grid grid-cols-2 gap-4">
+          <GitHubWidget isDark={isDark} />
+          <div className="grid grid-cols-2 gap-3">
             <QuickStats isDark={isDark} />
             <WeatherWidget isDark={isDark} />
           </div>
-          <GitHubWidget isDark={isDark} />
         </aside>
       </div>
     </div>

@@ -49,6 +49,12 @@ interface Store {
   // Wallpaper
   wallpaperId: string;
   setWallpaper: (id: string) => void;
+
+  // Lock screen — ON-DEMAND ONLY (clicking the SwaroopOS wordmark). Never an
+  // entry gate: `locked` must initialize to false so first paint is proof.
+  locked: boolean;
+  lock: () => void;
+  unlock: () => void;
 }
 
 const DEFAULT_POSITIONS: Record<string, { x: number; y: number }> = {
@@ -141,4 +147,8 @@ export const useStore = create<Store>((set) => ({
 
   wallpaperId: "deep-blue",
   setWallpaper: (id) => set({ wallpaperId: id }),
+
+  locked: false,
+  lock: () => set({ locked: true }),
+  unlock: () => set({ locked: false }),
 }));
