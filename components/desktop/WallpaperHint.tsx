@@ -25,18 +25,21 @@ export default function WallpaperHint() {
     }
   }, []);
 
-  // Show once, a moment after the desktop settles. Skips for return visitors
-  // and when reduced motion is requested.
+  // Show once, a moment after the desktop settles. Skips for return visitors,
+  // when reduced motion is requested, and on small screens (the tip is about
+  // right-click theming — a desktop interaction — and must not cover proof).
   useEffect(() => {
     let seen = false;
     let reduced = false;
+    let small = false;
     try {
       seen = localStorage.getItem(HINT_KEY) === "1";
       reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      small = window.innerWidth < 900;
     } catch {
       /* ignore */
     }
-    if (seen || reduced) return;
+    if (seen || reduced || small) return;
     const t = setTimeout(() => setShow(true), 1400);
     return () => clearTimeout(t);
   }, []);

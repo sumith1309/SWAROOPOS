@@ -28,6 +28,10 @@ export default function NotificationCenter() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
   useEffect(() => {
+    // Desktop only: the tips are about ⌘K and right-click, and on a phone the
+    // toast covers the hero identity — proof must never sit behind a popup.
+    if (typeof window !== "undefined" && window.innerWidth < 900) return;
+
     // Stagger welcome notifications
     const timers = WELCOME_NOTIFICATIONS.map((n, i) =>
       setTimeout(() => {
