@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import { motion, useMotionValue, animate, useReducedMotion, type PanInfo } from "framer-motion";
 import { NAME, ROLE_TITLE } from "@/lib/data";
-import { useStore } from "@/lib/store";
+import { useStore, WALLPAPERS } from "@/lib/store";
 
 const EASE = [0.32, 0.72, 0, 1] as const;
 
@@ -15,7 +15,16 @@ const EASE = [0.32, 0.72, 0, 1] as const;
  */
 export default function LockScreen() {
   const unlock = useStore((s) => s.unlock);
+  const wallpaperId = useStore((s) => s.wallpaperId);
   const reduce = useReducedMotion();
+
+  // Mirror the desktop's current wallpaper (session-only choice; a refresh
+  // resets the store to the default Deep Blue starfield).
+  const wallpaper = WALLPAPERS.find((w) => w.id === wallpaperId) || WALLPAPERS.find((w) => w.id === "deep-blue")!;
+  const wallpaperStyle =
+    wallpaper.type === "css"
+      ? { background: wallpaper.value }
+      : { backgroundImage: `url(${wallpaper.value})`, backgroundSize: "cover", backgroundPosition: "center" };
   const y = useMotionValue(0);
   const [time, setTime] = useState("");
   const [date, setDate] = useState("");
@@ -91,15 +100,8 @@ export default function LockScreen() {
       tabIndex={0}
       aria-label="Locked. Swipe up, click, or press Enter to enter."
     >
-      {/* Starfield backdrop, dimmed to read as 'locked' */}
-      <div
-        className="absolute inset-0"
-        style={{
-          backgroundImage: "url(/wallpapers/deep-blue.jpg)",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      />
+      {/* Current wallpaper as backdrop, dimmed to read as 'locked' */}
+      <div className="absolute inset-0" style={wallpaperStyle} />
       <div className="absolute inset-0 bg-black/55 backdrop-blur-[2px]" />
 
       {/* Clock */}
