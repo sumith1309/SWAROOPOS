@@ -1,15 +1,18 @@
-// Knowledge base for the RAG-powered AI chat.
+// Knowledge base for the SwaroopOS assistant — a static-data-grounded AI
+// portfolio assistant. It is NOT RAG: there is no retrieval step; this whole
+// curated file is passed as context. Never label it "RAG" in code, copy, or UI.
 // HONESTY CONTRACT: every claim here is evidence-backed (live URL, repo README,
 // or owner-vouched private-system numbers). Metrics carry their qualifier.
 // The chat must never invent links, stats, roles, or expertise beyond this file.
 
 export const KNOWLEDGE_BASE = `
-# S. JYOTHI SWAROOP — Complete Profile
+# JYOTHI SWAROOP S — Complete Profile
 
 ## IDENTITY & POSITIONING
-- Name: S. Jyothi Swaroop
+- Name: Jyothi Swaroop S (always this exact form — never "S. Jyothi Swaroop", "Swaroop Jyothi", or "Jyothi S Swaroop")
+- Title: AI Engineer | AI and Digital Transformation Consultant
 - One-liner: I build production systems that businesses run on.
-- Positioning: Forward Deployed Engineer (builder who embeds with real businesses and ships working software) and AI-First Transformation Consultant. An engineer first — not only a product manager.
+- Positioning: Forward-deployed builder of production AI, SaaS, automation, and business systems. An engineer first — not only a product manager.
 - Current Role: AI Product Manager & Full-Stack Developer (Intern) at Learners Education (LUC Learners), Dubai
 - Location: Dubai, UAE (open to Hyderabad, India)
 - Education: Master of AI in Business (MAIB), SP Jain School of Global Management (Sep 2024 – Sep 2026, expected). Campuses: Singapore, Sydney, Dubai. Previous: Bachelor of Commerce, Badruka College, Hyderabad (2019–2022).
@@ -180,7 +183,10 @@ Q: Which projects are team projects?
 A: The LMS at LUC Learners. I own three of its systems (ALIA, ticketing, SSO) but the platform was built by a team.
 
 Q: What should a recruiter know in 30 seconds?
-A: I ship production software solo. My HRMS is live with 3 organizations and 80+ daily users — I built all 12 modules, the ZKTeco biometric integration, the security hardening, and the 794-test suite alone. I also delivered a live client site, own three systems inside a team LMS, and build serious agent systems (ADVAIT.io, WebQ Team). Based in Dubai, open to Hyderabad, targeting Forward Deployed Engineer and AI-transformation roles.
+A: I ship production software solo. My HRMS is live with 3 organizations and 80+ daily users — I built all 12 modules, the ZKTeco biometric integration, the security hardening, and the 794-test suite alone. I also delivered a live client site, own three systems inside a team LMS, and build serious agent systems (ADVAIT.io, WebQ Team). Based in Dubai, open to Hyderabad, targeting AI Engineer, Forward Deployed Engineer, and AI-transformation roles.
+
+Q: Is this chat a RAG system?
+A: No, and it does not claim to be. It is a static-data-grounded portfolio assistant: a curated, evidence-backed knowledge base is given to the model as context, with no retrieval step. Swaroop has built real RAG systems — ALIA (LangChain + pgvector, self-hosted on AWS EC2) and Prism-RAG (RBAC enforced at the Qdrant vector-store filter level) — and labeling this simple chat "RAG" would be dishonest.
 
 Q: What is NOT yet production?
 A: Honest list: ADVAIT.io, WebQ Team, Prism-RAG, and the ML lab projects are source-available systems and experiments — real code, verified test suites, but no live users. Garmi Mitra and the email automation are design-stage concepts. Only HRMS, Samba Retail, and the LMS systems I own are actually deployed with real use.
@@ -195,5 +201,5 @@ Q: What is your strongest Forward Deployed Engineer evidence?
 A: The HRMS. I embedded with a real client, understood messy HR and biometric-attendance workflows, built all 12 modules alone, integrated ZKTeco hardware, hardened security, wrote 794 tests, and took it to production where 80+ people use it daily. That is the FDE loop end-to-end: business problem in, working production system out.
 
 ## PORTFOLIO WEBSITE
-"SwaroopOS" — a macOS-inspired desktop experience built with Next.js 16, React 19, TypeScript, Tailwind v4, and Framer Motion. Boot screen (skippable), spotlight search (Cmd/Ctrl+K), draggable windows, terminal with real project data, AI chat, resume download. Live at swaroopos.vercel.app. He designed and built it himself — it is itself a proof of work.
+"SwaroopOS" — a desktop-OS-inspired portfolio built with Next.js 16, React 19, TypeScript, Tailwind v4, and Framer Motion. No boot screen, no lock screen, no entry gates — first paint is name, role, proof points, and the recruiter fast-path. Spotlight search (Cmd/Ctrl+K), draggable windows, terminal with real project data, this assistant, resume view + download, deep links (/projects, /projects/hrms, /resume, /contact). Live at swaroopos.vercel.app. He designed and built it himself — it is itself a proof of work. This assistant is static-data grounded (not RAG — no retrieval step).
 `;
