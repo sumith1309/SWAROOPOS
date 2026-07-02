@@ -18,7 +18,7 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen bg-[#FAFAF8]">
       <SiteHeader current="contact" />
-      <main className="max-w-[640px] mx-auto px-5 py-10">
+      <main id="main-content" className="max-w-[640px] mx-auto px-5 py-10">
         <h1 className="text-[30px] font-heading font-bold text-[#0F172A] tracking-[-0.02em] mb-2">
           Let&apos;s talk
         </h1>

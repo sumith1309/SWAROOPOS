@@ -13,7 +13,7 @@ import {
   LANGUAGES,
   CONTACT,
   FEATURED_PRODUCTS,
-  OWNERSHIP_LABELS,
+  getOwnershipLabel,
 } from "@/lib/data";
 import SiteHeader from "@/components/site/SiteHeader";
 import { PrintButton } from "@/components/site/ActionButtons";
@@ -30,7 +30,7 @@ export default function ResumePage() {
         <SiteHeader current="resume" />
       </div>
 
-      <main className="max-w-[760px] mx-auto px-5 py-10 print:py-2">
+      <main id="main-content" className="max-w-[760px] mx-auto px-5 py-10 print:py-2">
         {/* Actions */}
         <div className="flex flex-wrap gap-2.5 mb-8 print:hidden">
           <PrintButton />
@@ -99,7 +99,7 @@ export default function ResumePage() {
               <div className="flex flex-wrap items-baseline justify-between gap-x-3">
                 <h3 className="text-[14px] font-heading font-bold text-[#0F172A]">
                   {p.name}
-                  <span className="font-medium text-[#64748B]"> — {OWNERSHIP_LABELS[p.ownership]}{p.status === "live" ? " · Live" : ""}</span>
+                  <span className="font-medium text-[#64748B]"> — {getOwnershipLabel(p)}{p.status === "live" ? " · Live" : ""}</span>
                 </h3>
                 <span className="text-[11.5px] font-mono text-[#94A3B8]">{p.year}</span>
               </div>

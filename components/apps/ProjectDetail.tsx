@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { useStore } from "@/lib/store";
-import { ALL_PRODUCTS, DOMAINS, OWNERSHIP_LABELS, METRIC_KIND_LABELS } from "@/lib/data";
+import { ALL_PRODUCTS, DOMAINS, getOwnershipLabel, METRIC_KIND_LABELS } from "@/lib/data";
 import { X, ExternalLink, ArrowRight, Globe } from "lucide-react";
 import ArchitectureDiagram from "./ArchitectureDiagram";
 
@@ -105,7 +105,7 @@ export default function ProjectDetail() {
                 ? "text-[#047857] bg-[rgba(16,185,129,0.08)] border border-[rgba(16,185,129,0.18)]"
                 : "text-[#6D28D9] bg-[rgba(139,92,246,0.08)] border border-[rgba(139,92,246,0.18)]"
             }`}>
-              {OWNERSHIP_LABELS[product.ownership]}
+              {getOwnershipLabel(product)}
             </div>
             {product.status === "live" && (
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold uppercase tracking-wider text-[#047857] bg-[rgba(16,185,129,0.08)] border border-[rgba(16,185,129,0.18)]">

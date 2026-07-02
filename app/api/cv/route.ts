@@ -1,4 +1,4 @@
-import { CAREER, EDUCATION, SKILLS, CERTIFICATIONS, LANGUAGES, CONTACT, PROFESSIONAL_SUMMARY, FEATURED_PRODUCTS, ADDITIONAL_PRODUCTS, OWNERSHIP_LABELS } from "@/lib/data";
+import { CAREER, EDUCATION, SKILLS, CERTIFICATIONS, LANGUAGES, CONTACT, PROFESSIONAL_SUMMARY, FEATURED_PRODUCTS, ADDITIONAL_PRODUCTS, getOwnershipLabel } from "@/lib/data";
 
 export async function GET() {
 
@@ -84,7 +84,7 @@ ${EDUCATION.map(e => `
 ${FEATURED_PRODUCTS.map(p => `
 <div class="entry">
   <div class="entry-header">
-    <h3>${p.name} <span class="domain" style="font-weight:500">— ${OWNERSHIP_LABELS[p.ownership]}${p.status === "live" ? " · LIVE" : ""}</span></h3>
+    <h3>${p.name} <span class="domain" style="font-weight:500">— ${getOwnershipLabel(p)}${p.status === "live" ? " · LIVE" : ""}</span></h3>
     <span class="entry-meta">${p.year}</span>
   </div>
   <ul>

@@ -76,7 +76,7 @@ export default function Taskbar() {
           <div className="w-[1px] h-3.5" style={{ background: isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.08)" }} />
           <AnimatePresence mode="wait">
             <motion.span key={roleIndex} initial={{ y: 8, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -8, opacity: 0 }}
-              transition={{ duration: 0.3 }} className={`text-[11px] font-mono ${isDark ? "text-white/50" : "text-[#94A3B8]"}`}>
+              transition={{ duration: 0.3 }} className={`text-[11px] font-mono ${isDark ? "text-white/75" : "text-[#64748B]"}`}>
               {ROLES[roleIndex]}
             </motion.span>
           </AnimatePresence>

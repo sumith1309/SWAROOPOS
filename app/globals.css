@@ -65,6 +65,25 @@ textarea:focus-visible {
   outline: none;
 }
 
+/* Skip-to-content: first focusable element, hidden until keyboard focus */
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 16px;
+  z-index: 100;
+  padding: 12px 20px;
+  border-radius: 999px;
+  background: #0f172a;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  transition: top 0.15s ease-out;
+}
+
+.skip-link:focus-visible {
+  top: 16px;
+}
+
 .elev-1 { box-shadow: var(--elev-1); }
 .elev-2 { box-shadow: var(--elev-2); }
 .elev-3 { box-shadow: var(--elev-3); }

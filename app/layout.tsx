@@ -22,7 +22,7 @@ const jetbrainsMono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://swaroopos.vercel.app"),
-  title: "Jyothi Swaroop S — AI Engineer | SwaroopOS",
+  title: "Jyothi Swaroop S — AI Engineer | AI and Digital Transformation Consultant",
   description:
     "I build production systems that businesses run on. AI Engineer and AI & Digital Transformation Consultant in Dubai — solo-built multi-tenant HRMS live with 3 organizations and 80+ daily users, live client sites, agent systems. Human-led, AI-accelerated delivery.",
   keywords: [
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Jyothi Swaroop S — AI Engineer",
+    title: "Jyothi Swaroop S — AI Engineer | AI and Digital Transformation Consultant",
     description:
       "I build production systems that businesses run on. Solo-built HRMS live with 80+ daily users · live client sites · AI agent systems.",
   },
@@ -70,6 +70,9 @@ export default function RootLayout({
         <link rel="preload" as="image" href="/wallpapers/deep-blue.jpg" />
       </head>
       <body>
+        <a href="#main-content" className="skip-link">
+          Skip to content
+        </a>
         {children}
       </body>
     </html>

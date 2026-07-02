@@ -5,7 +5,7 @@ import {
   ALL_PRODUCTS,
   CATEGORY_ORDER,
   CATEGORY_LABELS,
-  OWNERSHIP_LABELS,
+  getOwnershipLabel,
   getStatusChips,
   NAME,
   type Product,
@@ -49,7 +49,7 @@ function ProjectCard({ p }: { p: Product }) {
 
       <p className="text-[11px] text-[#64748B] leading-relaxed mb-4">
         <span className="font-semibold text-[#334155]">Role: </span>
-        {p.role} <span className="text-[#94A3B8]">({OWNERSHIP_LABELS[p.ownership]})</span>
+        {p.role} <span className="text-[#94A3B8]">({getOwnershipLabel(p)})</span>
       </p>
 
       <div className="flex flex-wrap gap-1.5 mb-4">
@@ -88,7 +88,7 @@ export default function ProjectsPage() {
   return (
     <div className="min-h-screen bg-[#FAFAF8]">
       <SiteHeader current="projects" />
-      <main className="max-w-[1100px] mx-auto px-5 py-10">
+      <main id="main-content" className="max-w-[1100px] mx-auto px-5 py-10">
         <h1 className="text-[30px] font-heading font-bold text-[#0F172A] tracking-[-0.02em] mb-2">
           Work, production first
         </h1>

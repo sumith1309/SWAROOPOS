@@ -149,6 +149,17 @@ export const OWNERSHIP_LABELS: Record<Ownership, string> = {
   team: "Team project",
 };
 
+/**
+ * Ownership label that never overstates: "deployed" is only said about work
+ * that is actually live; concepts say design stage.
+ */
+export function getOwnershipLabel(p: Product): string {
+  if (p.ownership !== "solo") return OWNERSHIP_LABELS[p.ownership];
+  if (p.tier === "concept") return "Solo-built · design stage";
+  if (p.status === "live") return "Solo-built & deployed";
+  return "Solo-built";
+}
+
 export const METRIC_KIND_LABELS: Record<MetricKind, string> = {
   verified: "verified",
   "self-reported": "self-reported",

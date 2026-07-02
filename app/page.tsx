@@ -44,7 +44,7 @@ export default function Home() {
 
   return (
     <MotionConfig reducedMotion="user">
-      <main className="w-screen h-screen overflow-hidden">
+      <main id="main-content" className="w-screen h-screen overflow-hidden">
         <Desktop />
 
         {/* Lock screen — brief auto-skipping intro + on-demand relock via wordmark */}

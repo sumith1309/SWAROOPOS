@@ -12,7 +12,7 @@ import {
   ALL_PRODUCTS,
   CATEGORY_LABELS,
   DOMAINS,
-  OWNERSHIP_LABELS,
+  getOwnershipLabel,
   type Product,
 } from "@/lib/data";
 import { useStore } from "@/lib/store";
@@ -53,7 +53,7 @@ function StatusChips({ product }: { product: Product }) {
             : "text-[#6D28D9] bg-[rgba(139,92,246,0.07)] border border-[rgba(139,92,246,0.16)]"
         }`}
       >
-        {OWNERSHIP_LABELS[product.ownership]}
+        {getOwnershipLabel(product)}
       </span>
     </span>
   );
@@ -165,6 +165,9 @@ function SystemRow({ product, index }: { product: Product; index: number }) {
       {product.status === "live" && (
         <span className="text-[9px] uppercase tracking-wider font-bold text-[#047857] shrink-0">Live</span>
       )}
+      {product.status === "repo" && (
+        <span className="text-[9px] uppercase tracking-wider font-bold text-[#64748B] shrink-0">Source</span>
+      )}
       <svg className="shrink-0 opacity-30 group-hover:opacity-70 transition-opacity" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#475569" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
         <polyline points="9 18 15 12 9 6" />
       </svg>
@@ -190,6 +193,8 @@ function CompactGrid({ products, muted, baseDelay }: { products: Product[]; mute
           <span className="flex items-center gap-1.5">
             <span className="block text-[12px] font-semibold text-[#0F172A] truncate">{p.name}</span>
             {p.status === "live" && <span className="text-[8px] uppercase tracking-wider font-bold text-[#047857] shrink-0">Live</span>}
+            {p.status === "repo" && <span className="text-[8px] uppercase tracking-wider font-bold text-[#64748B] shrink-0">Source</span>}
+            {p.tier === "concept" && <span className="text-[8px] uppercase tracking-wider font-bold text-[#B45309] shrink-0">Concept</span>}
           </span>
           <span className="block text-[10px] text-[#94A3B8] truncate mt-0.5">{p.tagline}</span>
         </motion.button>

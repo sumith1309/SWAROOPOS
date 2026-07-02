@@ -1,8 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { useStore, type AppId } from "@/lib/store";
+
+const FOCUSABLE =
+  'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
 interface WindowProps {
   id: AppId;
@@ -18,6 +21,7 @@ export default function Window({ id, title, accentColor, zIndex, position, child
   const minimizeWindow = useStore((s) => s.minimizeWindow);
   const focusWindow = useStore((s) => s.focusWindow);
   const [isMobile, setIsMobile] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
@@ -25,6 +29,32 @@ export default function Window({ id, title, accentColor, zIndex, position, child
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
   }, []);
+
+  // Dialog focus management: move focus into the window on open and hand it
+  // back to whatever opened it (dock icon, CTA) on close.
+  useEffect(() => {
+    const opener = document.activeElement as HTMLElement | null;
+    containerRef.current?.focus();
+    return () => opener?.focus?.();
+  }, []);
+
+  // Trap Tab inside the window while focus is within it (Escape still closes).
+  const trapTab = (e: React.KeyboardEvent) => {
+    if (e.key !== "Tab") return;
+    const root = containerRef.current;
+    if (!root) return;
+    const focusables = Array.from(root.querySelectorAll<HTMLElement>(FOCUSABLE));
+    if (focusables.length === 0) return;
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    if (e.shiftKey && (document.activeElement === first || document.activeElement === root)) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  };
 
   // Escape closes the topmost open window.
   useEffect(() => {
@@ -42,8 +72,12 @@ export default function Window({ id, title, accentColor, zIndex, position, child
 
   return (
     <motion.div
+      ref={containerRef}
       role="dialog"
+      aria-modal="true"
       aria-label={title}
+      tabIndex={-1}
+      onKeyDown={trapTab}
       initial={{ scale: isMobile ? 1 : 0.95, opacity: 0, y: isMobile ? "100%" : 0 }}
       animate={{ scale: 1, opacity: 1, y: 0 }}
       exit={{ scale: isMobile ? 1 : 0.95, opacity: 0, y: isMobile ? "100%" : 0 }}

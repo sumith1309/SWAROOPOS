@@ -36,7 +36,7 @@ export default function HRMSCaseStudy() {
   return (
     <div className="min-h-screen bg-[#FAFAF8]">
       <SiteHeader current="projects" />
-      <main className="max-w-[760px] mx-auto px-5 py-10">
+      <main id="main-content" className="max-w-[760px] mx-auto px-5 py-10">
         <Link href="/projects" className="inline-flex items-center gap-1.5 min-h-[44px] text-[13px] font-semibold text-[#64748B] hover:text-[#0F172A] transition-colors mb-4">
           <ArrowLeft className="w-3.5 h-3.5" aria-hidden /> All projects
         </Link>
