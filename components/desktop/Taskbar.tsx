@@ -3,10 +3,11 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useStore, WALLPAPERS } from "@/lib/store";
+import Monogram from "@/components/ui/Monogram";
 
-const ROLES = ["Forward Deployed Engineer", "Ships production software", "COO @ CogniSpace", "Human-led, AI-accelerated", "SP Jain MAIB '26"];
+const ROLES = ["Forward Deployed Engineer", "AI Transformation Consultant", "Ships production software", "COO @ CogniSpace", "Human-led, AI-accelerated"];
 
-export default function Taskbar({ onLock }: { onLock?: () => void }) {
+export default function Taskbar() {
   const [time, setTime] = useState("");
   const [date, setDate] = useState("");
   const [location, setLocation] = useState("Loading...");
@@ -61,10 +62,10 @@ export default function Taskbar({ onLock }: { onLock?: () => void }) {
     >
       {/* Left */}
       <div className="flex items-center gap-3">
-        <button onClick={onLock} className="flex items-center gap-1.5 cursor-pointer hover:opacity-80 transition-opacity">
-          <img src="/logo.png" alt="SwaroopOS" className="w-6 h-6 object-contain" />
+        <div className="flex items-center gap-2">
+          <Monogram size={22} />
           <span className={`font-heading font-bold text-[14px] ${isDark ? "text-white" : "text-[#0F172A]"}`}>SwaroopOS</span>
-        </button>
+        </div>
         <div className="hidden md:flex items-center gap-1.5">
           <div className="w-[1px] h-3.5" style={{ background: isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.08)" }} />
           <AnimatePresence mode="wait">

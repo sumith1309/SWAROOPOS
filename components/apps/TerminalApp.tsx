@@ -63,7 +63,7 @@ export default function TerminalApp() {
     }
 
     if (lower === "cat readme.md" || lower === "cat README.md") {
-      return `# SwaroopOS v3.0\n\nWelcome to S. Jyothi Swaroop's interactive portfolio.\nI build production systems that businesses run on.\nLive: HRMS (80+ daily users) · Samba Retail · CogniSpace.\nHuman-led, AI-accelerated delivery (Claude Code).\n\nType 'help' for commands.`;
+      return `# SwaroopOS v3.0\n\nWelcome to Swaroop Jyothi's interactive portfolio.\nI build production systems that businesses run on.\nLive: HRMS (80+ daily users) · Samba Retail · CogniSpace.\nHuman-led, AI-accelerated delivery (Claude Code).\n\nType 'help' for commands.`;
     }
 
     if (lower === "cat .env") return "Nice try. 🔒 Environment variables are secured.";
@@ -362,7 +362,7 @@ Visit: https://github.com/sumith1309`;
       return CERTIFICATIONS.map((c) => `  ✓ ${c}`).join("\n");
     }
 
-    if (lower === "whoami") return "S. Jyothi Swaroop — I build production systems that businesses run on";
+    if (lower === "whoami") return "Swaroop Jyothi — I build production systems that businesses run on";
     if (lower === "neofetch") return NEOFETCH;
 
     // ─── man swaroop ───
@@ -377,7 +377,7 @@ SYNOPSIS
        Human-led, AI-accelerated delivery (Claude Code).
 
 DESCRIPTION
-       S. Jyothi Swaroop builds and ships production software close to
+       Swaroop Jyothi builds and ships production software close to
        real business problems: a solo-built multi-tenant HRMS live with
        80+ daily users, a live client retail site, and RAG/agent systems.
 

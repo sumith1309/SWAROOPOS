@@ -1,20 +1,60 @@
 "use client";
 
+import { useCallback, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { useStore } from "@/lib/store";
 import { ALL_PRODUCTS, DOMAINS, OWNERSHIP_LABELS, METRIC_KIND_LABELS } from "@/lib/data";
 import { X, ExternalLink, ArrowRight, Globe } from "lucide-react";
 import ArchitectureDiagram from "./ArchitectureDiagram";
 
+const FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
 export default function ProjectDetail() {
   const activeProjectId = useStore((s) => s.activeProjectId);
   const setActiveProjectId = useStore((s) => s.setActiveProjectId);
+  const panelRef = useRef<HTMLDivElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const restoreRef = useRef<HTMLElement | null>(null);
+
+  const close = useCallback(() => setActiveProjectId(null), [setActiveProjectId]);
+
+  // Focus management: remember the opener, focus the dialog, trap Tab,
+  // close on Escape, restore focus on unmount.
+  useEffect(() => {
+    restoreRef.current = document.activeElement as HTMLElement | null;
+    closeRef.current?.focus();
+
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.stopPropagation();
+        close();
+        return;
+      }
+      if (e.key === "Tab" && panelRef.current) {
+        const focusables = Array.from(panelRef.current.querySelectorAll<HTMLElement>(FOCUSABLE));
+        if (focusables.length === 0) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    };
+    document.addEventListener("keydown", handleKey, true);
+    return () => {
+      document.removeEventListener("keydown", handleKey, true);
+      restoreRef.current?.focus?.();
+    };
+  }, [close]);
 
   const product = ALL_PRODUCTS.find((p) => p.id === activeProjectId);
   if (!product) return null;
 
   const domain = DOMAINS[product.domain];
-  const close = () => setActiveProjectId(null);
 
   return (
     <motion.div
@@ -25,10 +65,14 @@ export default function ProjectDetail() {
       onClick={close}
     >
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" aria-hidden />
 
       {/* Modal */}
       <motion.div
+        ref={panelRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label={`${product.name} — project details`}
         initial={{ scale: 0.95, y: 20 }}
         animate={{ scale: 1, y: 0 }}
         exit={{ scale: 0.95, y: 20 }}
@@ -45,7 +89,7 @@ export default function ProjectDetail() {
         {/* Header with accent gradient */}
         <div className="relative p-6 pb-4" style={{ background: `linear-gradient(135deg, ${domain.color}08, ${domain.color}03)` }}>
           {/* Close button */}
-          <button onClick={close} className="absolute top-4 right-4 w-8 h-8 rounded-full flex items-center justify-center hover:bg-black/5 transition-colors cursor-pointer text-[#94A3B8]">
+          <button ref={closeRef} onClick={close} aria-label="Close project details" className="absolute top-4 right-4 w-11 h-11 rounded-full flex items-center justify-center hover:bg-black/5 transition-colors cursor-pointer text-[#94A3B8]">
             <X className="w-4 h-4" />
           </button>
 
@@ -80,6 +124,12 @@ export default function ProjectDetail() {
           {/* Year + Links */}
           <div className="flex flex-wrap items-center gap-3 mt-4">
             <span className="text-[12px] font-mono text-[#94A3B8]">{product.year}</span>
+            {product.caseStudy && (
+              <a href={product.caseStudy}
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-semibold transition-colors cursor-pointer bg-[#1d4ed8] text-white hover:bg-[#1e40af]">
+                Full case study
+              </a>
+            )}
             {product.website && (
               <a href={product.website} target="_blank" rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[12px] font-semibold transition-colors cursor-pointer bg-[#0F172A] text-white hover:bg-[#1E293B]">

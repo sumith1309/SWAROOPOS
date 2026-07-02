@@ -2,8 +2,21 @@ export type Domain = "education" | "climate" | "enterprise" | "fintech" | "const
 export type SystemApp = "about" | "skills" | "terminal" | "contact";
 export type AppId = Domain | SystemApp;
 
-/** Where a project sits in the production-first hierarchy. */
-export type Tier = "production" | "systems" | "lab";
+/**
+ * Honest project categories. "production" requires real users + real
+ * deployment; source-only work can never sit there, however impressive.
+ */
+export type Tier = "production" | "business" | "ai-agents" | "lab" | "concept";
+
+export const CATEGORY_ORDER: Tier[] = ["production", "business", "ai-agents", "lab", "concept"];
+
+export const CATEGORY_LABELS: Record<Tier, string> = {
+  production: "In Production",
+  business: "Client & Business Systems",
+  "ai-agents": "AI & Agent Systems",
+  lab: "ML Lab & Experiments",
+  concept: "Design-stage Concepts",
+};
 
 /** Honest ownership labeling — never imply solo work on team builds. */
 export type Ownership = "solo" | "team-owned" | "team";
@@ -42,9 +55,27 @@ export interface Product {
   featured: boolean;
   github?: string;
   website?: string;
+  caseStudy?: string;
+  /** Free hosting that sleeps — show a "may take a few seconds to wake" note. */
+  coldStart?: boolean;
   problem?: string;
   impact?: string;
   architecture?: string;
+}
+
+/** Status chips per the honest label system. */
+export function getStatusChips(p: Product): string[] {
+  const chips: string[] = [];
+  if (p.status === "live") chips.push(p.tier === "production" ? "Live production" : "Live");
+  if (p.tier === "business") chips.push("Business system");
+  if (p.id === "samba-retail") chips.push("Client system");
+  if (p.tier === "concept") chips.push("Design-stage concept");
+  if (p.tier === "lab" && p.status !== "live") chips.push("Experiment");
+  if (p.tier === "lab" && p.status === "live") chips.push("Experiment");
+  if (p.tier === "ai-agents" && p.status === "repo") chips.push("Source available");
+  if (p.ownership === "team-owned") chips.push("Team project · solo-built modules");
+  else if (p.ownership === "solo" && p.tier === "production") chips.push("Solo-built");
+  return chips;
 }
 
 export interface CareerEntry {
@@ -169,6 +200,8 @@ const TIER_PRODUCTION: Product[] = [
       "Built and deployed solo — architecture, all 12 modules, biometric integration, security hardening, and production operations. Code is private (client system); the live product is linked.",
     featured: true,
     website: "https://hrms-frontend-d7qs.onrender.com",
+    caseStudy: "/projects/hrms",
+    coldStart: true,
   },
   {
     id: "samba-retail",
@@ -253,7 +286,7 @@ const TIER_PRODUCTION: Product[] = [
     tagline: "Autonomous AI software company — 35 agents from brief to verified code",
     domain: "enterprise",
     year: "2026",
-    tier: "production",
+    tier: "ai-agents",
     ownership: "solo",
     status: "repo",
     description:
@@ -294,7 +327,7 @@ const TIER_PRODUCTION: Product[] = [
     tagline: "Autonomous AI marketing agency — 34 agents, 11 teams, human approval gate",
     domain: "enterprise",
     year: "2026",
-    tier: "production",
+    tier: "ai-agents",
     ownership: "solo",
     status: "repo",
     description:
@@ -340,7 +373,7 @@ const TIER_SYSTEMS: Product[] = [
     tagline: "RBAC-enforced RAG — access control at the vector-store filter level",
     domain: "enterprise",
     year: "2026",
-    tier: "systems",
+    tier: "ai-agents",
     ownership: "solo",
     status: "repo",
     description:
@@ -378,7 +411,7 @@ const TIER_SYSTEMS: Product[] = [
     tagline: "Dust storm prediction platform — 7-model ensemble with Kalman filtering (UAE)",
     domain: "climate",
     year: "2025",
-    tier: "systems",
+    tier: "ai-agents",
     ownership: "solo",
     status: "repo",
     description:
@@ -418,7 +451,7 @@ const TIER_SYSTEMS: Product[] = [
     tagline: "Enterprise AI service platform — co-founded venture, live",
     domain: "enterprise",
     year: "2026",
-    tier: "systems",
+    tier: "business",
     ownership: "solo",
     status: "live",
     description:
@@ -457,7 +490,7 @@ const TIER_SYSTEMS: Product[] = [
     tagline: "AI FinTech tool — statement to auditor-ready vouchers",
     domain: "fintech",
     year: "2026",
-    tier: "systems",
+    tier: "ai-agents",
     ownership: "solo",
     status: "repo",
     description:
@@ -490,7 +523,7 @@ const TIER_SYSTEMS: Product[] = [
     tagline: "AI legacy-code analysis platform",
     domain: "enterprise",
     year: "2025",
-    tier: "systems",
+    tier: "ai-agents",
     ownership: "solo",
     status: "repo",
     description:
@@ -529,7 +562,7 @@ const TIER_SYSTEMS: Product[] = [
     tagline: "Graphics-craft showcase — Next.js + TypeScript + GLSL shaders",
     domain: "enterprise",
     year: "2026",
-    tier: "systems",
+    tier: "lab",
     ownership: "solo",
     status: "live",
     description:
@@ -599,7 +632,7 @@ const TIER_LAB: Product[] = [
     tagline: "AI heatwave early-warning system — designed for India's outdoor workers",
     domain: "climate",
     year: "2025",
-    tier: "lab",
+    tier: "concept",
     ownership: "solo",
     status: "private",
     description:
@@ -768,7 +801,7 @@ const TIER_LAB: Product[] = [
     tagline: "Zero-shot classification with SLA tracking",
     domain: "enterprise",
     year: "2025",
-    tier: "lab",
+    tier: "ai-agents",
     ownership: "solo",
     status: "repo",
     description: "Zero-shot ticket classification using BART-large-mnli with SLA tracking and automated routing.",
@@ -798,7 +831,7 @@ const TIER_LAB: Product[] = [
     tagline: "AI travel planner with RAG chatbot",
     domain: "enterprise",
     year: "2025",
-    tier: "lab",
+    tier: "ai-agents",
     ownership: "solo",
     status: "repo",
     description:
@@ -862,7 +895,7 @@ const TIER_LAB: Product[] = [
     tagline: "Intelligent email processing & automation",
     domain: "enterprise",
     year: "2025",
-    tier: "lab",
+    tier: "concept",
     ownership: "solo",
     status: "private",
     description: "AI-powered email automation system for intelligent processing and workflow automation.",
@@ -955,7 +988,7 @@ const TIER_LAB: Product[] = [
     tagline: "SaaS tool with payment integration",
     domain: "construction",
     year: "2024",
-    tier: "lab",
+    tier: "business",
     ownership: "solo",
     status: "repo",
     description:
@@ -1052,16 +1085,23 @@ const TIER_LAB: Product[] = [
    EXPORTS — production-first ordering everywhere
 ──────────────────────────────────────────────────────────────────────────── */
 
-export const ALL_PRODUCTS: Product[] = [...TIER_PRODUCTION, ...TIER_SYSTEMS, ...TIER_LAB];
+const AUTHORED: Product[] = [...TIER_PRODUCTION, ...TIER_SYSTEMS, ...TIER_LAB];
 
-/** Tier 1 — shipped & live / flagship systems. */
-export const FEATURED_PRODUCTS: Product[] = TIER_PRODUCTION;
-/** Tiers 2 + 3. */
-export const ADDITIONAL_PRODUCTS: Product[] = [...TIER_SYSTEMS, ...TIER_LAB];
+/** All projects, ordered by honest category, then authoring order. */
+export const ALL_PRODUCTS: Product[] = CATEGORY_ORDER.flatMap((c) =>
+  AUTHORED.filter((p) => p.tier === c)
+);
 
-export const PRODUCTION_PRODUCTS = TIER_PRODUCTION;
-export const SYSTEMS_PRODUCTS = TIER_SYSTEMS;
-export const LAB_PRODUCTS = TIER_LAB;
+export const PRODUCTION_PRODUCTS = ALL_PRODUCTS.filter((p) => p.tier === "production");
+export const BUSINESS_PRODUCTS = ALL_PRODUCTS.filter((p) => p.tier === "business");
+export const AGENT_PRODUCTS = ALL_PRODUCTS.filter((p) => p.tier === "ai-agents");
+export const LAB_PRODUCTS = ALL_PRODUCTS.filter((p) => p.tier === "lab");
+export const CONCEPT_PRODUCTS = ALL_PRODUCTS.filter((p) => p.tier === "concept");
+
+/** Production + business systems — the credibility anchors (CV, featured). */
+export const FEATURED_PRODUCTS: Product[] = [...PRODUCTION_PRODUCTS, ...BUSINESS_PRODUCTS];
+/** Everything else. */
+export const ADDITIONAL_PRODUCTS: Product[] = [...AGENT_PRODUCTS, ...LAB_PRODUCTS, ...CONCEPT_PRODUCTS];
 
 export const LIVE_PRODUCTS = ALL_PRODUCTS.filter((p) => p.status === "live");
 
@@ -1071,6 +1111,10 @@ export function getProductsByDomain(domain: Domain): Product[] {
 
 export function getProductsByTier(tier: Tier): Product[] {
   return ALL_PRODUCTS.filter((p) => p.tier === tier);
+}
+
+export function getProduct(id: string): Product | undefined {
+  return ALL_PRODUCTS.find((p) => p.id === id);
 }
 
 export const CAREER: CareerEntry[] = [
@@ -1229,33 +1273,28 @@ export const CONTACT = {
   openTo: "Open to Hyderabad",
 };
 
-/** Hero headline + subline (Gate B approved: verb-first). */
+/** Primary identity — used consistently on every surface. */
+export const NAME = "Swaroop Jyothi";
+export const ROLE_TITLE = "Forward Deployed Engineer & AI Transformation Consultant";
+
 export const HEADLINE = "I build production systems that businesses run on.";
-export const SUBLINE =
-  "Forward Deployed Engineer & AI-transformation consultant in Dubai. Solo-shipped a multi-tenant HRMS serving 80+ employees daily. Human-led, AI-accelerated delivery.";
+export const SUBHERO =
+  "Forward Deployed Engineer and AI Transformation Consultant focused on SaaS platforms, automation systems, AI agents, and applied ML tools. Human-led, AI-accelerated delivery.";
+/** @deprecated use SUBHERO */
+export const SUBLINE = SUBHERO;
+
+/** Above-the-fold proof — production facts only, full context on the cards. */
+export const PROOF_POINTS = [
+  "Live HRMS used by 3 organizations and 80+ employees daily",
+  "ZKTeco BioTime biometric integration for 64+ field employees",
+  "Multi-tenant Django architecture, security hardening, 794 tests",
+];
 
 export const PROFESSIONAL_SUMMARY =
   "I build production systems that businesses run on. Solo-built and deployed a multi-tenant HRMS now serving 3 organizations and 80+ employees daily; shipped a live client retail site end-to-end; built the RAG-powered ALIA teaching assistant, support ticketing, and SSO inside a team LMS. I work Forward-Deployed-Engineer style — embedded in the business problem, shipping working software — and use AI-assisted development (Claude Code) to compress build cycles while staying accountable for architecture, verification, and delivery. COO & Co-Founder at CogniSpace. Master of AI in Business, SP Jain (Dubai), expected September 2026.";
 
-export const BOOT_LINES = [
-  "[SwaroopOS v3.0]",
-  "> Initializing system...",
-  "> origin: Hyderabad, India — 5 years construction operations",
-  "> location: Dubai, UAE",
-  "> academic module: SP Jain MAIB [expected Sep 2026]",
-  "> mounting production systems...",
-  ">   hrms.live — 3 orgs · 80+ daily users ............ [OK]",
-  ">   samba-retail.live — client site ................. [OK]",
-  ">   alia.lms — RAG @ AWS EC2 ........................ [OK]",
-  "> loading agent systems: ADVAIT.io (35) · WebQ Team (34)",
-  "> AI-assisted toolchain: Claude Code ................ [ACTIVE]",
-  "> System ready.",
-  ">",
-  "> Welcome, visitor. Press any key or wait to continue...",
-];
-
 export const NEOFETCH = `       ╔═══╗
-       ║ S ║         S. Jyothi Swaroop
+       ║ S ║         Swaroop Jyothi
        ╚═══╝         ─────────────────
                       OS: SwaroopOS v3.0
   ███████████         Role: Builder — production systems

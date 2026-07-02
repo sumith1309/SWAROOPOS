@@ -2,29 +2,40 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import Link from "next/link";
+import { FileText, ArrowUpRight, Check, MessageCircle } from "lucide-react";
+import { GitHubIcon, LinkedInIcon } from "@/components/ui/BrandIcons";
 import { useStore, WALLPAPERS, type AppId } from "@/lib/store";
-import { HEADLINE, SUBLINE, CONTACT, ALL_PRODUCTS, LIVE_PRODUCTS } from "@/lib/data";
+import {
+  NAME,
+  ROLE_TITLE,
+  HEADLINE,
+  SUBHERO,
+  PROOF_POINTS,
+  CONTACT,
+  ALL_PRODUCTS,
+  LIVE_PRODUCTS,
+  getProduct,
+} from "@/lib/data";
 import Taskbar from "./Taskbar";
 import Dock from "./Dock";
 import WindowManager from "./WindowManager";
 import WeatherWidget from "./WeatherWidget";
-import AnalogClock from "./AnalogClock";
-import NowPlayingWidget from "./NowPlayingWidget";
 import GitHubWidget from "./GitHubWidget";
 import SpotlightSearch from "./SpotlightSearch";
 import ContextMenu from "./ContextMenu";
 import NotificationCenter from "./NotificationCenter";
 import SmartRecommendations from "./SmartRecommendations";
-import FlagshipSpotlight from "./FlagshipSpotlight";
-import AIGreeting from "./AIGreeting";
 
-export default function Desktop({ onLock }: { onLock?: () => void }) {
+const EASE = [0.32, 0.72, 0, 1] as const;
+
+export default function Desktop() {
   const [isMobile, setIsMobile] = useState(false);
   const openWindow = useStore((s) => s.openWindow);
   const wallpaperId = useStore((s) => s.wallpaperId);
 
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
+    const check = () => setIsMobile(window.innerWidth < 900);
     check();
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
@@ -49,16 +60,18 @@ export default function Desktop({ onLock }: { onLock?: () => void }) {
     : { backgroundImage: `url(${wallpaper.value})`, backgroundSize: "cover", backgroundPosition: "center" };
 
   return (
-    <div className="w-screen h-screen overflow-hidden relative" style={{ background: "#F0F4F8" }}>
+    <div className="w-screen h-screen overflow-hidden relative" style={{ background: "#F4F4F1" }}>
       {/* Wallpaper */}
       <div className="absolute inset-0 transition-all duration-700" style={wallpaperStyle} />
       <div className="absolute inset-0 pointer-events-none" style={{
-        background: isDark ? "rgba(0, 0, 0, 0.35)" : "rgba(255, 255, 255, 0.15)",
+        background: isDark ? "rgba(0, 0, 0, 0.35)" : "rgba(255, 255, 255, 0.25)",
         backdropFilter: "blur(1.5px)",
         WebkitBackdropFilter: "blur(1.5px)",
       }} />
 
-      <Taskbar onLock={onLock} />
+      <header>
+        <Taskbar />
+      </header>
       <SpotlightSearch />
       <ContextMenu />
       <NotificationCenter />
@@ -71,324 +84,338 @@ export default function Desktop({ onLock }: { onLock?: () => void }) {
       )}
 
       <WindowManager />
-      {!isMobile && <Dock />}
+      {!isMobile && (
+        <nav aria-label="Application dock">
+          <Dock />
+        </nav>
+      )}
     </div>
   );
 }
 
-/* ─── Quick Stats — computed from real data, no vanity metrics ─── */
+/* ─── Recruiter fast-path CTAs (44px targets, keyboard-first) ─── */
+function FastPath({ openWindow, isDark, compact }: { openWindow: (id: AppId) => void; isDark: boolean; compact?: boolean }) {
+  const base = `inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-all min-h-[44px] ${compact ? "px-4 text-[13px]" : "px-5 text-[13px]"}`;
+  const ghost = isDark
+    ? "border border-white/20 text-white/85 hover:bg-white/10"
+    : "border border-[rgba(15,23,42,0.12)] text-[#334155] bg-white/60 hover:bg-white";
+  return (
+    <div className="flex gap-2.5 flex-wrap" role="group" aria-label="Primary actions">
+      <button onClick={() => openWindow("showcase")} className={`${base} bg-[#0F172A] text-white hover:bg-[#1E293B] cursor-pointer`}>
+        View Production Work
+      </button>
+      <Link href="/resume" className={`${base} bg-[#1d4ed8] text-white hover:bg-[#1e40af]`}>
+        <FileText className="w-4 h-4" aria-hidden />
+        View Resume
+      </Link>
+      <a href={CONTACT.github} target="_blank" rel="noopener noreferrer" className={`${base} ${ghost}`}>
+        <GitHubIcon className="w-4 h-4" />
+        GitHub
+      </a>
+      <a href={CONTACT.linkedin} target="_blank" rel="noopener noreferrer" className={`${base} ${ghost}`}>
+        <LinkedInIcon className="w-4 h-4" />
+        LinkedIn
+      </a>
+      <Link href="/contact" className={`${base} ${ghost}`}>
+        Contact
+      </Link>
+    </div>
+  );
+}
+
+/* ─── Featured HRMS case-study card — the main proof asset, one click ─── */
+function FeaturedHRMS({ isDark }: { isDark: boolean }) {
+  const hrms = getProduct("hrms");
+  if (!hrms) return null;
+  const facts = [
+    "3 organizations · 80+ employees daily",
+    "ZKTeco BioTime biometric integration",
+    "Multi-tenant Django · 794-test suite",
+    "SQLi, IDOR, CSRF security hardening",
+    "Est. 30% reduction in operational delays",
+  ];
+  return (
+    <motion.section
+      initial={{ opacity: 0, y: 14 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.15, duration: 0.5, ease: EASE }}
+      aria-label="Featured case study: HRMS Platform"
+      className={`rounded-[20px] p-6 ${isDark ? "liquid-glass-dark" : "liquid-glass"}`}
+    >
+      <div className="flex items-center justify-between mb-3">
+        <span className={`text-[10px] uppercase tracking-[0.18em] font-bold font-mono ${isDark ? "text-white/45" : "text-[#8E8E93]"}`}>
+          Featured · Case Study
+        </span>
+        <span className="flex items-center gap-1.5 min-h-[24px]">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse-soft" aria-hidden />
+          <span className="text-[10px] font-bold uppercase tracking-wider text-[#047857]">Live production</span>
+        </span>
+      </div>
+
+      <h2 className={`text-[22px] font-heading font-bold tracking-[-0.02em] mb-1 ${isDark ? "text-white" : "text-[#0F172A]"}`}>
+        HRMS Platform
+      </h2>
+      <p className={`text-[13px] leading-relaxed mb-4 ${isDark ? "text-white/60" : "text-[#64748B]"}`}>
+        Multi-tenant HR system — solo-built, deployed, and operated in production.
+      </p>
+
+      <ul className="space-y-1.5 mb-5">
+        {facts.map((f) => (
+          <li key={f} className={`flex items-start gap-2 text-[12.5px] ${isDark ? "text-white/75" : "text-[#334155]"}`}>
+            <Check className="w-3.5 h-3.5 mt-0.5 shrink-0 text-[#10B981]" aria-hidden />
+            {f}
+          </li>
+        ))}
+      </ul>
+
+      <div className="flex gap-2.5 flex-wrap">
+        <Link
+          href="/projects/hrms"
+          className="inline-flex items-center gap-1.5 min-h-[44px] px-4 rounded-full bg-[#0F172A] text-white text-[12.5px] font-semibold hover:bg-[#1E293B] transition-colors"
+        >
+          Read case study
+          <ArrowUpRight className="w-3.5 h-3.5" aria-hidden />
+        </Link>
+        <a
+          href={hrms.website}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`inline-flex items-center gap-1.5 min-h-[44px] px-4 rounded-full text-[12.5px] font-semibold border transition-colors ${
+            isDark ? "border-white/20 text-white/85 hover:bg-white/10" : "border-[rgba(15,23,42,0.12)] text-[#334155] bg-white/50 hover:bg-white"
+          }`}
+        >
+          Open live system
+          <ArrowUpRight className="w-3.5 h-3.5" aria-hidden />
+        </a>
+      </div>
+      <p className={`text-[10.5px] mt-2.5 font-mono ${isDark ? "text-white/35" : "text-[#94A3B8]"}`}>
+        Live demo may take a few seconds to wake (free hosting).
+      </p>
+    </motion.section>
+  );
+}
+
+/* ─── Quick stats — computed from real data ─── */
 function QuickStats({ isDark }: { isDark: boolean }) {
   const stats = [
     { value: `${LIVE_PRODUCTS.length}`, label: "Live", color: "#10B981" },
     { value: `${ALL_PRODUCTS.length}`, label: "Systems", color: "#3B82F6" },
-    { value: "5", label: "Domains", color: "#8B5CF6" },
+    { value: "2019", label: "Since", color: "#8B5CF6" },
   ];
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.5 }}
+      transition={{ delay: 0.45, duration: 0.5, ease: EASE }}
       className={`p-4 ${isDark ? "liquid-glass-sm-dark" : "liquid-glass-sm"}`}
     >
       <div className="flex items-center justify-around">
         {stats.map((stat) => (
           <div key={stat.label} className="text-center">
-            <div className="text-[22px] font-heading font-bold leading-none" style={{ color: stat.color }}>{stat.value}</div>
-            <div className={`text-[8px] uppercase tracking-wider font-semibold mt-1 ${isDark ? "text-white/40" : "text-[#8E8E93]"}`}>{stat.label}</div>
+            <div className="text-[20px] font-heading font-bold leading-none" style={{ color: stat.color }}>{stat.value}</div>
+            <div className={`text-[9px] uppercase tracking-wider font-semibold mt-1 ${isDark ? "text-white/40" : "text-[#8E8E93]"}`}>{stat.label}</div>
           </div>
         ))}
       </div>
+      <p className={`text-[10px] text-center mt-2 leading-snug ${isDark ? "text-white/35" : "text-[#94A3B8]"}`}>
+        {ALL_PRODUCTS.length} systems across production, AI agents, ML experiments, and business tools
+      </p>
     </motion.div>
   );
 }
 
-/* ─── Desktop View: Hero + Widgets (no app grid) ─── */
-function DesktopView({ openWindow, isDark }: { openWindow: (id: AppId) => void; isDark: boolean }) {
+/* ─── Hero panel — name, role, headline, proof, CTAs ─── */
+function HeroPanel({ openWindow, isDark }: { openWindow: (id: AppId) => void; isDark: boolean }) {
   return (
-    <div className="absolute inset-0 top-10 bottom-16 flex items-start justify-center pt-[5vh] p-6 gap-6">
-      {/* Left column: Welcome Hero + Chat Widget */}
-      <div className="flex flex-col gap-3 max-w-lg w-full">
-        <motion.div
-          initial={{ opacity: 0, x: -30 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: 0.2, duration: 0.6 }}
-          className={`p-10 ${isDark ? "liquid-glass-dark" : "liquid-glass"}`}
-        >
-          <div className="flex items-center gap-2 mb-5">
-            <div className="w-2.5 h-2.5 rounded-full bg-[#10B981] animate-pulse-soft" />
-            <span className={`text-[12px] font-mono font-medium ${isDark ? "text-white/60" : "text-[#64748B]"}`}>
-              S. Jyothi Swaroop · Available · Dubai, UAE
-            </span>
-          </div>
-
-          <h1 className={`text-[34px] leading-[1.12] font-heading font-bold tracking-[-0.03em] mb-3 ${isDark ? "text-white" : "text-[#0F172A]"}`}>
-            {HEADLINE}
-          </h1>
-
-          <p className={`text-[14px] leading-relaxed mb-4 ${isDark ? "text-white/60" : "text-[#64748B]"}`}>
-            {SUBLINE}
-          </p>
-
-          {/* Production proof ticker — real shipped systems */}
-          <div className="flex flex-wrap gap-3 mb-6">
-            {[
-              { metric: "HRMS — Live · 80+ daily users", tag: "Solo", color: "#10B981" },
-              { metric: "Samba Retail — Live client site", tag: "Solo", color: "#10B981" },
-              { metric: "ALIA — RAG on AWS EC2", tag: "LMS · my system", color: "#8B5CF6" },
-            ].map((item, i) => (
-              <motion.div key={item.metric} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 + i * 0.1 }}
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-[11px] font-semibold ${isDark ? "bg-white/5 border border-white/10" : "bg-white/60 border border-[rgba(0,0,0,0.06)]"}`}>
-                <span className="w-1.5 h-1.5 rounded-full" style={{ background: item.color }} />
-                <span className={isDark ? "text-white/70" : "text-[#475569]"}>{item.metric}</span>
-                <span className={isDark ? "text-white/30" : "text-[#94A3B8]"}>·</span>
-                <span className={isDark ? "text-white/40" : "text-[#94A3B8]"}>{item.tag}</span>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Recruiter fast-path */}
-          <div className="flex gap-3 flex-wrap">
-            <button onClick={() => openWindow("showcase")}
-              className="px-5 py-2.5 rounded-full bg-[#0F172A] text-white text-[13px] font-semibold hover:bg-[#1E293B] transition-colors cursor-pointer">
-              View Production Work
-            </button>
-            <a href="/api/cv" target="_blank" rel="noopener noreferrer"
-              className="px-5 py-2.5 rounded-full text-[13px] font-semibold transition-all flex items-center gap-2 bg-[#1e40af] text-white hover:bg-[#1d4ed8]">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-              Download Resume
-            </a>
-            <a href={CONTACT.github} target="_blank" rel="noopener noreferrer"
-              className={`px-5 py-2.5 rounded-full border text-[13px] font-semibold transition-all flex items-center gap-2 ${isDark ? "border-white/20 text-white/80 hover:bg-white/10" : "border-[rgba(0,0,0,0.1)] text-[#475569] hover:bg-white/80"}`}>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5"/></svg>
-              GitHub
-            </a>
-            <a href={CONTACT.linkedin} target="_blank" rel="noopener noreferrer"
-              className={`px-5 py-2.5 rounded-full border text-[13px] font-semibold transition-all cursor-pointer ${isDark ? "border-white/20 text-white/80 hover:bg-white/10" : "border-[rgba(0,0,0,0.1)] text-[#475569] hover:bg-white/80"}`}>
-              LinkedIn
-            </a>
-            <button onClick={() => openWindow("contact")}
-              className={`px-5 py-2.5 rounded-full text-[13px] font-semibold transition-all cursor-pointer ${isDark ? "bg-white/10 text-white/70 hover:bg-white/15" : "bg-[rgba(0,0,0,0.04)] text-[#64748B] hover:bg-[rgba(0,0,0,0.08)]"}`}>
-              Contact
-            </button>
-          </div>
-        </motion.div>
-
-        {/* Chat Widget — inline below welcome panel */}
-        <motion.button
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          onClick={() => openWindow("aichat")}
-          whileHover={{ scale: 1.01 }}
-          whileTap={{ scale: 0.99 }}
-          className={`w-full p-4 flex items-center gap-4 cursor-pointer transition-all ${isDark ? "liquid-glass-sm-dark" : "liquid-glass-sm"}`}
-        >
-          {/* Animated orb */}
-          <div className="relative w-10 h-10 shrink-0">
-            <motion.div
-              className="absolute inset-0 rounded-full"
-              style={{ background: "linear-gradient(135deg, #3B82F6, #8B5CF6)" }}
-              animate={{ scale: [1, 1.08, 1] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <motion.div
-              className="absolute -inset-1 rounded-full"
-              style={{ border: "1.5px solid rgba(59,130,246,0.3)" }}
-              animate={{ scale: [1, 1.2, 1], opacity: [0.6, 0, 0.6] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-            />
-            <div className="absolute inset-0 rounded-full flex items-center justify-center">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-              </svg>
-            </div>
-          </div>
-
-          <div className="flex-1 text-left">
-            <p className={`text-[14px] font-semibold ${isDark ? "text-white" : "text-[#1C1C1E]"}`}>
-              Know about Swaroop
-            </p>
-            <p className={`text-[11px] ${isDark ? "text-white/40" : "text-[#8E8E93]"}`}>
-              AI-powered diary · Ask anything about me
-            </p>
-          </div>
-
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={isDark ? "rgba(255,255,255,0.3)" : "#C7C7CC"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
-            <polyline points="9 18 15 12 9 6" />
-          </svg>
-        </motion.button>
+    <motion.section
+      initial={{ opacity: 0, y: 14 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, ease: EASE }}
+      aria-label="Introduction"
+      className={`p-8 lg:p-10 ${isDark ? "liquid-glass-dark" : "liquid-glass"}`}
+    >
+      <div className="flex items-center gap-2 mb-5">
+        <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse-soft" aria-hidden />
+        <span className={`text-[12px] font-mono font-medium ${isDark ? "text-white/60" : "text-[#64748B]"}`}>
+          {NAME} · Available · Dubai, UAE
+        </span>
       </div>
 
-      {/* Right: Widget Grid — two columns, top-aligned with welcome panel */}
-      <motion.div
-        initial={{ opacity: 0, x: 30 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.3, duration: 0.6 }}
-        className="flex gap-3"
-      >
-        {/* Column 1: Analog clock + Now Building */}
-        <div className="flex flex-col gap-3 w-[180px]">
-          <AnalogClock isDark={isDark} />
-          <NowPlayingWidget isDark={isDark} />
-          <AIGreeting isDark={isDark} />
-          <FlagshipSpotlight isDark={isDark} />
+      <p className={`text-[13px] font-semibold uppercase tracking-[0.14em] mb-3 ${isDark ? "text-white/50" : "text-[#64748B]"}`}>
+        {ROLE_TITLE}
+      </p>
+
+      <h1 className={`text-[clamp(28px,2.6vw,38px)] leading-[1.12] font-heading font-bold tracking-[-0.03em] mb-3 ${isDark ? "text-white" : "text-[#0F172A]"}`}>
+        {HEADLINE}
+      </h1>
+
+      <p className={`text-[14.5px] leading-relaxed mb-5 max-w-[52ch] ${isDark ? "text-white/60" : "text-[#64748B]"}`}>
+        {SUBHERO}
+      </p>
+
+      {/* Proof points */}
+      <ul className="space-y-2 mb-7" aria-label="Production proof">
+        {PROOF_POINTS.map((point, i) => (
+          <motion.li
+            key={point}
+            initial={{ opacity: 0, x: -8 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.25 + i * 0.08, duration: 0.4, ease: EASE }}
+            className={`flex items-start gap-2.5 text-[13.5px] font-medium ${isDark ? "text-white/80" : "text-[#334155]"}`}
+          >
+            <span className="w-5 h-5 rounded-full bg-[rgba(16,185,129,0.1)] border border-[rgba(16,185,129,0.2)] flex items-center justify-center shrink-0 mt-[1px]">
+              <Check className="w-3 h-3 text-[#059669]" aria-hidden />
+            </span>
+            {point}
+          </motion.li>
+        ))}
+      </ul>
+
+      <FastPath openWindow={openWindow} isDark={isDark} />
+    </motion.section>
+  );
+}
+
+/* ─── Chat launcher ─── */
+function ChatLauncher({ openWindow, isDark }: { openWindow: (id: AppId) => void; isDark: boolean }) {
+  return (
+    <motion.button
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.5, duration: 0.5, ease: EASE }}
+      onClick={() => openWindow("aichat")}
+      className={`w-full p-4 min-h-[56px] flex items-center gap-3.5 cursor-pointer transition-all text-left ${isDark ? "liquid-glass-sm-dark" : "liquid-glass-sm"}`}
+    >
+      <span className="w-10 h-10 rounded-full flex items-center justify-center shrink-0 bg-[#0F172A]">
+        <MessageCircle className="w-4.5 h-4.5 text-white" width={18} height={18} aria-hidden />
+      </span>
+      <span className="flex-1">
+        <span className={`block text-[13.5px] font-semibold ${isDark ? "text-white" : "text-[#0F172A]"}`}>
+          Ask my AI anything
+        </span>
+        <span className={`block text-[11px] ${isDark ? "text-white/40" : "text-[#8E8E93]"}`}>
+          Shipped work, solo vs team, evidence behind every metric
+        </span>
+      </span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={isDark ? "rgba(255,255,255,0.35)" : "#C7C7CC"} strokeWidth="2" strokeLinecap="round" aria-hidden>
+        <polyline points="9 18 15 12 9 6" />
+      </svg>
+    </motion.button>
+  );
+}
+
+/* ─── Desktop view (designed at 1440px) ─── */
+function DesktopView({ openWindow, isDark }: { openWindow: (id: AppId) => void; isDark: boolean }) {
+  return (
+    <div className="absolute inset-0 top-10 bottom-20 overflow-y-auto">
+      <div className="max-w-[1180px] mx-auto px-8 pt-[6vh] grid grid-cols-12 gap-6 items-start">
+        {/* Left: hero + chat */}
+        <div className="col-span-7 flex flex-col gap-4">
+          <HeroPanel openWindow={openWindow} isDark={isDark} />
+          <ChatLauncher openWindow={openWindow} isDark={isDark} />
         </div>
-        {/* Column 2: Weather + GitHub + Stats */}
-        <div className="flex flex-col gap-3 w-[180px]">
-          <WeatherWidget isDark={isDark} />
+
+        {/* Right: featured HRMS + honest stats + live GitHub */}
+        <aside className="col-span-5 flex flex-col gap-4" aria-label="Featured work and stats">
+          <FeaturedHRMS isDark={isDark} />
+          <div className="grid grid-cols-2 gap-4">
+            <QuickStats isDark={isDark} />
+            <WeatherWidget isDark={isDark} />
+          </div>
           <GitHubWidget isDark={isDark} />
-          <QuickStats isDark={isDark} />
-        </div>
-      </motion.div>
+        </aside>
+      </div>
     </div>
   );
 }
 
-/* ─── Mobile View ─── */
+/* ─── Mobile view (designed at 390px) ─── */
 function MobileView({ openWindow, isDark }: { openWindow: (id: AppId) => void; isDark: boolean }) {
   return (
-    <div className="absolute inset-0 top-10 overflow-y-auto px-4 py-5 pb-20">
-      {/* Welcome card */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
+    <div className="absolute inset-0 top-10 overflow-y-auto px-4 py-5 pb-24">
+      <motion.section
+        initial={{ opacity: 0, y: 14 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
+        transition={{ duration: 0.5, ease: EASE }}
+        aria-label="Introduction"
         className={`p-6 mb-3 ${isDark ? "liquid-glass-dark" : "liquid-glass"}`}
       >
         <div className="flex items-center gap-2 mb-3">
-          <div className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse-soft" />
-          <span className={`text-[11px] font-mono font-medium ${isDark ? "text-white/60" : "text-[#64748B]"}`}>
-            S. Jyothi Swaroop · Available · Dubai, UAE
+          <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse-soft" aria-hidden />
+          <span className={`text-[11.5px] font-mono font-medium ${isDark ? "text-white/60" : "text-[#64748B]"}`}>
+            {NAME} · Dubai, UAE
           </span>
         </div>
 
-        <h1 className={`text-[26px] font-heading font-bold leading-[1.15] tracking-[-0.02em] mb-2 ${isDark ? "text-white" : "text-[#0F172A]"}`}>
+        <p className={`text-[11px] font-semibold uppercase tracking-[0.12em] mb-2 ${isDark ? "text-white/50" : "text-[#64748B]"}`}>
+          {ROLE_TITLE}
+        </p>
+
+        <h1 className={`text-[25px] font-heading font-bold leading-[1.15] tracking-[-0.02em] mb-2.5 ${isDark ? "text-white" : "text-[#0F172A]"}`}>
           {HEADLINE}
         </h1>
 
-        <p className={`text-[13px] leading-relaxed mb-3 ${isDark ? "text-white/60" : "text-[#64748B]"}`}>
-          {SUBLINE}
+        <p className={`text-[13.5px] leading-relaxed mb-4 ${isDark ? "text-white/60" : "text-[#64748B]"}`}>
+          {SUBHERO}
         </p>
 
-        {/* Production proof ticker */}
-        <div className="flex flex-wrap gap-2 mb-4">
-          {[
-            { metric: "HRMS — Live · 80+ users", color: "#10B981" },
-            { metric: "Samba Retail — Live", color: "#10B981" },
-            { metric: "ALIA — RAG on EC2", color: "#8B5CF6" },
-          ].map((item) => (
-            <div key={item.metric}
-              className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-semibold ${isDark ? "bg-white/5 border border-white/10" : "bg-white/60 border border-[rgba(0,0,0,0.06)]"}`}>
-              <span className="w-1 h-1 rounded-full" style={{ background: item.color }} />
-              <span className={isDark ? "text-white/60" : "text-[#475569]"}>{item.metric}</span>
-            </div>
+        <ul className="space-y-2 mb-5" aria-label="Production proof">
+          {PROOF_POINTS.map((point) => (
+            <li key={point} className={`flex items-start gap-2 text-[12.5px] font-medium ${isDark ? "text-white/80" : "text-[#334155]"}`}>
+              <Check className="w-3.5 h-3.5 mt-0.5 shrink-0 text-[#059669]" aria-hidden />
+              {point}
+            </li>
           ))}
-        </div>
+        </ul>
 
-        <div className="flex gap-2 flex-wrap">
-          <button onClick={() => openWindow("showcase")}
-            className="px-4 py-2 rounded-full bg-[#0F172A] text-white text-[12px] font-semibold cursor-pointer">
-            View Production Work
-          </button>
-          <a href="/api/cv" target="_blank" rel="noopener noreferrer"
-            className="px-4 py-2 rounded-full bg-[#1e40af] text-white text-[12px] font-semibold flex items-center gap-1.5">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Resume
-          </a>
-          <a href={CONTACT.github} target="_blank" rel="noopener noreferrer"
-            className={`px-4 py-2 rounded-full border text-[12px] font-semibold flex items-center gap-1.5 ${isDark ? "border-white/20 text-white/80" : "border-[rgba(0,0,0,0.1)] text-[#475569]"}`}>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5"/></svg>
-            GitHub
-          </a>
-          <a href={CONTACT.linkedin} target="_blank" rel="noopener noreferrer"
-            className={`px-4 py-2 rounded-full border text-[12px] font-semibold ${isDark ? "border-white/20 text-white/80" : "border-[rgba(0,0,0,0.1)] text-[#475569]"}`}>
-            LinkedIn
-          </a>
-          <button onClick={() => openWindow("contact")}
-            className={`px-4 py-2 rounded-full text-[12px] font-semibold cursor-pointer ${isDark ? "bg-white/10 text-white/70" : "bg-[rgba(0,0,0,0.04)] text-[#64748B]"}`}>
-            Contact
-          </button>
-        </div>
-      </motion.div>
+        <FastPath openWindow={openWindow} isDark={isDark} compact />
+      </motion.section>
 
-      {/* AI Chat widget */}
-      <motion.button
+      <div className="mb-3">
+        <FeaturedHRMS isDark={isDark} />
+      </div>
+
+      <div className="mb-3">
+        <ChatLauncher openWindow={openWindow} isDark={isDark} />
+      </div>
+
+      <div className="mb-3">
+        <QuickStats isDark={isDark} />
+      </div>
+
+      {/* Quick launch grid — 44px+ targets */}
+      <motion.nav
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.35 }}
-        onClick={() => openWindow("aichat")}
-        className={`w-full p-4 mb-3 flex items-center gap-3 cursor-pointer ${isDark ? "liquid-glass-sm-dark" : "liquid-glass-sm"}`}
-      >
-        <div className="w-9 h-9 rounded-full flex items-center justify-center shrink-0"
-          style={{ background: "linear-gradient(135deg, #3B82F6, #8B5CF6)" }}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-          </svg>
-        </div>
-        <div className="flex-1 text-left">
-          <p className={`text-[13px] font-semibold ${isDark ? "text-white" : "text-[#1C1C1E]"}`}>Know about Swaroop</p>
-          <p className={`text-[10px] ${isDark ? "text-white/40" : "text-[#8E8E93]"}`}>AI-powered · Ask anything</p>
-        </div>
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={isDark ? "rgba(255,255,255,0.3)" : "#C7C7CC"} strokeWidth="2" strokeLinecap="round"><polyline points="9 18 15 12 9 6" /></svg>
-      </motion.button>
-
-      {/* Stats row */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
-        className={`p-4 mb-3 ${isDark ? "liquid-glass-sm-dark" : "liquid-glass-sm"}`}
-      >
-        <div className="flex items-center justify-around">
-          {[
-            { value: `${LIVE_PRODUCTS.length}`, label: "Live", color: "#10B981" },
-            { value: `${ALL_PRODUCTS.length}`, label: "Systems", color: "#3B82F6" },
-            { value: "5", label: "Domains", color: "#8B5CF6" },
-            { value: "2019", label: "Since", color: "#F59E0B" },
-          ].map((s) => (
-            <div key={s.label} className="text-center">
-              <div className="text-[18px] font-heading font-bold leading-none" style={{ color: s.color }}>{s.value}</div>
-              <div className={`text-[8px] uppercase tracking-wider font-semibold mt-1 ${isDark ? "text-white/40" : "text-[#8E8E93]"}`}>{s.label}</div>
-            </div>
-          ))}
-        </div>
-      </motion.div>
-
-      {/* Quick launch grid */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
+        transition={{ delay: 0.4, duration: 0.5, ease: EASE }}
+        aria-label="Applications"
         className="grid grid-cols-4 gap-2"
       >
         {([
           { id: "about" as AppId, label: "About", color: "#3B82F6", icon: <><circle cx="12" cy="8" r="5"/><path d="M20 21a8 8 0 1 0-16 0"/></> },
           { id: "skills" as AppId, label: "Skills", color: "#8B5CF6", icon: <><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6" rx="1"/></> },
-          { id: "showcase" as AppId, label: "Showcase", color: "#F97316", icon: <><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3l-4 4-4-4"/></> },
+          { id: "showcase" as AppId, label: "Projects", color: "#F97316", icon: <><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3l-4 4-4-4"/></> },
           { id: "contact" as AppId, label: "Contact", color: "#10B981", icon: <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/> },
           { id: "terminal" as AppId, label: "Terminal", color: "#475569", icon: <><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></> },
-          { id: "calendar" as AppId, label: "Calendar", color: "#3B82F6", icon: <><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></> },
-          { id: "gallery" as AppId, label: "Gallery", color: "#6366F1", icon: <><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></> },
+          { id: "aichat" as AppId, label: "AI Chat", color: "#3B82F6", icon: <><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 10h.01M12 10h.01M16 10h.01"/></> },
           { id: "resumetailor" as AppId, label: "Resume AI", color: "#10B981", icon: <><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></> },
-          { id: "recommender" as AppId, label: "AI Guide", color: "#8B5CF6", icon: <><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></> },
-          { id: "aidemo" as AppId, label: "AI Demo", color: "#F97316", icon: <><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></> },
           { id: "settings" as AppId, label: "Settings", color: "#64748B", icon: <><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></> },
         ]).map((app) => (
-          <motion.button
+          <button
             key={app.id}
             onClick={() => openWindow(app.id)}
-            className={`flex flex-col items-center gap-1 py-3 rounded-2xl cursor-pointer ${isDark ? "liquid-glass-sm-dark" : "liquid-glass-sm"}`}
+            aria-label={`Open ${app.label}`}
+            className={`flex flex-col items-center gap-1.5 py-3 min-h-[64px] rounded-2xl cursor-pointer ${isDark ? "liquid-glass-sm-dark" : "liquid-glass-sm"}`}
           >
-            <div className="w-8 h-8 rounded-[10px] flex items-center justify-center"
-              style={{ background: `${app.color}15` }}>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke={app.color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <span className="w-9 h-9 rounded-[11px] flex items-center justify-center" style={{ background: `${app.color}14` }}>
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke={app.color} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
                 {app.icon}
               </svg>
-            </div>
-            <span className={`text-[9px] font-medium ${isDark ? "text-white/60" : "text-[#6B6B70]"}`}>{app.label}</span>
-          </motion.button>
+            </span>
+            <span className={`text-[10px] font-medium ${isDark ? "text-white/60" : "text-[#6B6B70]"}`}>{app.label}</span>
+          </button>
         ))}
-      </motion.div>
+      </motion.nav>
     </div>
   );
 }

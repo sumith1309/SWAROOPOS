@@ -10,7 +10,7 @@ export default function AboutApp() {
       <div className="relative overflow-hidden -mx-5 -mt-5 px-5 pt-6 pb-4 mb-2" style={{
         background: "linear-gradient(180deg, rgba(59, 130, 246, 0.06) 0%, transparent 100%)"
       }}>
-        <h2 className="text-[24px] font-heading font-semibold text-gradient-accent mb-1">S. Jyothi Swaroop</h2>
+        <h2 className="text-[24px] font-heading font-semibold text-gradient-accent mb-1">Swaroop Jyothi</h2>
         <p className="text-[13px] font-mono text-[#94A3B8]">I build production systems that businesses run on</p>
         <div className="gradient-line mt-4" />
       </div>

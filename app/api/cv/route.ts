@@ -36,7 +36,7 @@ export async function GET() {
 </head>
 <body>
 
-<h1>S. Jyothi Swaroop</h1>
+<h1>Swaroop Jyothi</h1>
 <div class="subtitle">Forward Deployed Engineer & AI-Transformation Consultant — I build production systems that businesses run on</div>
 <div class="contact-row">
   ${CONTACT.location} · <a href="mailto:${CONTACT.email}">${CONTACT.email}</a> · ${CONTACT.phone} · <a href="${CONTACT.linkedin}">LinkedIn</a> · <a href="${CONTACT.github}">GitHub</a> · <a href="https://swaroopos.vercel.app">Portfolio</a>
@@ -126,7 +126,7 @@ ${FEATURED_PRODUCTS.map(p => `
   return new Response(html, {
     headers: {
       "Content-Type": "text/html; charset=utf-8",
-      "Content-Disposition": "inline; filename=S_Jyothi_Swaroop_CV.html",
+      "Content-Disposition": "inline; filename=Swaroop_Jyothi_CV.html",
     },
   });
 }

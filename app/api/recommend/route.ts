@@ -22,7 +22,7 @@ export async function POST(request: Request) {
       messages: [
         {
           role: "system",
-          content: `You are a project recommendation engine for S. Jyothi Swaroop's portfolio. Given a visitor's intent, recommend the top 3 most relevant projects from the knowledge base below.
+          content: `You are a project recommendation engine for Swaroop Jyothi's portfolio. Given a visitor's intent, recommend the top 3 most relevant projects from the knowledge base below.
 
 RULES:
 - Return ONLY valid JSON — no markdown, no code fences, no extra text.

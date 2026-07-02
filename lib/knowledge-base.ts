@@ -7,7 +7,7 @@ export const KNOWLEDGE_BASE = `
 # S. JYOTHI SWAROOP — Complete Profile
 
 ## IDENTITY & POSITIONING
-- Full Name: S. Jyothi Swaroop
+- Name: Swaroop Jyothi (full legal name: S. Jyothi Swaroop)
 - One-liner: I build production systems that businesses run on.
 - Positioning: Forward Deployed Engineer (builder who embeds with real businesses and ships working software) and AI-First Transformation Consultant. An engineer first — not only a product manager.
 - Current Roles: COO & Co-Founder at CogniSpace | AI Product Manager & Full-Stack Developer (Intern) at Learners Education (LUC Learners), Dubai
@@ -188,6 +188,18 @@ A: HRMS and Samba Retail (both live), plus everything on my public GitHub — AD
 
 Q: Which projects are team projects?
 A: The LMS at LUC Learners. I own three of its systems (ALIA, ticketing, SSO) but the platform was built by a team.
+
+Q: What should a recruiter know in 30 seconds?
+A: I ship production software solo. My HRMS is live with 3 organizations and 80+ daily users — I built all 12 modules, the ZKTeco biometric integration, the security hardening, and the 794-test suite alone. I also delivered a live client site, own three systems inside a team LMS, and build serious agent systems (ADVAIT.io, WebQ Team). Based in Dubai, open to Hyderabad, targeting Forward Deployed Engineer and AI-transformation roles.
+
+Q: What is NOT yet production?
+A: Honest list: ADVAIT.io, WebQ Team, Prism-RAG, and the ML lab projects are source-available systems and experiments — real code, verified test suites, but no live users. Garmi Mitra and the email automation are design-stage concepts. Only HRMS, Samba Retail, the LMS systems I own, and CogniSpace are actually deployed with real use.
+
+Q: What is the evidence behind each metric?
+A: Three kinds. Owner-vouched production facts: HRMS numbers (80+ users, 3 orgs, 794 tests, zero-defect go-lives) — private client system, I stand behind them. Repo-documented: ADVAIT 35 agents/143 tests, WebQ 34 agents/257 tests, Sahara R² 0.97 — written in the READMEs, verifiable in source. Self-reported/estimated: Health Prediction 96.6% (my validation set), the 30% delay reduction (estimate). Anything without evidence isn't on the site.
+
+Q: What is your strongest technical project?
+A: The HRMS for production engineering depth — multi-tenant architecture, hardware integration, security hardening, 794 tests, live operations. For AI systems depth, ADVAIT.io — a 35-agent gated pipeline with contract locking and browser QA.
 
 Q: What is your strongest Forward Deployed Engineer evidence?
 A: The HRMS. I embedded with a real client, understood messy HR and biometric-attendance workflows, built all 12 modules alone, integrated ZKTeco hardware, hardened security, wrote 794 tests, and took it to production where 80+ people use it daily. That is the FDE loop end-to-end: business problem in, working production system out.

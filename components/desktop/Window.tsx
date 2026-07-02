@@ -26,8 +26,24 @@ export default function Window({ id, title, accentColor, zIndex, position, child
     return () => window.removeEventListener("resize", check);
   }, []);
 
+  // Escape closes the topmost open window.
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      const state = useStore.getState();
+      const open = Object.values(state.windows).filter((w) => w.isOpen && !w.isMinimized);
+      if (open.length === 0) return;
+      const top = open.reduce((a, b) => (a.zIndex > b.zIndex ? a : b));
+      if (top.id === id) closeWindow(id);
+    };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [id, closeWindow]);
+
   return (
     <motion.div
+      role="dialog"
+      aria-label={title}
       initial={{ scale: isMobile ? 1 : 0.95, opacity: 0, y: isMobile ? "100%" : 0 }}
       animate={{ scale: 1, opacity: 1, y: 0 }}
       exit={{ scale: isMobile ? 1 : 0.95, opacity: 0, y: isMobile ? "100%" : 0 }}
@@ -55,9 +71,9 @@ export default function Window({ id, title, accentColor, zIndex, position, child
             </button>
           ) : (
             <div className="flex items-center gap-1.5">
-              <button onClick={() => closeWindow(id)} className="w-3 h-3 rounded-full bg-[#FF5F57] hover:brightness-110 transition-all cursor-pointer" />
-              <button onClick={() => minimizeWindow(id)} className="w-3 h-3 rounded-full bg-[#FEBC2E] hover:brightness-110 transition-all cursor-pointer" />
-              <button className="w-3 h-3 rounded-full bg-[#28C840] hover:brightness-110 transition-all cursor-pointer" />
+              <button onClick={() => closeWindow(id)} aria-label={`Close ${title}`} className="w-3 h-3 rounded-full bg-[#FF5F57] hover:brightness-110 transition-all cursor-pointer" />
+              <button onClick={() => minimizeWindow(id)} aria-label={`Minimize ${title}`} className="w-3 h-3 rounded-full bg-[#FEBC2E] hover:brightness-110 transition-all cursor-pointer" />
+              <span aria-hidden className="w-3 h-3 rounded-full bg-[#28C840]" />
             </div>
           )}
           <div className="flex-1 text-center"><span className="text-[13px] font-medium text-[#64748B]">{title}</span></div>

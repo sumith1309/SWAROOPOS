@@ -1,25 +1,32 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useStore, type AppId } from "@/lib/store";
 import { DOMAINS, type Domain } from "@/lib/data";
 import Window from "./Window";
-import DomainApp from "../apps/DomainApp";
-import AboutApp from "../apps/AboutApp";
-import SkillsApp from "../apps/SkillsApp";
-import TerminalApp from "../apps/TerminalApp";
-import ContactApp from "../apps/ContactApp";
-import CalculatorApp from "../apps/CalculatorApp";
-import MusicApp from "../apps/MusicApp";
-import SettingsApp from "../apps/SettingsApp";
-import TicTacToeApp from "../apps/TicTacToeApp";
-import Game2048App from "../apps/Game2048App";
-import CalendarApp from "../apps/CalendarApp";
-import GalleryApp from "../apps/GalleryApp";
-import ShowcaseApp from "../apps/ShowcaseApp";
-import AIChatApp from "../apps/AIChatApp";
-import ResumeTailorApp from "../apps/ResumeTailorApp";
-import RecommenderApp from "../apps/RecommenderApp";
-import AIDemoApp from "../apps/AIDemoApp";
+
+// App bodies load on demand when their window is first opened — none of them
+// belong in the first-paint bundle.
+const loading = () => (
+  <div className="p-6 text-[12px] font-mono text-[#94A3B8]" role="status">Loading…</div>
+);
+const DomainApp = dynamic(() => import("../apps/DomainApp"), { loading });
+const AboutApp = dynamic(() => import("../apps/AboutApp"), { loading });
+const SkillsApp = dynamic(() => import("../apps/SkillsApp"), { loading });
+const TerminalApp = dynamic(() => import("../apps/TerminalApp"), { loading });
+const ContactApp = dynamic(() => import("../apps/ContactApp"), { loading });
+const CalculatorApp = dynamic(() => import("../apps/CalculatorApp"), { loading });
+const MusicApp = dynamic(() => import("../apps/MusicApp"), { loading });
+const SettingsApp = dynamic(() => import("../apps/SettingsApp"), { loading });
+const TicTacToeApp = dynamic(() => import("../apps/TicTacToeApp"), { loading });
+const Game2048App = dynamic(() => import("../apps/Game2048App"), { loading });
+const CalendarApp = dynamic(() => import("../apps/CalendarApp"), { loading });
+const GalleryApp = dynamic(() => import("../apps/GalleryApp"), { loading });
+const ShowcaseApp = dynamic(() => import("../apps/ShowcaseApp"), { loading });
+const AIChatApp = dynamic(() => import("../apps/AIChatApp"), { loading });
+const ResumeTailorApp = dynamic(() => import("../apps/ResumeTailorApp"), { loading });
+const RecommenderApp = dynamic(() => import("../apps/RecommenderApp"), { loading });
+const AIDemoApp = dynamic(() => import("../apps/AIDemoApp"), { loading });
 
 const WINDOW_TITLES: Record<string, string> = {
   education: "Education Lab",

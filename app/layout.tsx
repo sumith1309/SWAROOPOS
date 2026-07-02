@@ -22,7 +22,7 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "S. Jyothi Swaroop — Forward Deployed Engineer | SwaroopOS",
+  title: "Swaroop Jyothi — Forward Deployed Engineer | SwaroopOS",
   description:
     "I build production systems that businesses run on. Forward Deployed Engineer & AI-transformation consultant in Dubai — solo-built multi-tenant HRMS live with 80+ daily users, shipped client sites, RAG and autonomous-agent systems. Human-led, AI-accelerated delivery.",
   keywords: [
@@ -34,9 +34,9 @@ export const metadata: Metadata = {
     "Dubai",
     "Portfolio",
   ],
-  authors: [{ name: "S. Jyothi Swaroop" }],
+  authors: [{ name: "Swaroop Jyothi" }],
   openGraph: {
-    title: "S. Jyothi Swaroop — Forward Deployed Engineer",
+    title: "Swaroop Jyothi — Forward Deployed Engineer",
     description:
       "I build production systems that businesses run on. Solo-built HRMS live with 80+ daily users · client sites · RAG & agent systems. Dubai, UAE.",
     type: "website",

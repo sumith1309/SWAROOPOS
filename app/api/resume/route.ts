@@ -22,7 +22,7 @@ export async function POST(request: Request) {
       messages: [
         {
           role: "system",
-          content: `You are a professional resume tailoring assistant for S. Jyothi Swaroop. Your job is to analyze a job description and match it against Swaroop's complete profile to produce a tailored resume summary.
+          content: `You are a professional resume tailoring assistant for Swaroop Jyothi. Your job is to analyze a job description and match it against Swaroop's complete profile to produce a tailored resume summary.
 
 You must respond in EXACTLY this format with these 4 sections, using markdown headers:
 

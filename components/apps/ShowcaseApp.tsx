@@ -1,11 +1,16 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ExternalLink, Globe } from "lucide-react";
+import { ExternalLink, Globe, ArrowUpRight } from "lucide-react";
+import Link from "next/link";
 import {
   PRODUCTION_PRODUCTS,
-  SYSTEMS_PRODUCTS,
+  BUSINESS_PRODUCTS,
+  AGENT_PRODUCTS,
   LAB_PRODUCTS,
+  CONCEPT_PRODUCTS,
+  ALL_PRODUCTS,
+  CATEGORY_LABELS,
   DOMAINS,
   OWNERSHIP_LABELS,
   type Product,
@@ -167,25 +172,64 @@ function SystemRow({ product, index }: { product: Product; index: number }) {
   );
 }
 
-export default function ShowcaseApp() {
+function CompactGrid({ products, muted, baseDelay }: { products: Product[]; muted?: boolean; baseDelay: number }) {
   const setActiveProjectId = useStore((s) => s.setActiveProjectId);
-  const total = PRODUCTION_PRODUCTS.length + SYSTEMS_PRODUCTS.length + LAB_PRODUCTS.length;
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-3 gap-1.5">
+      {products.map((p, i) => (
+        <motion.button
+          key={p.id}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: baseDelay + i * 0.03, duration: 0.4, ease: EASE }}
+          onClick={() => setActiveProjectId(p.id)}
+          className={`text-left rounded-[10px] border border-[rgba(15,23,42,0.05)] px-3 py-2.5 min-h-[52px] cursor-pointer transition-shadow duration-300 hover:shadow-[0_1px_2px_rgba(15,23,42,0.04),0_6px_16px_rgba(15,23,42,0.06)] ${
+            muted ? "bg-[rgba(255,255,255,0.6)]" : "bg-white"
+          }`}
+        >
+          <span className="flex items-center gap-1.5">
+            <span className="block text-[12px] font-semibold text-[#0F172A] truncate">{p.name}</span>
+            {p.status === "live" && <span className="text-[8px] uppercase tracking-wider font-bold text-[#047857] shrink-0">Live</span>}
+          </span>
+          <span className="block text-[10px] text-[#94A3B8] truncate mt-0.5">{p.tagline}</span>
+        </motion.button>
+      ))}
+    </div>
+  );
+}
 
+export default function ShowcaseApp() {
   return (
     <div className="min-h-[480px] bg-[#FAFAF8] p-5">
       {/* Header */}
-      <div className="mb-6">
+      <div className="mb-5">
         <h3 className="text-[18px] font-heading font-bold text-[#0F172A] tracking-[-0.02em] mb-1">
           Work, production first
         </h3>
         <p className="text-[12px] text-[#64748B]">
-          {total} systems — shipped and live work leads, experiments follow. Click any row for the full case study.
+          {ALL_PRODUCTS.length} systems built across production, AI agents, ML experiments, and business tools.
+          Click any row for the full breakdown.
         </p>
       </div>
 
-      {/* Tier 1 — Production */}
-      <section className="mb-7" aria-label="Production and shipped systems">
-        <SectionLabel count={PRODUCTION_PRODUCTS.length}>In Production · Shipped</SectionLabel>
+      {/* Featured case study */}
+      <Link
+        href="/projects/hrms"
+        className="group flex items-center gap-3 rounded-[14px] bg-[#0F172A] text-white px-4 py-3.5 mb-6 transition-colors hover:bg-[#1E293B]"
+      >
+        <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse-soft shrink-0" aria-hidden />
+        <span className="flex-1 min-w-0">
+          <span className="block text-[13px] font-heading font-bold">HRMS — featured case study</span>
+          <span className="block text-[11px] text-white/60 truncate">
+            Live production · 3 orgs · 80+ daily users · architecture, security, testing, deployment
+          </span>
+        </span>
+        <ArrowUpRight className="w-4 h-4 shrink-0 opacity-60 group-hover:opacity-100 transition-opacity" aria-hidden />
+      </Link>
+
+      {/* In Production */}
+      <section className="mb-7" aria-label={CATEGORY_LABELS["production"]}>
+        <SectionLabel count={PRODUCTION_PRODUCTS.length}>{CATEGORY_LABELS["production"]}</SectionLabel>
         <div className="space-y-2.5">
           {PRODUCTION_PRODUCTS.map((p, i) => (
             <ProductionRow key={p.id} product={p} index={i} />
@@ -193,34 +237,36 @@ export default function ShowcaseApp() {
         </div>
       </section>
 
-      {/* Tier 2 — Systems */}
-      <section className="mb-7" aria-label="AI and agent systems">
-        <SectionLabel count={SYSTEMS_PRODUCTS.length}>AI & Agent Systems</SectionLabel>
+      {/* Client & Business Systems */}
+      <section className="mb-7" aria-label={CATEGORY_LABELS["business"]}>
+        <SectionLabel count={BUSINESS_PRODUCTS.length}>{CATEGORY_LABELS["business"]}</SectionLabel>
+        <div className="space-y-2.5">
+          {BUSINESS_PRODUCTS.map((p, i) => (
+            <ProductionRow key={p.id} product={p} index={i + PRODUCTION_PRODUCTS.length} />
+          ))}
+        </div>
+      </section>
+
+      {/* AI & Agent Systems */}
+      <section className="mb-7" aria-label={CATEGORY_LABELS["ai-agents"]}>
+        <SectionLabel count={AGENT_PRODUCTS.length}>{CATEGORY_LABELS["ai-agents"]}</SectionLabel>
         <div className="space-y-1.5">
-          {SYSTEMS_PRODUCTS.map((p, i) => (
+          {AGENT_PRODUCTS.map((p, i) => (
             <SystemRow key={p.id} product={p} index={i} />
           ))}
         </div>
       </section>
 
-      {/* Tier 3 — Lab */}
-      <section aria-label="ML and experimental lab projects">
-        <SectionLabel count={LAB_PRODUCTS.length}>ML Lab · Experiments</SectionLabel>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-1.5">
-          {LAB_PRODUCTS.map((p, i) => (
-            <motion.button
-              key={p.id}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.55 + i * 0.03, duration: 0.4, ease: EASE }}
-              onClick={() => setActiveProjectId(p.id)}
-              className="text-left rounded-[10px] bg-white border border-[rgba(15,23,42,0.05)] px-3 py-2.5 cursor-pointer transition-shadow duration-300 hover:shadow-[0_1px_2px_rgba(15,23,42,0.04),0_6px_16px_rgba(15,23,42,0.06)]"
-            >
-              <span className="block text-[12px] font-semibold text-[#0F172A] truncate">{p.name}</span>
-              <span className="block text-[10px] text-[#94A3B8] truncate mt-0.5">{p.tagline}</span>
-            </motion.button>
-          ))}
-        </div>
+      {/* ML Lab & Experiments */}
+      <section className="mb-7" aria-label={CATEGORY_LABELS["lab"]}>
+        <SectionLabel count={LAB_PRODUCTS.length}>{CATEGORY_LABELS["lab"]}</SectionLabel>
+        <CompactGrid products={LAB_PRODUCTS} baseDelay={0.5} />
+      </section>
+
+      {/* Design-stage Concepts */}
+      <section aria-label={CATEGORY_LABELS["concept"]}>
+        <SectionLabel count={CONCEPT_PRODUCTS.length}>{CATEGORY_LABELS["concept"]}</SectionLabel>
+        <CompactGrid products={CONCEPT_PRODUCTS} muted baseDelay={0.6} />
       </section>
     </div>
   );
