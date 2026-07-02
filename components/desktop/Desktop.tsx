@@ -26,6 +26,7 @@ import SpotlightSearch from "./SpotlightSearch";
 import ContextMenu from "./ContextMenu";
 import NotificationCenter from "./NotificationCenter";
 import SmartRecommendations from "./SmartRecommendations";
+import WallpaperHint from "./WallpaperHint";
 
 const EASE = [0.32, 0.72, 0, 1] as const;
 
@@ -60,7 +61,7 @@ export default function Desktop() {
     : { backgroundImage: `url(${wallpaper.value})`, backgroundSize: "cover", backgroundPosition: "center" };
 
   return (
-    <div className="w-screen h-screen overflow-hidden relative" style={{ background: "#F4F4F1" }}>
+    <div className="w-screen h-screen overflow-hidden relative" style={{ background: isDark ? "#0A0E16" : "#F4F4F1" }}>
       {/* Wallpaper */}
       <div className="absolute inset-0 transition-all duration-700" style={wallpaperStyle} />
       <div className="absolute inset-0 pointer-events-none" style={{
@@ -76,6 +77,7 @@ export default function Desktop() {
       <ContextMenu />
       <NotificationCenter />
       <SmartRecommendations />
+      <WallpaperHint />
 
       {isMobile ? (
         <MobileView openWindow={openWindow} isDark={isDark} />

@@ -139,6 +139,6 @@ export const useStore = create<Store>((set) => ({
   pendingAIQuery: null,
   setPendingAIQuery: (query) => set({ pendingAIQuery: query }),
 
-  wallpaperId: "gradient",
+  wallpaperId: "deep-blue",
   setWallpaper: (id) => set({ wallpaperId: id }),
 }));

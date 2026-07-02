@@ -53,6 +53,10 @@ export default function RootLayout({
       lang="en"
       className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable}`}
     >
+      <head>
+        {/* Default wallpaper — fetch early so the starfield paints fast */}
+        <link rel="preload" as="image" href="/wallpapers/deep-blue.jpg" />
+      </head>
       <body>
         {children}
         <CustomCursor />
