@@ -50,11 +50,14 @@ interface Store {
   wallpaperId: string;
   setWallpaper: (id: string) => void;
 
-  // Lock screen — ENTRY EXPERIENCE (user directive, July 2026): "/" opens
-  // locked and the visitor swipes up (or clicks / presses a key) to enter.
-  // Also re-lockable on demand by clicking the SwaroopOS wordmark.
-  // Deep-link routes (/projects, /resume, /contact) are never gated.
+  // Lock screen — FLAVOR, NOT A GATE (user directive, July 2026): "/" opens
+  // on a brief intro lock that auto-dismisses in under a second, with a
+  // visible skip button; any swipe/click/key skips instantly. Shown once per
+  // visitor; reduced-motion users and deep-link routes never see it.
+  // Clicking the SwaroopOS wordmark relocks deliberately ("manual" mode,
+  // no auto-dismiss).
   locked: boolean;
+  lockMode: "intro" | "manual";
   lock: () => void;
   unlock: () => void;
 }
@@ -151,6 +154,7 @@ export const useStore = create<Store>((set) => ({
   setWallpaper: (id) => set({ wallpaperId: id }),
 
   locked: true,
-  lock: () => set({ locked: true }),
+  lockMode: "intro",
+  lock: () => set({ locked: true, lockMode: "manual" }),
   unlock: () => set({ locked: false }),
 }));

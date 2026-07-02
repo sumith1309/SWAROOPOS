@@ -8,12 +8,13 @@ import { useStore, WALLPAPERS } from "@/lib/store";
 const EASE = [0.32, 0.72, 0, 1] as const;
 
 /**
- * The "entering SwaroopOS" moment. Shown on entry to "/" and again on demand
- * when the SwaroopOS wordmark is clicked. Swipe up (or click / press a key)
- * to slide it away and reveal the desktop. Keyboard and reduced-motion users
- * unlock without needing the gesture; deep-link routes are never gated.
+ * The "entering SwaroopOS" moment — flavor, not a gate. On entry it renders
+ * with `autoDismiss` and slides away by itself in under a second; any swipe,
+ * click, key press, or the visible skip button dismisses it instantly.
+ * Clicking the SwaroopOS wordmark relocks deliberately (no auto-dismiss).
+ * Reduced-motion visitors and deep-link routes never see it.
  */
-export default function LockScreen() {
+export default function LockScreen({ autoDismiss = false }: { autoDismiss?: boolean }) {
   const unlock = useStore((s) => s.unlock);
   const wallpaperId = useStore((s) => s.wallpaperId);
   const reduce = useReducedMotion();
@@ -53,6 +54,13 @@ export default function LockScreen() {
     const controls = animate(y, -h, { duration: 0.5, ease: EASE });
     controls.then(() => unlock());
   }, [reduce, unlock, y]);
+
+  // Entry intro auto-dismisses — proof must never wait on a gesture.
+  useEffect(() => {
+    if (!autoDismiss) return;
+    const t = setTimeout(dismiss, 900);
+    return () => clearTimeout(t);
+  }, [autoDismiss, dismiss]);
 
   // Keyboard + wheel/trackpad unlock (accessibility and non-touch devices).
   useEffect(() => {
@@ -155,6 +163,14 @@ export default function LockScreen() {
             <polyline points="18 15 12 9 6 15" />
           </motion.svg>
           <span className="text-white/55 text-[12.5px] font-medium tracking-[0.02em]">Swipe up to enter</span>
+
+          {/* Explicit skip — never make anyone guess the gesture */}
+          <button
+            onClick={dismiss}
+            className="mt-1 inline-flex items-center min-h-[44px] px-5 rounded-full border border-white/25 bg-white/10 text-white text-[13px] font-semibold hover:bg-white/20 transition-colors cursor-pointer"
+          >
+            {autoDismiss ? "Skip intro — enter portfolio" : "Enter portfolio"}
+          </button>
         </motion.div>
       </div>
     </motion.div>
