@@ -50,8 +50,8 @@ interface Store {
   wallpaperId: string;
   setWallpaper: (id: string) => void;
 
-  // Lock screen — on-demand only (never an entry gate). Clicking the
-  // SwaroopOS wordmark locks; any interaction on the lock screen unlocks.
+  // Lock screen. Shown on entry (swipe up to unlock) and again on demand when
+  // the SwaroopOS wordmark is clicked. Swipe/click/key all unlock.
   locked: boolean;
   lock: () => void;
   unlock: () => void;
@@ -148,7 +148,7 @@ export const useStore = create<Store>((set) => ({
   wallpaperId: "deep-blue",
   setWallpaper: (id) => set({ wallpaperId: id }),
 
-  locked: false,
+  locked: true,
   lock: () => set({ locked: true }),
   unlock: () => set({ locked: false }),
 }));

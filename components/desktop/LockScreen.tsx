@@ -1,18 +1,24 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
-import { motion } from "framer-motion";
+import { useEffect, useState, useCallback, useRef } from "react";
+import { motion, useMotionValue, animate, useReducedMotion, type PanInfo } from "framer-motion";
 import { NAME, ROLE_TITLE } from "@/lib/data";
 import { useStore } from "@/lib/store";
 
+const EASE = [0.32, 0.72, 0, 1] as const;
+
 /**
- * On-demand lock screen. Not an entry gate — it only appears when the user
- * clicks the SwaroopOS wordmark. Any interaction (click, key, scroll) unlocks.
+ * Entry + on-demand lock screen. Shows on first load; the user swipes up
+ * (or clicks / presses a key) to slide it away and reveal the desktop.
+ * Keyboard and reduced-motion users unlock without needing the gesture.
  */
 export default function LockScreen() {
   const unlock = useStore((s) => s.unlock);
+  const reduce = useReducedMotion();
+  const y = useMotionValue(0);
   const [time, setTime] = useState("");
   const [date, setDate] = useState("");
+  const leaving = useRef(false);
 
   useEffect(() => {
     const tick = () => {
@@ -25,35 +31,64 @@ export default function LockScreen() {
     return () => clearInterval(id);
   }, []);
 
-  const doUnlock = useCallback(() => unlock(), [unlock]);
+  // Slide the whole screen up, then unmount. Reduced motion unlocks instantly.
+  const dismiss = useCallback(() => {
+    if (leaving.current) return;
+    leaving.current = true;
+    if (reduce) {
+      unlock();
+      return;
+    }
+    const h = typeof window !== "undefined" ? window.innerHeight : 900;
+    const controls = animate(y, -h, { duration: 0.5, ease: EASE });
+    controls.then(() => unlock());
+  }, [reduce, unlock, y]);
 
+  // Keyboard + wheel/trackpad unlock (accessibility and non-touch devices).
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      e.preventDefault();
-      doUnlock();
+      if (["Enter", " ", "Spacebar", "ArrowUp", "Escape"].includes(e.key)) {
+        e.preventDefault();
+        dismiss();
+      }
     };
-    const onWheel = () => doUnlock();
+    const onWheel = (e: WheelEvent) => {
+      if (e.deltaY < -8 || e.deltaY > 8) dismiss();
+    };
     window.addEventListener("keydown", onKey);
     window.addEventListener("wheel", onWheel, { passive: true });
-    window.addEventListener("touchmove", onWheel, { passive: true });
     return () => {
       window.removeEventListener("keydown", onKey);
       window.removeEventListener("wheel", onWheel);
-      window.removeEventListener("touchmove", onWheel);
     };
-  }, [doUnlock]);
+  }, [dismiss]);
+
+  const onDragEnd = (_e: PointerEvent | MouseEvent | TouchEvent, info: PanInfo) => {
+    if (leaving.current) return;
+    // Past a third of the way up, or a firm upward flick → unlock.
+    if (info.offset.y < -110 || info.velocity.y < -400) {
+      dismiss();
+    } else {
+      animate(y, 0, { type: "spring", stiffness: 500, damping: 42 });
+    }
+  };
 
   return (
     <motion.div
+      style={{ y }}
+      drag={reduce ? false : "y"}
+      dragConstraints={{ top: -2000, bottom: 0 }}
+      dragElastic={{ top: 0.7, bottom: 0 }}
+      dragMomentum={false}
+      onDragEnd={onDragEnd}
+      onTap={dismiss}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      exit={{ y: "-100%", opacity: 1 }}
-      transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
-      className="fixed inset-0 z-[95] cursor-pointer select-none flex flex-col"
-      onClick={doUnlock}
+      transition={{ duration: 0.4, ease: EASE }}
+      className="fixed inset-0 z-[95] cursor-grab active:cursor-grabbing select-none flex flex-col touch-none"
       role="button"
       tabIndex={0}
-      aria-label="Locked. Activate to unlock."
+      aria-label="Locked. Swipe up, click, or press Enter to enter."
     >
       {/* Starfield backdrop, dimmed to read as 'locked' */}
       <div
@@ -87,8 +122,8 @@ export default function LockScreen() {
         </motion.h1>
       </div>
 
-      {/* Identity + unlock hint */}
-      <div className="relative z-10 pb-[10vh] flex flex-col items-center gap-5">
+      {/* Identity + swipe-up affordance */}
+      <div className="relative z-10 pb-[9vh] flex flex-col items-center gap-6">
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -103,18 +138,20 @@ export default function LockScreen() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.6 }}
-          className="flex flex-col items-center gap-2"
+          className="flex flex-col items-center gap-2.5"
         >
+          {/* Grabber pill */}
+          <div className="w-10 h-1 rounded-full bg-white/30" aria-hidden />
           <motion.svg
-            width="22" height="22" viewBox="0 0 24 24" fill="none"
-            stroke="rgba(255,255,255,0.45)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-            animate={{ y: [0, -6, 0] }}
-            transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+            width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="rgba(255,255,255,0.55)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+            animate={reduce ? undefined : { y: [0, -7, 0] }}
+            transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
             aria-hidden
           >
             <polyline points="18 15 12 9 6 15" />
           </motion.svg>
-          <span className="text-white/45 text-[12px] font-medium">Click, press any key, or scroll to unlock</span>
+          <span className="text-white/55 text-[12.5px] font-medium tracking-[0.02em]">Swipe up to enter</span>
         </motion.div>
       </div>
     </motion.div>
