@@ -13,6 +13,8 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
   const [phase, setPhase] = useState<"cube" | "branding" | "done">("cube");
 
   // Returning visitors and reduced-motion users skip the boot entirely.
+  // The seen flag is written only when a boot completes or is skipped —
+  // never on mount, so first-time visitors always get the sequence.
   useEffect(() => {
     const t = setTimeout(() => {
       let skip = false;
@@ -32,32 +34,35 @@ export default function BootScreen({ onComplete }: BootScreenProps) {
   }, [onComplete]);
 
   useEffect(() => {
-    if (phase === "done") return;
+    const markSeen = () => {
+      try {
+        localStorage.setItem(BOOT_SEEN_KEY, "1");
+      } catch {
+        // ignore
+      }
+    };
     const t1 = setTimeout(() => setPhase("branding"), 1200);
     const t2 = setTimeout(() => setPhase("done"), 3000);
-    const t3 = setTimeout(() => onComplete(), 3500);
-    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
-  }, [phase, onComplete]);
-
-  // Skippable on any input; remember the visit.
-  useEffect(() => {
-    try {
-      localStorage.setItem(BOOT_SEEN_KEY, "1");
-    } catch {
-      // ignore
-    }
-    if (phase === "done") return;
+    const t3 = setTimeout(() => {
+      markSeen();
+      onComplete();
+    }, 3500);
+    // Skippable on any input
     const skip = () => {
+      markSeen();
       setPhase("done");
       onComplete();
     };
     window.addEventListener("keydown", skip);
     window.addEventListener("pointerdown", skip);
     return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
       window.removeEventListener("keydown", skip);
       window.removeEventListener("pointerdown", skip);
     };
-  }, [phase, onComplete]);
+  }, [onComplete]);
 
   return (
     <AnimatePresence>
