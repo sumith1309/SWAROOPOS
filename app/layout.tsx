@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Space_Grotesk, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import CustomCursor from "@/components/layout/CustomCursor";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -72,8 +71,6 @@ export default function RootLayout({
       </head>
       <body>
         {children}
-        <CustomCursor />
-        <div className="noise-overlay" aria-hidden="true" />
       </body>
     </html>
   );

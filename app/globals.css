@@ -69,60 +69,6 @@ textarea:focus-visible {
 .elev-2 { box-shadow: var(--elev-2); }
 .elev-3 { box-shadow: var(--elev-3); }
 
-/* === PREMIUM GLASS === */
-.glass-light {
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(20px) saturate(1.4);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.03);
-}
-
-.glass-card {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.04);
-  border-radius: 20px;
-  transition: all 0.3s ease;
-}
-
-.glass-card:hover {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06), 0 8px 32px rgba(0, 0, 0, 0.08);
-  transform: translateY(-2px);
-  border-color: rgba(0, 0, 0, 0.08);
-}
-
-/* === GRADIENT MESH BACKGROUNDS === */
-.gradient-mesh-hero {
-  background:
-    radial-gradient(ellipse at 20% 30%, rgba(99, 102, 241, 0.12) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 80%, rgba(139, 92, 246, 0.06) 0%, transparent 40%),
-    radial-gradient(ellipse at 70% 60%, rgba(16, 185, 129, 0.05) 0%, transparent 40%),
-    linear-gradient(180deg, #F8FAFC 0%, #EFF6FF 30%, #F5F3FF 60%, #FAFAFA 100%);
-}
-
-.gradient-mesh-soft {
-  background:
-    radial-gradient(ellipse at 30% 50%, rgba(59, 130, 246, 0.06) 0%, transparent 50%),
-    radial-gradient(ellipse at 70% 50%, rgba(139, 92, 246, 0.04) 0%, transparent 50%);
-}
-
-/* === GRADIENT TEXT === */
-.text-gradient-premium {
-  background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 35%, #EC4899 70%, #F43F5E 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.text-gradient-dark {
-  background: linear-gradient(135deg, #0F172A 0%, #334155 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
 /* === REFINED SCROLLBAR === */
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
@@ -130,27 +76,11 @@ textarea:focus-visible {
 ::-webkit-scrollbar-thumb:hover { background: rgba(0, 0, 0, 0.2); }
 
 /* === ANIMATIONS === */
-@keyframes gradient-shift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-}
-
-@keyframes float-gentle {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
 @keyframes pulse-soft {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.6; }
 }
 
-@keyframes shimmer-light {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
-}
-
-.animate-float { animation: float-gentle 6s ease-in-out infinite; }
 .animate-pulse-soft { animation: pulse-soft 2s ease-in-out infinite; }
 
 /* Gradient line separator */
@@ -159,119 +89,10 @@ textarea:focus-visible {
   background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.2), transparent);
 }
 
-.gradient-line-strong {
-  height: 2px;
-  background: linear-gradient(90deg, #3B82F6, #8B5CF6);
-  border-radius: 1px;
-}
-
-/* === FLOATING ORBS (light, visible) === */
-.orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  pointer-events: none;
-}
-
-/* === DOMAIN ACCENT PILLS === */
-.domain-pill {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  padding: 4px 12px;
-  border-radius: 100px;
-}
-
-/* === STAT COUNTER === */
-.stat-value {
-  font-weight: 700;
-  letter-spacing: -0.04em;
-  line-height: 1;
-}
-
-/* === BOOT SEQUENCE (stays dark) === */
-.boot-dark {
-  background: #050508;
-  color: #FAFAFA;
-}
-
-.crt-overlay {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.15) 2px, rgba(0,0,0,0.15) 4px);
-  z-index: 10;
-}
-
-.crt-flicker { animation: crt-flicker 0.15s infinite; }
-@keyframes crt-flicker {
-  0% { opacity: 0.97; } 50% { opacity: 1; } 100% { opacity: 0.98; }
-}
-
-.phosphor-glow {
-  text-shadow: 0 0 5px rgba(59, 130, 246, 0.5), 0 0 10px rgba(59, 130, 246, 0.2);
-}
-
 .cursor-blink { animation: blink 530ms step-end infinite; }
 @keyframes blink {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
-}
-
-@keyframes meteor {
-  0% { transform: rotate(215deg) translateX(0); opacity: 1; }
-  70% { opacity: 1; }
-  100% { transform: rotate(215deg) translateX(-500px); opacity: 0; }
-}
-
-.meteor {
-  position: absolute;
-  width: 1px;
-  height: 80px;
-  background: linear-gradient(to bottom, rgba(59, 130, 246, 0.8), transparent);
-  border-radius: 999px;
-  animation: meteor 5s linear infinite;
-}
-
-.meteor::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  background: #3B82F6;
-  box-shadow: 0 0 8px 2px rgba(59, 130, 246, 0.6);
-}
-
-/* Particles for boot only */
-@keyframes float-particle {
-  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.3; }
-  25% { transform: translate(10px, -20px) scale(1.2); opacity: 0.6; }
-  50% { transform: translate(-5px, -40px) scale(0.8); opacity: 0.4; }
-  75% { transform: translate(15px, -60px) scale(1.1); opacity: 0.2; }
-}
-
-.particle {
-  position: absolute;
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: #3B82F6;
-  opacity: 0.5;
-  box-shadow: 0 0 6px currentColor;
-  animation: float-particle 8s ease-in-out infinite;
-}
-
-.particle-lg {
-  position: absolute;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  opacity: 0.4;
-  box-shadow: 0 0 12px 3px currentColor;
-  animation: float-particle 10s ease-in-out infinite;
 }
 
 /* === LIQUID GLASS === */
@@ -321,50 +142,6 @@ textarea:focus-visible {
     0 4px 16px rgba(0, 0, 0, 0.25),
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
   border-radius: 14px;
-}
-
-.liquid-glass-colored {
-  backdrop-filter: blur(24px) saturate(1.5);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow:
-    0 4px 16px rgba(0, 0, 0, 0.06),
-    inset 0 1px 0 rgba(255, 255, 255, 0.4);
-  border-radius: 20px;
-}
-
-/* Pill button with liquid glass */
-.pill-glass {
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: 100px;
-  padding: 8px 20px;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
-}
-
-.pill-glass:hover {
-  background: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-  transform: translateY(-1px);
-}
-
-/* Gradient pill button */
-.pill-gradient {
-  background: linear-gradient(135deg, #3B82F6, #8B5CF6);
-  color: white;
-  border-radius: 100px;
-  padding: 10px 24px;
-  font-weight: 600;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
-  border: none;
-}
-
-.pill-gradient:hover {
-  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
-  transform: translateY(-2px);
 }
 
 /* === TICKER SCROLL === */
