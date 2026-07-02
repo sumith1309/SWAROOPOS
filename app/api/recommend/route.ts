@@ -26,7 +26,7 @@ export async function POST(request: Request) {
 
 RULES:
 - Return ONLY valid JSON — no markdown, no code fences, no extra text.
-- Use exact project IDs from the knowledge base: alia, sahara-sense, garmi-mitra, cognispace, bsa, nlp-classifier, trails-miles, stationeryhub, forecasting, ai-email, churn, predictive-maintenance, health, inventory, taskflow, housing, cost-estimator, healthcare-analytics, hubspot-integration, code-archaeologist
+- Use exact project IDs from the knowledge base: hrms, samba-retail, alia, advait, webq-team, prism-rag, sahara-sense, garmi-mitra, bsa, nlp-classifier, trails-miles, stationeryhub, forecasting, ai-email, churn, predictive-maintenance, health, inventory, taskflow, housing, cost-estimator, healthcare-analytics, hubspot-integration, code-archaeologist, urban-illusion
 - Match visitor intent to the most relevant projects based on domain, tech stack, impact, and use case.
 - Each recommendation must include a concise, compelling reason (1-2 sentences) explaining why this project is relevant to their intent.
 

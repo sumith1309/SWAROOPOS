@@ -8,7 +8,7 @@ const PRODUCT_IMAGES = [
   "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&q=80", // ALIA - AI/learning
   "https://images.unsplash.com/photo-1534088568595-a066f410bcda?w=400&q=80", // Sahara Sense - dust storm
   "https://images.unsplash.com/photo-1561484930-998b6a7b22e8?w=400&q=80",    // Garmi Mitra - heatwave
-  "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&q=80",  // CogniSpace - tech globe
+  "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&q=80",  // tech globe
   "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=400&q=80",  // Health Prediction - medical
 ];
 

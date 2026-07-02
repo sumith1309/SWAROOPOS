@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useStore, WALLPAPERS } from "@/lib/store";
 import Wordmark from "@/components/ui/Wordmark";
 
-const ROLES = ["Forward Deployed Engineer", "AI Transformation Consultant", "Ships production software", "COO @ CogniSpace", "Human-led, AI-accelerated"];
+const ROLES = ["Forward Deployed Engineer", "AI Transformation Consultant", "Ships production software", "Human-led, AI-accelerated", "SP Jain MAIB '26"];
 
 export default function Taskbar() {
   const [time, setTime] = useState("");
@@ -13,6 +13,7 @@ export default function Taskbar() {
   const [location, setLocation] = useState("Loading...");
   const [roleIndex, setRoleIndex] = useState(0);
   const wallpaperId = useStore((s) => s.wallpaperId);
+  const lock = useStore((s) => s.lock);
   const wallpaper = WALLPAPERS.find((w) => w.id === wallpaperId) || WALLPAPERS[0];
   const isDark = wallpaper.dark ?? false;
 
@@ -62,7 +63,13 @@ export default function Taskbar() {
     >
       {/* Left */}
       <div className="flex items-center gap-3">
-        <Wordmark dark={isDark} />
+        <button
+          onClick={lock}
+          aria-label="Lock SwaroopOS"
+          className="flex items-center h-full px-1 cursor-pointer hover:opacity-70 transition-opacity"
+        >
+          <Wordmark dark={isDark} />
+        </button>
         <div className="hidden md:flex items-center gap-1.5">
           <div className="w-[1px] h-3.5" style={{ background: isDark ? "rgba(255,255,255,0.15)" : "rgba(0,0,0,0.08)" }} />
           <AnimatePresence mode="wait">

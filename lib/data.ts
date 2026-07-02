@@ -446,45 +446,6 @@ const TIER_SYSTEMS: Product[] = [
     github: "https://github.com/sumith1309/Project_Sahara_Sense",
   },
   {
-    id: "cognispace",
-    name: "CogniSpace",
-    tagline: "Enterprise AI service platform — co-founded venture, live",
-    domain: "enterprise",
-    year: "2026",
-    tier: "business",
-    ownership: "solo",
-    status: "live",
-    description:
-      "AI service platform providing development teams with tools and infrastructure to build, deploy, and scale AI-powered applications. Marketing site with immersive Three.js visuals, developer dashboard, interactive AI playground for model testing, and an API layer with JWT + API key authentication.",
-    problem:
-      "Development teams struggle to integrate AI capabilities without deep ML expertise, complex infrastructure setup, and months of development time.",
-    impact:
-      "Self-service onboarding is designed to cut integration from months to hours; interactive demos convert leads through developer engagement.",
-    architecture:
-      "Next.js 16 App Router → tRPC + REST API Gateway → Redis Rate Limiter → Auth Middleware (JWT + API Key) → AI Service Layer → PostgreSQL + Redis",
-    metrics: [
-      { label: "Role", value: "COO & Co-Founder" },
-      { label: "UI Components", value: "18" },
-      { label: "Billing", value: "Stripe" },
-    ],
-    techStack: [
-      { category: "Frontend", items: ["Next.js 16", "React 19", "TypeScript", "Three.js"] },
-      { category: "Backend", items: ["tRPC", "PostgreSQL", "Redis"] },
-      { category: "Infrastructure", items: ["Stripe", "AWS ECS Fargate"] },
-    ],
-    features: [
-      "AI playground for model testing",
-      "API key management with scope control",
-      "Real-time usage analytics dashboard",
-      "Stripe-integrated billing system",
-      "Immersive 3D landing experience",
-    ],
-    role: "Co-founded. Defined product vision, pricing, and go-to-market; led end-to-end product development.",
-    featured: false,
-    github: "https://github.com/sumith1309/COGNISPACE",
-    website: "https://www.cognispace.co.in/",
-  },
-  {
     id: "bsa",
     name: "Bank Statement Analyzer",
     tagline: "AI FinTech tool — statement to auditor-ready vouchers",
@@ -1119,21 +1080,6 @@ export function getProduct(id: string): Product | undefined {
 
 export const CAREER: CareerEntry[] = [
   {
-    version: "v2.0",
-    company: "CogniSpace",
-    role: "COO & Co-Founder",
-    period: "Jan 2026 – Present",
-    location: "Dubai, UAE",
-    active: true,
-    highlights: [
-      "Co-founded enterprise AI service platform",
-      "Defined product vision, pricing strategy, go-to-market funnel",
-      "Led end-to-end product development: AI playground, API management, Stripe billing",
-      "Designed immersive 3D landing with Three.js, 18 UI components",
-    ],
-    stack: ["Next.js 16", "React 19", "TypeScript", "Three.js", "tRPC", "PostgreSQL", "Redis", "Stripe", "AWS"],
-  },
-  {
     version: "v1.3",
     company: "Learners Education",
     role: "AI Product Manager & Full-Stack Developer (Intern)",
@@ -1291,7 +1237,7 @@ export const PROOF_POINTS = [
 ];
 
 export const PROFESSIONAL_SUMMARY =
-  "I build production systems that businesses run on. Solo-built and deployed a multi-tenant HRMS now serving 3 organizations and 80+ employees daily; shipped a live client retail site end-to-end; built the RAG-powered ALIA teaching assistant, support ticketing, and SSO inside a team LMS. I work Forward-Deployed-Engineer style — embedded in the business problem, shipping working software — and use AI-assisted development (Claude Code) to compress build cycles while staying accountable for architecture, verification, and delivery. COO & Co-Founder at CogniSpace. Master of AI in Business, SP Jain (Dubai), expected September 2026.";
+  "I build production systems that businesses run on. Solo-built and deployed a multi-tenant HRMS now serving 3 organizations and 80+ employees daily; shipped a live client retail site end-to-end; built the RAG-powered ALIA teaching assistant, support ticketing, and SSO inside a team LMS. I work Forward-Deployed-Engineer style — embedded in the business problem, shipping working software — and use AI-assisted development (Claude Code) to compress build cycles while staying accountable for architecture, verification, and delivery. Master of AI in Business, SP Jain (Dubai), expected September 2026.";
 
 export const NEOFETCH = `       ╔═══╗
        ║ S ║         Swaroop Jyothi
@@ -1300,7 +1246,7 @@ export const NEOFETCH = `       ╔═══╗
   ███████████         Role: Builder — production systems
   █ SWAROOP █         Focus: Forward Deployed Engineer
   ███████████         Location: Dubai, UAE (open to Hyderabad)
-                      Live: HRMS · Samba Retail · CogniSpace
+                      Live: HRMS · Samba Retail · Urban Illusion
                       Systems: ${ALL_PRODUCTS.length} across 5 domains
                       AI-assisted: Claude Code
                       Uptime: Since 2019

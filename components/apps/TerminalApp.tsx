@@ -63,7 +63,7 @@ export default function TerminalApp() {
     }
 
     if (lower === "cat readme.md" || lower === "cat README.md") {
-      return `# SwaroopOS v3.0\n\nWelcome to Swaroop Jyothi's interactive portfolio.\nI build production systems that businesses run on.\nLive: HRMS (80+ daily users) · Samba Retail · CogniSpace.\nHuman-led, AI-accelerated delivery (Claude Code).\n\nType 'help' for commands.`;
+      return `# SwaroopOS v3.0\n\nWelcome to Swaroop Jyothi's interactive portfolio.\nI build production systems that businesses run on.\nLive: HRMS (80+ daily users) · Samba Retail · Urban Illusion.\nHuman-led, AI-accelerated delivery (Claude Code).\n\nType 'help' for commands.`;
     }
 
     if (lower === "cat .env") return "Nice try. 🔒 Environment variables are secured.";
@@ -251,10 +251,6 @@ Languages:         ${LANGUAGES.map((l) => `${l.name} (${l.level})`).join(", ")}`
                                                                                                ┌─────────────┐
                                                                                                │ v1.3 LUC    │
                                                                                                │ Dev (HRMS)  │
-                                                                                               └─────────────┘
-                                                                                               ┌─────────────┐
-                                                                                               │ v2.0 Cogni  │
-                                                                                               │ COO & Co-F  │
                                                                                                └─────────────┘`;
     }
 
@@ -349,7 +345,6 @@ Highlight Repositories:
   Prism-RAG              — RBAC-enforced RAG (vector-store level)
   Urban_Illusion         — GLSL shader craft piece (live)
   Project_Sahara_Sense   — Dust storm prediction (R²=0.97, self-reported)
-  COGNISPACE             — Enterprise AI platform (co-founded, live)
   Bank-Statement-Analyzer — AI FinTech tool
   AI-Code-Archaeologist  — Legacy code analysis
   Predictive-Maintenance — CNN-LSTM + computer vision
@@ -382,9 +377,8 @@ DESCRIPTION
        80+ daily users, a live client retail site, and RAG/agent systems.
 
        Started in construction operations (2019-2024), now an engineer
-       and AI-transformation consultant. COO & Co-Founder at CogniSpace;
-       AI Product Manager & Full-Stack Developer at Learners Education,
-       Dubai.
+       and AI-transformation consultant. AI Product Manager & Full-Stack
+       Developer at Learners Education, Dubai.
 
 NOTABLE WORKS
        HRMS              Solo-built multi-tenant HR platform (live, 80+ users)
