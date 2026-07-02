@@ -8,10 +8,10 @@ import { useStore } from "@/lib/store";
 const EASE = [0.32, 0.72, 0, 1] as const;
 
 /**
- * On-demand lock screen — the "entering SwaroopOS" moment, triggered only by
- * clicking the SwaroopOS wordmark. NEVER shown on entry: proof paints first.
- * Swipe up (or click / press a key) to slide it away and reveal the desktop.
- * Keyboard and reduced-motion users unlock without needing the gesture.
+ * The "entering SwaroopOS" moment. Shown on entry to "/" and again on demand
+ * when the SwaroopOS wordmark is clicked. Swipe up (or click / press a key)
+ * to slide it away and reveal the desktop. Keyboard and reduced-motion users
+ * unlock without needing the gesture; deep-link routes are never gated.
  */
 export default function LockScreen() {
   const unlock = useStore((s) => s.unlock);

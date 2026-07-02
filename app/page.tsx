@@ -6,9 +6,11 @@ import Desktop from "@/components/desktop/Desktop";
 import LockScreen from "@/components/desktop/LockScreen";
 import ProjectDetail from "@/components/apps/ProjectDetail";
 
-// First paint is the desktop itself — name, role, proof, and the recruiter
-// fast-path. No boot screen and no entry gate: the lock screen exists only
-// on demand (click the SwaroopOS wordmark) as the "entering SwaroopOS" moment.
+// Entering SwaroopOS: "/" opens on the lock screen — swipe up (or click /
+// press a key) to reveal the desktop with name, role, proof, and the
+// recruiter fast-path. The lock carries identity + title, unlocks on any
+// input, and reduced-motion users pass through instantly. Deep links
+// (/projects, /resume, /contact) are never gated.
 export default function Home() {
   const activeProjectId = useStore((s) => s.activeProjectId);
   const locked = useStore((s) => s.locked);
@@ -18,7 +20,7 @@ export default function Home() {
       <main className="w-screen h-screen overflow-hidden">
         <Desktop />
 
-        {/* On-demand lock screen (never shown on entry) */}
+        {/* Lock screen — entry experience + on-demand relock via wordmark */}
         <AnimatePresence>
           {locked && <LockScreen />}
         </AnimatePresence>

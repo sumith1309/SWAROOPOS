@@ -50,8 +50,10 @@ interface Store {
   wallpaperId: string;
   setWallpaper: (id: string) => void;
 
-  // Lock screen — ON-DEMAND ONLY (clicking the SwaroopOS wordmark). Never an
-  // entry gate: `locked` must initialize to false so first paint is proof.
+  // Lock screen — ENTRY EXPERIENCE (user directive, July 2026): "/" opens
+  // locked and the visitor swipes up (or clicks / presses a key) to enter.
+  // Also re-lockable on demand by clicking the SwaroopOS wordmark.
+  // Deep-link routes (/projects, /resume, /contact) are never gated.
   locked: boolean;
   lock: () => void;
   unlock: () => void;
@@ -148,7 +150,7 @@ export const useStore = create<Store>((set) => ({
   wallpaperId: "deep-blue",
   setWallpaper: (id) => set({ wallpaperId: id }),
 
-  locked: false,
+  locked: true,
   lock: () => set({ locked: true }),
   unlock: () => set({ locked: false }),
 }));
