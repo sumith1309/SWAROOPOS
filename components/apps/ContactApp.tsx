@@ -116,7 +116,7 @@ export default function ContactApp() {
 
       {/* Footer */}
       <div className="px-6 py-4 text-center">
-        <p className="text-[11px] text-[#C7C7CC]">Designed & Built by Swaroop Jyothi · 2026</p>
+        <p className="text-[11px] text-[#C7C7CC]">Designed & Built by S. Jyothi Swaroop · 2026</p>
       </div>
     </div>
   );

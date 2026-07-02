@@ -7,7 +7,7 @@ export const KNOWLEDGE_BASE = `
 # S. JYOTHI SWAROOP — Complete Profile
 
 ## IDENTITY & POSITIONING
-- Name: Swaroop Jyothi (full legal name: S. Jyothi Swaroop)
+- Name: S. Jyothi Swaroop
 - One-liner: I build production systems that businesses run on.
 - Positioning: Forward Deployed Engineer (builder who embeds with real businesses and ships working software) and AI-First Transformation Consultant. An engineer first — not only a product manager.
 - Current Role: AI Product Manager & Full-Stack Developer (Intern) at Learners Education (LUC Learners), Dubai

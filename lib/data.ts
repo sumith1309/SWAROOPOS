@@ -1220,7 +1220,7 @@ export const CONTACT = {
 };
 
 /** Primary identity — used consistently on every surface. */
-export const NAME = "Swaroop Jyothi";
+export const NAME = "S. Jyothi Swaroop";
 export const ROLE_TITLE = "Forward Deployed Engineer & AI Transformation Consultant";
 
 export const HEADLINE = "I build production systems that businesses run on.";
@@ -1240,7 +1240,7 @@ export const PROFESSIONAL_SUMMARY =
   "I build production systems that businesses run on. Solo-built and deployed a multi-tenant HRMS now serving 3 organizations and 80+ employees daily; shipped a live client retail site end-to-end; built the RAG-powered ALIA teaching assistant, support ticketing, and SSO inside a team LMS. I work Forward-Deployed-Engineer style — embedded in the business problem, shipping working software — and use AI-assisted development (Claude Code) to compress build cycles while staying accountable for architecture, verification, and delivery. Master of AI in Business, SP Jain (Dubai), expected September 2026.";
 
 export const NEOFETCH = `       ╔═══╗
-       ║ S ║         Swaroop Jyothi
+       ║ S ║         S. Jyothi Swaroop
        ╚═══╝         ─────────────────
                       OS: SwaroopOS v3.0
   ███████████         Role: Builder — production systems
