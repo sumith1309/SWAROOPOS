@@ -44,7 +44,7 @@ export default function SettingsApp() {
         <div className="space-y-2 text-[13px] text-[#64748B]">
           <div className="flex justify-between"><span>Version</span><span className="font-mono text-[#0F172A]">2.0</span></div>
           <div className="flex justify-between"><span>Built with</span><span className="font-mono text-[#0F172A]">Next.js 15 + React 19</span></div>
-          <div className="flex justify-between"><span>Developer</span><span className="font-mono text-[#0F172A]">S. Jyothi Swaroop</span></div>
+          <div className="flex justify-between"><span>Developer</span><span className="font-mono text-[#0F172A]">Jyothi Swaroop S</span></div>
         </div>
       </div>
     </div>

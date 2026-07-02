@@ -22,25 +22,38 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "S. Jyothi Swaroop — Forward Deployed Engineer | SwaroopOS",
+  metadataBase: new URL("https://swaroopos.vercel.app"),
+  title: "Jyothi Swaroop S — AI Engineer | SwaroopOS",
   description:
-    "I build production systems that businesses run on. Forward Deployed Engineer & AI-transformation consultant in Dubai — solo-built multi-tenant HRMS live with 80+ daily users, shipped client sites, RAG and autonomous-agent systems. Human-led, AI-accelerated delivery.",
+    "I build production systems that businesses run on. AI Engineer and AI & Digital Transformation Consultant in Dubai — solo-built multi-tenant HRMS live with 3 organizations and 80+ daily users, live client sites, agent systems. Human-led, AI-accelerated delivery.",
   keywords: [
-    "Forward Deployed Engineer",
     "AI Engineer",
     "AI Transformation Consultant",
-    "S. Jyothi Swaroop",
+    "Digital Transformation",
+    "Forward Deployed Engineer",
+    "Jyothi Swaroop S",
     "SwaroopOS",
     "Dubai",
     "Portfolio",
   ],
-  authors: [{ name: "S. Jyothi Swaroop" }],
+  authors: [{ name: "Jyothi Swaroop S" }],
+  alternates: { canonical: "/" },
   openGraph: {
-    title: "S. Jyothi Swaroop — Forward Deployed Engineer",
+    title: "Jyothi Swaroop S — AI Engineer | AI and Digital Transformation Consultant",
     description:
-      "I build production systems that businesses run on. Solo-built HRMS live with 80+ daily users · client sites · RAG & agent systems. Dubai, UAE.",
+      "I build production systems that businesses run on. Solo-built HRMS live with 3 organizations and 80+ daily users · live client sites · AI agent systems. Dubai, UAE.",
+    url: "/",
+    siteName: "SwaroopOS",
     type: "website",
+    locale: "en_US",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Jyothi Swaroop S — AI Engineer",
+    description:
+      "I build production systems that businesses run on. Solo-built HRMS live with 80+ daily users · live client sites · AI agent systems.",
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({

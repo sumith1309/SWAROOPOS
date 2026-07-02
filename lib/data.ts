@@ -6,16 +6,17 @@ export type AppId = Domain | SystemApp;
  * Honest project categories. "production" requires real users + real
  * deployment; source-only work can never sit there, however impressive.
  */
-export type Tier = "production" | "business" | "ai-agents" | "lab" | "concept";
+export type Tier = "production" | "business" | "ai-agents" | "lab" | "concept" | "archived";
 
-export const CATEGORY_ORDER: Tier[] = ["production", "business", "ai-agents", "lab", "concept"];
+export const CATEGORY_ORDER: Tier[] = ["production", "business", "ai-agents", "lab", "concept", "archived"];
 
 export const CATEGORY_LABELS: Record<Tier, string> = {
-  production: "In Production",
+  production: "Featured Production Work",
   business: "Client & Business Systems",
   "ai-agents": "AI & Agent Systems",
   lab: "ML Lab & Experiments",
-  concept: "Design-stage Concepts",
+  concept: "Design-Stage Concepts",
+  archived: "Archived Work",
 };
 
 /** Honest ownership labeling — never imply solo work on team builds. */
@@ -1219,32 +1220,35 @@ export const CONTACT = {
   openTo: "Open to Hyderabad",
 };
 
-/** Primary identity — used consistently on every surface. */
-export const NAME = "S. Jyothi Swaroop";
-export const ROLE_TITLE = "Forward Deployed Engineer & AI Transformation Consultant";
+/** Canonical identity — this exact name and title on every surface. */
+export const NAME = "Jyothi Swaroop S";
+export const ROLE_TITLE = "AI Engineer | AI and Digital Transformation Consultant";
+/** Secondary positioning line. */
+export const POSITIONING =
+  "Forward-deployed builder of production AI, SaaS, automation, and business systems.";
 
 export const HEADLINE = "I build production systems that businesses run on.";
 export const SUBHERO =
-  "Forward Deployed Engineer and AI Transformation Consultant focused on SaaS platforms, automation systems, AI agents, and applied ML tools. Human-led, AI-accelerated delivery.";
+  "Human-led, AI-accelerated delivery across SaaS platforms, automation systems, AI agents, ML tools, and operational workflows.";
 /** @deprecated use SUBHERO */
 export const SUBLINE = SUBHERO;
 
 /** Above-the-fold proof — production facts only, full context on the cards. */
 export const PROOF_POINTS = [
   "Live HRMS used by 3 organizations and 80+ employees daily",
-  "ZKTeco BioTime biometric integration for 64+ field employees",
+  "Integrated biometric attendance with ZKTeco BioTime",
   "Multi-tenant Django architecture, security hardening, 794 tests",
 ];
 
 export const PROFESSIONAL_SUMMARY =
-  "I build production systems that businesses run on. Solo-built and deployed a multi-tenant HRMS now serving 3 organizations and 80+ employees daily; shipped a live client retail site end-to-end; built the RAG-powered ALIA teaching assistant, support ticketing, and SSO inside a team LMS. I work Forward-Deployed-Engineer style — embedded in the business problem, shipping working software — and use AI-assisted development (Claude Code) to compress build cycles while staying accountable for architecture, verification, and delivery. Master of AI in Business, SP Jain (Dubai), expected September 2026.";
+  "I build production systems that businesses run on. Solo-built and deployed a multi-tenant HRMS now serving 3 organizations and 80+ employees daily; shipped a live client retail site end-to-end; built the RAG-powered ALIA teaching assistant, support ticketing, and SSO inside a team LMS. I work forward-deployed — embedded in the business problem, shipping working software — and use AI-assisted development (Claude Code) to compress build cycles while staying accountable for architecture, verification, and delivery. Master of AI in Business, SP Jain (Dubai), expected September 2026.";
 
 export const NEOFETCH = `       ╔═══╗
-       ║ S ║         S. Jyothi Swaroop
+       ║ S ║         Jyothi Swaroop S
        ╚═══╝         ─────────────────
                       OS: SwaroopOS v3.0
-  ███████████         Role: Builder — production systems
-  █ SWAROOP █         Focus: Forward Deployed Engineer
+  ███████████         Role: AI Engineer — production systems
+  █ SWAROOP █         Focus: AI & digital transformation
   ███████████         Location: Dubai, UAE (open to Hyderabad)
                       Live: HRMS · Samba Retail · Urban Illusion
                       Systems: ${ALL_PRODUCTS.length} across 5 domains

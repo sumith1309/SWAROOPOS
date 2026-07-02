@@ -23,7 +23,7 @@ export default function ContactPage() {
           Let&apos;s talk
         </h1>
         <p className="text-[14px] text-[#64748B] mb-2">
-          {ROLE_TITLE} — available for Forward Deployed Engineer, AI engineering, and AI-transformation work.
+          {ROLE_TITLE} — available for AI engineering, forward-deployed, and digital-transformation work.
         </p>
         <p className="flex items-center gap-1.5 text-[13px] text-[#64748B] mb-8">
           <MapPin className="w-3.5 h-3.5" aria-hidden />

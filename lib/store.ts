@@ -49,12 +49,6 @@ interface Store {
   // Wallpaper
   wallpaperId: string;
   setWallpaper: (id: string) => void;
-
-  // Lock screen. Shown on entry (swipe up to unlock) and again on demand when
-  // the SwaroopOS wordmark is clicked. Swipe/click/key all unlock.
-  locked: boolean;
-  lock: () => void;
-  unlock: () => void;
 }
 
 const DEFAULT_POSITIONS: Record<string, { x: number; y: number }> = {
@@ -147,8 +141,4 @@ export const useStore = create<Store>((set) => ({
 
   wallpaperId: "deep-blue",
   setWallpaper: (id) => set({ wallpaperId: id }),
-
-  locked: true,
-  lock: () => set({ locked: true }),
-  unlock: () => set({ locked: false }),
 }));

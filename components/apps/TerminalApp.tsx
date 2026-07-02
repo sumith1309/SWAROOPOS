@@ -63,7 +63,7 @@ export default function TerminalApp() {
     }
 
     if (lower === "cat readme.md" || lower === "cat README.md") {
-      return `# SwaroopOS v3.0\n\nWelcome to S. Jyothi Swaroop's interactive portfolio.\nI build production systems that businesses run on.\nLive: HRMS (80+ daily users) · Samba Retail · Urban Illusion.\nHuman-led, AI-accelerated delivery (Claude Code).\n\nType 'help' for commands.`;
+      return `# SwaroopOS v3.0\n\nWelcome to Jyothi Swaroop S's interactive portfolio.\nI build production systems that businesses run on.\nLive: HRMS (80+ daily users) · Samba Retail · Urban Illusion.\nHuman-led, AI-accelerated delivery (Claude Code).\n\nType 'help' for commands.`;
     }
 
     if (lower === "cat .env") return "Nice try. 🔒 Environment variables are secured.";
@@ -357,7 +357,7 @@ Visit: https://github.com/sumith1309`;
       return CERTIFICATIONS.map((c) => `  ✓ ${c}`).join("\n");
     }
 
-    if (lower === "whoami") return "S. Jyothi Swaroop — I build production systems that businesses run on";
+    if (lower === "whoami") return "Jyothi Swaroop S — I build production systems that businesses run on";
     if (lower === "neofetch") return NEOFETCH;
 
     // ─── man swaroop ───
@@ -365,19 +365,19 @@ Visit: https://github.com/sumith1309`;
       return `SWAROOP(1)                   SwaroopOS Manual                   SWAROOP(1)
 
 NAME
-       swaroop - Forward Deployed Engineer, builder of production systems
+       swaroop - AI Engineer, builder of production systems
 
 SYNOPSIS
        I build production systems that businesses run on.
        Human-led, AI-accelerated delivery (Claude Code).
 
 DESCRIPTION
-       S. Jyothi Swaroop builds and ships production software close to
+       Jyothi Swaroop S builds and ships production software close to
        real business problems: a solo-built multi-tenant HRMS live with
        80+ daily users, a live client retail site, and RAG/agent systems.
 
-       Started in construction operations (2019-2024), now an engineer
-       and AI-transformation consultant. AI Product Manager & Full-Stack
+       Started in construction operations (2019-2024), now an AI engineer
+       and digital-transformation consultant. AI Product Manager & Full-Stack
        Developer at Learners Education, Dubai.
 
 NOTABLE WORKS
