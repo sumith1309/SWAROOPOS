@@ -125,40 +125,38 @@ function FastPath({ openWindow, isDark, compact }: { openWindow: (id: AppId) => 
   );
 }
 
-/* ─── Featured HRMS case-study card — the main proof asset, one click ─── */
-function FeaturedHRMS({ isDark }: { isDark: boolean }) {
-  const hrms = getProduct("hrms");
-  if (!hrms) return null;
+/* ─── Featured ALIA case-study card — flagship agentic AI, one click ─── */
+function FeaturedALIA({ isDark }: { isDark: boolean }) {
   const facts = [
-    "3 organizations · 80+ employees daily",
-    "ZKTeco BioTime biometric integration",
-    "Multi-tenant Django · 794-test suite",
-    "SQLi, IDOR, CSRF security hardening",
-    "Est. 30% reduction in operational delays",
+    "Multi-turn tool-calling AI agent",
+    "Real RAG — grounded in actual course materials",
+    "LangChain · pgvector · PostgreSQL · Redis",
+    "Self-hosted end-to-end on AWS EC2",
+    "Solo-built inside a team LMS (my system)",
   ];
   return (
     <motion.section
       initial={{ opacity: 0, y: 14 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.15, duration: 0.5, ease: EASE }}
-      aria-label="Featured case study: HRMS Platform"
+      aria-label="Featured case study: ALIA agentic AI"
       className={`rounded-[20px] p-6 ${isDark ? "liquid-glass-dark" : "liquid-glass"}`}
     >
       <div className="flex items-center justify-between mb-3">
         <span className={`text-[10px] uppercase tracking-[0.18em] font-bold font-mono ${isDark ? "text-white/45" : "text-[#8E8E93]"}`}>
-          Featured · Case Study
+          Featured · Agentic AI
         </span>
         <span className="flex items-center gap-1.5 min-h-[24px]">
           <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse-soft" aria-hidden />
-          <span className="text-[10px] font-bold uppercase tracking-wider text-[#047857]">Live production</span>
+          <span className="text-[10px] font-bold uppercase tracking-wider text-[#047857]">In production</span>
         </span>
       </div>
 
       <h2 className={`text-[22px] font-heading font-bold tracking-[-0.02em] mb-1 ${isDark ? "text-white" : "text-[#0F172A]"}`}>
-        HRMS Platform
+        ALIA — AI Teaching Assistant
       </h2>
       <p className={`text-[13px] leading-relaxed mb-4 ${isDark ? "text-white/60" : "text-[#64748B]"}`}>
-        Multi-tenant HR system — solo-built, deployed, and operated in production.
+        A complete agentic AI I built solo — agent, RAG pipeline, and hosting.
       </p>
 
       <ul className="space-y-1.5 mb-5">
@@ -172,28 +170,63 @@ function FeaturedHRMS({ isDark }: { isDark: boolean }) {
 
       <div className="flex gap-2.5 flex-wrap">
         <Link
-          href="/projects/hrms"
+          href="/projects/alia"
           className="inline-flex items-center gap-1.5 min-h-[44px] px-4 rounded-full bg-[#0F172A] text-white text-[12.5px] font-semibold hover:bg-[#1E293B] transition-colors"
         >
           Read case study
           <ArrowUpRight className="w-3.5 h-3.5" aria-hidden />
         </Link>
         <a
-          href={hrms.website}
+          href="https://admin.learnerseducation.com"
           target="_blank"
           rel="noopener noreferrer"
           className={`inline-flex items-center gap-1.5 min-h-[44px] px-4 rounded-full text-[12.5px] font-semibold border transition-colors ${
             isDark ? "border-white/20 text-white/85 hover:bg-white/10" : "border-[rgba(15,23,42,0.12)] text-[#334155] bg-white/50 hover:bg-white"
           }`}
         >
-          Open live system
+          Open live LMS
           <ArrowUpRight className="w-3.5 h-3.5" aria-hidden />
         </a>
       </div>
       <p className={`text-[10.5px] mt-2.5 font-mono ${isDark ? "text-white/35" : "text-[#94A3B8]"}`}>
-        Live demo may take a few seconds to wake (free hosting).
+        Live LMS is login-gated (real institution data). Platform is a team build.
       </p>
     </motion.section>
+  );
+}
+
+/* ─── Compact HRMS strip — keeps the production anchor one click away ─── */
+function HRMSStrip({ isDark }: { isDark: boolean }) {
+  const hrms = getProduct("hrms");
+  if (!hrms) return null;
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.3, duration: 0.5, ease: EASE }}
+      className={`p-4 ${isDark ? "liquid-glass-sm-dark" : "liquid-glass-sm"}`}
+    >
+      <div className="flex items-center gap-3">
+        <span className="w-1.5 h-1.5 rounded-full bg-[#10B981] animate-pulse-soft shrink-0" aria-hidden />
+        <div className="flex-1 min-w-0">
+          <p className={`text-[13px] font-semibold leading-tight ${isDark ? "text-white" : "text-[#0F172A]"}`}>
+            HRMS Platform — live production
+          </p>
+          <p className={`text-[11px] leading-snug mt-0.5 ${isDark ? "text-white/45" : "text-[#8E8E93]"}`}>
+            Solo-built · 3 orgs · 80+ daily users · 794 tests
+          </p>
+        </div>
+        <Link
+          href="/projects/hrms"
+          className={`inline-flex items-center gap-1 min-h-[40px] px-3.5 rounded-full text-[12px] font-semibold border transition-colors shrink-0 ${
+            isDark ? "border-white/20 text-white/85 hover:bg-white/10" : "border-[rgba(15,23,42,0.12)] text-[#334155] bg-white/50 hover:bg-white"
+          }`}
+        >
+          Case study
+          <ArrowUpRight className="w-3 h-3" aria-hidden />
+        </Link>
+      </div>
+    </motion.div>
   );
 }
 
@@ -317,9 +350,10 @@ function DesktopView({ openWindow, isDark }: { openWindow: (id: AppId) => void; 
           <ChatLauncher openWindow={openWindow} isDark={isDark} />
         </div>
 
-        {/* Right: featured HRMS + honest stats + live GitHub */}
+        {/* Right: featured ALIA + HRMS anchor + honest stats + live GitHub */}
         <aside className="col-span-5 flex flex-col gap-4" aria-label="Featured work and stats">
-          <FeaturedHRMS isDark={isDark} />
+          <FeaturedALIA isDark={isDark} />
+          <HRMSStrip isDark={isDark} />
           <div className="grid grid-cols-2 gap-4">
             <QuickStats isDark={isDark} />
             <WeatherWidget isDark={isDark} />
@@ -374,7 +408,11 @@ function MobileView({ openWindow, isDark }: { openWindow: (id: AppId) => void; i
       </motion.section>
 
       <div className="mb-3">
-        <FeaturedHRMS isDark={isDark} />
+        <FeaturedALIA isDark={isDark} />
+      </div>
+
+      <div className="mb-3">
+        <HRMSStrip isDark={isDark} />
       </div>
 
       <div className="mb-3">

@@ -79,12 +79,13 @@ Client website for a retail business — built and deployed end-to-end solo.
 - Next.js 15 + Sanity CMS (owner edits content without a developer)
 - Live: samba-retail-web.vercel.app (code private)
 
-### 3. ALIA + LMS Systems (2026) | TEAM LMS — HIS SYSTEMS
+### 3. ALIA + LMS Systems (2026) | TEAM LMS — HIS SYSTEMS | FLAGSHIP AGENTIC AI
 Inside the team-built LUC Learners LMS, he personally built and owns:
-- ALIA: AI teaching assistant — multi-turn tool-calling agent, LangChain RAG pipeline grounded in course materials, pgvector, self-hosted on AWS EC2
+- ALIA: his flagship agentic AI — a complete agentic system he built SOLO end-to-end: multi-turn tool-calling agent, LangChain RAG pipeline grounded in actual course materials, pgvector embeddings, self-hosted on AWS EC2. This is REAL RAG (retrieval over course content), in production.
 - Support-ticket system: department routing, SLA tracking, escalation logic
 - SSO: Microsoft Entra ID + Google OAuth/OIDC
-- Staging is access-restricted; code private. The LMS as a whole was a team effort.
+- Live platform: admin.learnerseducation.com (login-gated — real institution data); code private. The LMS as a whole was a team effort — never imply he built the whole platform.
+- Case study: /projects/alia
 
 ### 4. ADVAIT.io (2026) | SOLO, FLAGSHIP AGENT SYSTEM
 Autonomous "AI software company" — 35 named agents turn a one-line brief into verified code.
@@ -168,7 +169,7 @@ Q: What have you shipped to production?
 A: Three things matter most: a multi-tenant HRMS I built alone, live with 3 organizations and 80+ daily users; Samba Retail, a live client site I delivered end-to-end; and inside a team LMS, the three systems I own — the ALIA AI teaching assistant (RAG on AWS EC2), the support-ticket system, and SSO.
 
 Q: Show me something live.
-A: HRMS: hrms-frontend-d7qs.onrender.com. Samba Retail: samba-retail-web.vercel.app. Urban Illusion: urban-illusion.vercel.app. This portfolio itself: swaroopos.vercel.app.
+A: HRMS: hrms-frontend-d7qs.onrender.com. Samba Retail: samba-retail-web.vercel.app. The LMS running ALIA and my ticketing/SSO systems: admin.learnerseducation.com (login-gated — real institution data). Urban Illusion: urban-illusion.vercel.app. This portfolio itself: swaroopos.vercel.app.
 
 Q: How do you use AI to build?
 A: Heavily and openly — mostly Claude Code. AI compresses my build cycles; I stay accountable for architecture, verification, and delivery. The HRMS's 794-test suite exists because AI-accelerated code still has to prove itself before production.
@@ -195,7 +196,7 @@ Q: What is the evidence behind each metric?
 A: Three kinds. Owner-vouched production facts: HRMS numbers (80+ users, 3 orgs, 794 tests, zero-defect go-lives) — private client system, I stand behind them. Repo-documented: ADVAIT 35 agents/143 tests, WebQ 34 agents/257 tests, Sahara R² 0.97 — written in the READMEs, verifiable in source. Self-reported/estimated: Health Prediction 96.6% (my validation set), the 30% delay reduction (estimate). Anything without evidence isn't on the site.
 
 Q: What is your strongest technical project?
-A: The HRMS for production engineering depth — multi-tenant architecture, hardware integration, security hardening, 794 tests, live operations. For AI systems depth, ADVAIT.io — a 35-agent gated pipeline with contract locking and browser QA.
+A: For production AI: ALIA — a complete agentic AI I built solo (multi-turn tool-calling agent, real RAG over course materials, self-hosted on AWS EC2), running in a production LMS. For production engineering depth: the HRMS — multi-tenant architecture, hardware integration, security hardening, 794 tests, live operations. For agent-system design: ADVAIT.io — a 35-agent gated pipeline with contract locking and browser QA.
 
 Q: What is your strongest Forward Deployed Engineer evidence?
 A: The HRMS. I embedded with a real client, understood messy HR and biometric-attendance workflows, built all 12 modules alone, integrated ZKTeco hardware, hardened security, wrote 794 tests, and took it to production where 80+ people use it daily. That is the FDE loop end-to-end: business problem in, working production system out.

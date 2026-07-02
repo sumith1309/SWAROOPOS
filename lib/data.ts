@@ -244,14 +244,14 @@ const TIER_PRODUCTION: Product[] = [
   {
     id: "alia",
     name: "ALIA + LMS Systems",
-    tagline: "AI teaching assistant, ticketing & SSO — my systems inside a team-built LMS",
+    tagline: "Agentic AI teaching assistant — tool-calling agent + RAG, solo-built inside a team LMS",
     domain: "education",
     year: "2026",
     tier: "production",
     ownership: "team-owned",
     ownershipNote:
       "The LMS at LUC Learners is a team build — I was one of several developers. These three systems are the parts I personally built and own.",
-    status: "private",
+    status: "live",
     description:
       "Inside a team-built LMS, I personally built and own three systems. ALIA — an AI teaching assistant with a multi-turn tool-calling agent and a RAG pipeline grounded in actual course materials, self-hosted on AWS EC2. The support-ticket system — department routing, SLA tracking, and escalation logic. And single sign-on — Microsoft Entra ID plus Google OAuth/OIDC.",
     problem:
@@ -278,8 +278,10 @@ const TIER_PRODUCTION: Product[] = [
       "SSO: Microsoft Entra ID + Google OAuth/OIDC",
     ],
     role:
-      "One of several developers on the LMS. I built ALIA end-to-end (agent, RAG pipeline, EC2 hosting), the support-ticket system, and both SSO integrations. Staging is access-restricted; code is private.",
+      "One of several developers on the LMS. I built ALIA end-to-end (agent, RAG pipeline, EC2 hosting), the support-ticket system, and both SSO integrations. The live platform is login-gated (real institution data); code is private.",
     featured: true,
+    caseStudy: "/projects/alia",
+    website: "https://admin.learnerseducation.com",
   },
   {
     id: "advait",
@@ -1235,8 +1237,8 @@ export const SUBLINE = SUBHERO;
 
 /** Above-the-fold proof — production facts only, full context on the cards. */
 export const PROOF_POINTS = [
+  "ALIA agentic AI in production — tool-calling agent + real RAG, solo-built",
   "Live HRMS used by 3 organizations and 80+ employees daily",
-  "Integrated biometric attendance with ZKTeco BioTime",
   "Multi-tenant Django architecture, security hardening, 794 tests",
 ];
 

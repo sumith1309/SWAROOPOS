@@ -6,8 +6,8 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 const PROOF = [
+  "ALIA agentic AI · RAG in production",
   "HRMS live · 3 orgs · 80+ daily users",
-  "ZKTeco BioTime integration",
   "794-test multi-tenant Django build",
 ];
 
