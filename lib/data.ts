@@ -455,7 +455,7 @@ const TIER_SYSTEMS: Product[] = [
       "Multi-language support (EN/AR)",
     ],
     role: "Built end-to-end: data pipeline, ensemble architecture, real-time frontend, health advisory system.",
-    featured: false,
+    featured: true,
     github: "https://github.com/sumith1309/Project_Sahara_Sense",
   },
   {

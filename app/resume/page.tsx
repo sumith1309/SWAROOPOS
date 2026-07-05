@@ -128,6 +128,7 @@ export default function ResumePage() {
           <h2 id="agents-h" className="text-[13px] uppercase tracking-[0.18em] font-bold font-mono text-[#475569] border-b border-[rgba(15,23,42,0.08)] pb-2 mb-4">
             AI &amp; Agent Systems
           </h2>
+          <p className="text-[12px] text-[#64748B] -mt-2 mb-4">Source-available builds — prototypes and in-progress systems (not production).</p>
           {FEATURED_AGENT_PRODUCTS.map((p) => (
             <div key={p.id} className="mb-4">
               <div className="flex flex-wrap items-baseline justify-between gap-x-3">
