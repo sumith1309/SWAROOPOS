@@ -36,13 +36,20 @@ export default function ResumePage() {
         <div className="flex flex-wrap gap-2.5 mb-8 print:hidden">
           <PrintButton />
           <a
-            href="/api/cv"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/Jyothi_Swaroop_S_Resume.docx"
+            download
             className="inline-flex items-center gap-1.5 min-h-[44px] px-5 rounded-full bg-[#1d4ed8] text-white text-[13px] font-semibold hover:bg-[#1e40af] transition-colors"
           >
             <Download className="w-4 h-4" aria-hidden />
-            Download
+            Download CV (.docx)
+          </a>
+          <a
+            href="/api/cv"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center min-h-[44px] px-5 rounded-full border border-[rgba(15,23,42,0.12)] text-[#334155] text-[13px] font-semibold hover:bg-[rgba(15,23,42,0.04)] transition-colors"
+          >
+            Web version
           </a>
           <Link
             href="/contact"
