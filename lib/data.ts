@@ -1077,6 +1077,9 @@ export const FEATURED_PRODUCTS: Product[] = [...PRODUCTION_PRODUCTS, ...BUSINESS
 /** Everything else. */
 export const ADDITIONAL_PRODUCTS: Product[] = [...AGENT_PRODUCTS, ...LAB_PRODUCTS, ...CONCEPT_PRODUCTS];
 
+/** Flagship AI / agent systems for the résumé — featured, source-available builds. */
+export const FEATURED_AGENT_PRODUCTS: Product[] = AGENT_PRODUCTS.filter((p) => p.featured);
+
 export const LIVE_PRODUCTS = ALL_PRODUCTS.filter((p) => p.status === "live");
 
 export function getProductsByDomain(domain: Domain): Product[] {
@@ -1095,7 +1098,7 @@ export const CAREER: CareerEntry[] = [
   {
     version: "v1.3",
     company: "Learners Education",
-    role: "AI Product Manager & Full-Stack Developer (Intern)",
+    role: "AI Developer & Digital Product Manager (Intern)",
     period: "Feb 2026 – Present",
     location: "Dubai, UAE",
     active: true,
@@ -1225,11 +1228,11 @@ export const LANGUAGES = [
 export const CONTACT = {
   email: "sumithswaroop@gmail.com",
   phone: "+91 9490064789",
-  linkedin: "https://linkedin.com/in/jyothi-swaroop-753116295",
+  linkedin: "https://linkedin.com/in/sjyothiswaroop",
   github: "https://github.com/sumith1309",
   website: "https://swaroopos.vercel.app",
   location: "Dubai, UAE",
-  openTo: "Open to Hyderabad",
+  openTo: "Open to Remote",
 };
 
 /** Canonical identity — this exact name and title on every surface. */
@@ -1261,7 +1264,7 @@ export const NEOFETCH = `       ╔═══╗
                       OS: SwaroopOS v3.0
   ███████████         Role: AI Engineer — production systems
   █ SWAROOP █         Focus: AI & digital transformation
-  ███████████         Location: Dubai, UAE (open to Hyderabad)
+  ███████████         Location: Dubai, UAE (open to remote)
                       Live: HRMS · Samba Retail · Urban Illusion
                       Systems: ${ALL_PRODUCTS.length} across 5 domains
                       AI-assisted: Claude Code

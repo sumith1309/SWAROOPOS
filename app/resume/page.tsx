@@ -12,7 +12,8 @@ import {
   CERTIFICATIONS,
   LANGUAGES,
   CONTACT,
-  FEATURED_PRODUCTS,
+  PRODUCTION_PRODUCTS,
+  FEATURED_AGENT_PRODUCTS,
   getOwnershipLabel,
 } from "@/lib/data";
 import SiteHeader from "@/components/site/SiteHeader";
@@ -89,12 +90,38 @@ export default function ResumePage() {
           ))}
         </section>
 
-        {/* Production & business systems */}
+        {/* Production & client systems */}
         <section aria-labelledby="prod-h" className="mb-9">
           <h2 id="prod-h" className="text-[13px] uppercase tracking-[0.18em] font-bold font-mono text-[#475569] border-b border-[rgba(15,23,42,0.08)] pb-2 mb-4">
-            Production & Business Systems
+            Production & Client Systems
           </h2>
-          {FEATURED_PRODUCTS.map((p) => (
+          {PRODUCTION_PRODUCTS.map((p) => (
+            <div key={p.id} className="mb-4">
+              <div className="flex flex-wrap items-baseline justify-between gap-x-3">
+                <h3 className="text-[14px] font-heading font-bold text-[#0F172A]">
+                  {p.name}
+                  <span className="font-medium text-[#64748B]"> — {getOwnershipLabel(p)}{p.status === "live" ? " · Live" : ""}</span>
+                </h3>
+                <span className="text-[11.5px] font-mono text-[#94A3B8]">{p.year}</span>
+              </div>
+              <p className="text-[13px] text-[#334155] mt-1">{p.tagline}</p>
+              {(p.website || p.github) && (
+                <p className="text-[11.5px] text-[#64748B] mt-0.5">
+                  {p.website && <a className="underline underline-offset-2" href={p.website} target="_blank" rel="noopener noreferrer">{p.website.replace("https://", "")}</a>}
+                  {p.website && p.github && " · "}
+                  {p.github && <a className="underline underline-offset-2" href={p.github} target="_blank" rel="noopener noreferrer">{p.github.replace("https://", "")}</a>}
+                </p>
+              )}
+            </div>
+          ))}
+        </section>
+
+        {/* AI & agent systems */}
+        <section aria-labelledby="agents-h" className="mb-9">
+          <h2 id="agents-h" className="text-[13px] uppercase tracking-[0.18em] font-bold font-mono text-[#475569] border-b border-[rgba(15,23,42,0.08)] pb-2 mb-4">
+            AI &amp; Agent Systems
+          </h2>
+          {FEATURED_AGENT_PRODUCTS.map((p) => (
             <div key={p.id} className="mb-4">
               <div className="flex flex-wrap items-baseline justify-between gap-x-3">
                 <h3 className="text-[14px] font-heading font-bold text-[#0F172A]">

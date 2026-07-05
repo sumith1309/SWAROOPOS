@@ -1,4 +1,4 @@
-import { CAREER, EDUCATION, SKILLS, CERTIFICATIONS, LANGUAGES, CONTACT, PROFESSIONAL_SUMMARY, FEATURED_PRODUCTS, ADDITIONAL_PRODUCTS, getOwnershipLabel } from "@/lib/data";
+import { CAREER, EDUCATION, SKILLS, CERTIFICATIONS, LANGUAGES, CONTACT, PROFESSIONAL_SUMMARY, PRODUCTION_PRODUCTS, FEATURED_AGENT_PRODUCTS, ADDITIONAL_PRODUCTS, getOwnershipLabel } from "@/lib/data";
 
 export async function GET() {
 
@@ -81,7 +81,7 @@ ${EDUCATION.map(e => `
 </div>
 
 <h2>Production & Flagship Systems</h2>
-${FEATURED_PRODUCTS.map(p => `
+${[...PRODUCTION_PRODUCTS, ...FEATURED_AGENT_PRODUCTS].map(p => `
 <div class="entry">
   <div class="entry-header">
     <h3>${p.name} <span class="domain" style="font-weight:500">— ${getOwnershipLabel(p)}${p.status === "live" ? " · LIVE" : ""}</span></h3>
@@ -96,9 +96,9 @@ ${FEATURED_PRODUCTS.map(p => `
 </div>
 `).join("")}
 
-<h2>Selected Systems & Lab (${ADDITIONAL_PRODUCTS.length})</h2>
+<h2>Selected Systems & Lab (${ADDITIONAL_PRODUCTS.filter(p => !p.featured).length})</h2>
 <div class="projects-grid">
-  ${ADDITIONAL_PRODUCTS.map(p => `
+  ${ADDITIONAL_PRODUCTS.filter(p => !p.featured).map(p => `
   <div class="project-item">
     <strong>${p.name}</strong> <span class="domain">(${p.year}${p.status === "live" ? " · live" : ""})</span><br/>
     ${p.tagline}
